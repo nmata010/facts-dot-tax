@@ -78,7 +78,7 @@ export function useFactGraph() {
         const script = document.createElement("script");
         script.type = "module";
         script.textContent = `
-          import * as fg from "/fg.mjs";
+          import * as fg from "${import.meta.env.BASE_URL}fg.mjs";
           window.__fg = fg;
           window.dispatchEvent(new Event("fg-loaded"));
         `;

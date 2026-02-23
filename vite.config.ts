@@ -17,7 +17,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ["/fg.mjs"],
+      external: ["/facts-dot-tax/fg.mjs"],
     },
   },
 })
