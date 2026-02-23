@@ -97,7 +97,7 @@ export function useFactGraph() {
       try {
         const [fg, xmlResponse] = await Promise.all([
           loadFgModule(),
-          fetch("/1040.xml"),
+          fetch(`${import.meta.env.BASE_URL}1040.xml`),
         ]);
 
         if (cancelled) return;
