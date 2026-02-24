@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useFactGraphContext } from "@/App";
 import {
   Select,
@@ -20,6 +21,12 @@ interface FactSelectProps {
 
 export function FactSelect({ path, options, defaultValue }: FactSelectProps) {
   const { setFact } = useFactGraphContext();
+
+  useEffect(() => {
+    if (defaultValue) {
+      setFact(path, defaultValue);
+    }
+  }, [path, defaultValue, setFact]);
 
   return (
     <Select

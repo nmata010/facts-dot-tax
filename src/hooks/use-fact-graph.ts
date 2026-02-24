@@ -1,4 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from "react";
+import { FORMS } from "@/forms/registry";
 
 // Minimal types for the Scala.js fact-graph API
 interface SetResult {
@@ -29,40 +30,40 @@ interface FgModule {
   GraphFactory: GraphFactoryType;
 }
 
-// Default values for writable facts
-const DOLLAR_FACTS = [
-  "/wagesFromW2",
-  "/householdEmployeeWages",
-  "/unreportedTipIncome",
-  "/medicaidWaiverPayments",
-  "/taxableDependentCareBenefits",
-  "/employerAdoptionBenefits",
-  "/wagesFrom8919",
-  "/otherEarnedIncome",
-  "/taxExemptInterest",
-  "/taxableInterest",
-  "/qualifiedDividends",
-  "/ordinaryDividends",
-  "/iraDistributions",
-  "/taxableIraDistributions",
-  "/pensionsAndAnnuities",
-  "/taxablePensionsAndAnnuities",
-  "/socialSecurityBenefits",
-  "/taxableSocialSecurityBenefits",
-  "/capitalGainOrLoss",
-  "/otherIncome",
-  "/adjustmentsToIncome",
-  "/qbiDeduction",
-  "/additionalDeductions",
-  "/tax",
-];
+/**
+ * Extract the inner content of <Facts>...</Facts> from an XML string.
+ */
+function extractFacts(xml: string): string {
+  const start = xml.indexOf("<Facts>");
+  const end = xml.indexOf("</Facts>");
+  if (start === -1 || end === -1) return "";
+  return xml.slice(start + "<Facts>".length, end);
+}
 
-const BOOLEAN_FACTS = [
-  "/filerBornBefore1961",
-  "/filerBlind",
-  "/spouseBornBefore1961",
-  "/spouseBlind",
-];
+/**
+ * Parse writable fact paths and their types from a merged XML string,
+ * then initialize defaults on the graph.
+ */
+function initializeDefaults(xml: string, graph: FactGraph) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xml, "text/xml");
+  const facts = doc.querySelectorAll("Fact");
+
+  for (const fact of facts) {
+    const path = fact.getAttribute("path");
+    if (!path) continue;
+
+    const writable = fact.querySelector("Writable");
+    if (!writable) continue;
+
+    if (writable.querySelector("Dollar")) {
+      graph.set(path, "0");
+    } else if (writable.querySelector("Boolean")) {
+      graph.set(path, "false");
+    }
+    // Enum writables are skipped — components provide their own defaultValue
+  }
+}
 
 export function useFactGraph() {
   const graphRef = useRef<FactGraph | null>(null);
@@ -96,28 +97,31 @@ export function useFactGraph() {
 
     async function init() {
       try {
-        const [fg, xmlResponse] = await Promise.all([
+        // Collect unique XML filenames from the registry
+        const xmlFiles = [...new Set(FORMS.map((f) => f.xmlFile))];
+
+        // Fetch all XML files in parallel alongside the fg module
+        const [fg, ...xmlResponses] = await Promise.all([
           loadFgModule(),
-          fetch(`${import.meta.env.BASE_URL}1040.xml`),
+          ...xmlFiles.map((file) => fetch(`${import.meta.env.BASE_URL}${file}`)),
         ]);
 
         if (cancelled) return;
 
-        const xml = await xmlResponse.text();
-        const dict = fg.FactDictionaryFactory.importFromXml(xml);
-        const graph = fg.GraphFactory.apply(dict);
+        const xmlTexts = await Promise.all(xmlResponses.map((r) => r.text()));
 
-        // Initialize defaults
-        for (const path of DOLLAR_FACTS) {
-          graph.set(path, "0");
-        }
-        for (const path of BOOLEAN_FACTS) {
-          graph.set(path, "false");
-        }
-        graph.set("/filingStatus", "single");
+        // Merge all <Fact> elements into a single dictionary
+        const mergedFacts = xmlTexts.map(extractFacts).join("\n");
+        const mergedXml = `<FactDictionaryModule><Facts>${mergedFacts}</Facts></FactDictionaryModule>`;
+
+        const dict = (fg as FgModule).FactDictionaryFactory.importFromXml(mergedXml);
+        const graph = (fg as FgModule).GraphFactory.apply(dict);
+
+        // Auto-detect and initialize writable defaults from the XML
+        initializeDefaults(mergedXml, graph);
 
         graphRef.current = graph;
-        xmlRef.current = xml;
+        xmlRef.current = mergedXml;
         setLoading(false);
         setVersion(1);
       } catch (e) {
