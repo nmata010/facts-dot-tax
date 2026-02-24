@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite"
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/facts-dot-tax/",
+  base: "/",
   plugins: [react(), tailwindcss()],
   server: {
     port: 8080,
@@ -17,7 +17,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ["/facts-dot-tax/fg.mjs"],
+      external: ["/fg.mjs"],
     },
   },
 })
