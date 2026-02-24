@@ -1,10 +1,11 @@
 import { createContext, useContext } from "react";
 import { useFactGraph } from "@/hooks/use-fact-graph";
-import { Form1040 } from "@/forms/form-1040";
+import { AppShell } from "@/components/app-shell";
 
 interface FactGraphContextValue {
   setFact: (path: string, value: string) => void;
   getFact: (path: string) => string;
+  getXml: () => string;
   version: number;
 }
 
@@ -17,7 +18,7 @@ export function useFactGraphContext() {
 }
 
 function App() {
-  const { loading, error, setFact, getFact, version } = useFactGraph();
+  const { loading, error, setFact, getFact, getXml, version } = useFactGraph();
 
   if (error) {
     return (
@@ -36,8 +37,8 @@ function App() {
   }
 
   return (
-    <FactGraphContext.Provider value={{ setFact, getFact, version }}>
-      <Form1040 />
+    <FactGraphContext.Provider value={{ setFact, getFact, getXml, version }}>
+      <AppShell />
     </FactGraphContext.Provider>
   );
 }

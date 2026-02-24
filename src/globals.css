@@ -122,3 +122,41 @@
     @apply bg-background text-foreground;
     }
 }
+
+/* Receipt unfold — mobile (from bottom) */
+.receipt-unfold {
+  animation: unfold-up 400ms ease-out both;
+}
+
+@keyframes unfold-up {
+  from {
+    opacity: 0;
+    transform: perspective(800px) rotateX(30deg) scaleY(0.95);
+    transform-origin: bottom center;
+  }
+  to {
+    opacity: 1;
+    transform: perspective(800px) rotateX(0deg) scaleY(1);
+    transform-origin: bottom center;
+  }
+}
+
+/* Receipt unfold — desktop (from left sidebar) */
+@media (min-width: 768px) {
+  .receipt-unfold-left {
+    animation: unfold-left 400ms ease-out both;
+  }
+}
+
+@keyframes unfold-left {
+  from {
+    opacity: 0;
+    transform: perspective(800px) rotateY(-30deg) scaleX(0.97);
+    transform-origin: left center;
+  }
+  to {
+    opacity: 1;
+    transform: perspective(800px) rotateY(0deg) scaleX(1);
+    transform-origin: left center;
+  }
+}

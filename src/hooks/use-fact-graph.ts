@@ -66,6 +66,7 @@ const BOOLEAN_FACTS = [
 
 export function useFactGraph() {
   const graphRef = useRef<FactGraph | null>(null);
+  const xmlRef = useRef<string>("");
   const [version, setVersion] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -116,6 +117,7 @@ export function useFactGraph() {
         graph.set("/filingStatus", "single");
 
         graphRef.current = graph;
+        xmlRef.current = xml;
         setLoading(false);
         setVersion(1);
       } catch (e) {
@@ -152,5 +154,7 @@ export function useFactGraph() {
     }
   }, []);
 
-  return { loading, error, setFact, getFact, version };
+  const getXml = useCallback(() => xmlRef.current, []);
+
+  return { loading, error, setFact, getFact, getXml, version };
 }
