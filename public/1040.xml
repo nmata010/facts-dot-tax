@@ -1,0 +1,791 @@
+<FactDictionaryModule>
+  <Facts>
+
+    <!-- Filing status -->
+
+    <Fact path="/filingStatusOptions">
+      <Derived>
+        <EnumOptions>
+          <String>single</String>
+          <String>mfj</String>
+          <String>hoh</String>
+          <String>mfs</String>
+          <String>qss</String>
+        </EnumOptions>
+      </Derived>
+    </Fact>
+
+    <Fact path="/filingStatus">
+      <Name>Filing Status</Name>
+      <Description>Form 1040 filing status</Description>
+      <Writable>
+        <Enum optionsPath="/filingStatusOptions"/>
+      </Writable>
+    </Fact>
+
+    <!-- Income -->
+
+    <Fact path="/wagesFromW2">
+      <Name>Wages from W-2</Name>
+      <Description>Form 1040 line 1a. Total amount from Form(s) W-2, box 1.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/householdEmployeeWages">
+      <Name>Household employee wages</Name>
+      <Description>Form 1040 line 1b. Household employee wages not reported on Form(s) W-2.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/unreportedTipIncome">
+      <Name>Tip income</Name>
+      <Description>Form 1040 line 1c. Tip income not reported on line 1a.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/medicaidWaiverPayments">
+      <Name>Medicaid waiver payments</Name>
+      <Description>Form 1040 line 1d. Medicaid waiver payments not reported on Form(s) W-2, box 1.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/taxableDependentCareBenefits">
+      <Name>Dependent care benefits</Name>
+      <Description>Form 1040 line 1e. Taxable dependent care benefits from Form 2441, line 26.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/employerAdoptionBenefits">
+      <Name>Adoption benefits</Name>
+      <Description>Form 1040 line 1f. Employer-provided adoption benefits from Form 8839, line 31.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/wagesFrom8919">
+      <Name>Form 8919 wages</Name>
+      <Description>Form 1040 line 1g. Wages from Form 8919, line 6.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/otherEarnedIncome">
+      <Name>Other earned income</Name>
+      <Description>Form 1040 line 1h. Strike benefits, excess deferrals, disability pensions, etc.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/nontaxableCombatPay">
+      <Name>Nontaxable combat pay election</Name>
+      <Description>Form 1040 line 1i. Nontaxable combat pay election (for EIC purposes only).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalWages">
+      <Name>Total wages</Name>
+      <Description>Form 1040 line 1z. Add lines 1a through 1h.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/wagesFromW2" />
+          <Dependency path="/householdEmployeeWages" />
+          <Dependency path="/unreportedTipIncome" />
+          <Dependency path="/medicaidWaiverPayments" />
+          <Dependency path="/taxableDependentCareBenefits" />
+          <Dependency path="/employerAdoptionBenefits" />
+          <Dependency path="/wagesFrom8919" />
+          <Dependency path="/otherEarnedIncome" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/taxExemptInterest">
+      <Name>Tax-exempt interest</Name>
+      <Description>Form 1040 line 2a. Tax-exempt interest (informational).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/taxableInterest">
+      <Name>Taxable interest</Name>
+      <Description>Form 1040 line 2b. Taxable interest.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/qualifiedDividends">
+      <Name>Qualified dividends</Name>
+      <Description>Form 1040 line 3a. Qualified dividends.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/ordinaryDividends">
+      <Name>Ordinary dividends</Name>
+      <Description>Form 1040 line 3b. Ordinary dividends.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/iraDistributions">
+      <Name>IRA distributions</Name>
+      <Description>Form 1040 line 4a. IRA distributions (total).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/taxableIraDistributions">
+      <Name>IRA distributions (taxable)</Name>
+      <Description>Form 1040 line 4b. IRA distributions (taxable amount).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/pensionsAndAnnuities">
+      <Name>Pensions and annuities</Name>
+      <Description>Form 1040 line 5a. Pensions and annuities (total).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/taxablePensionsAndAnnuities">
+      <Name>Pensions and annuities (taxable)</Name>
+      <Description>Form 1040 line 5b. Pensions and annuities (taxable amount).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/socialSecurityBenefits">
+      <Name>Social security benefits</Name>
+      <Description>Form 1040 line 6a. Social security benefits (total).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/taxableSocialSecurityBenefits">
+      <Name>Social security benefits (taxable)</Name>
+      <Description>Form 1040 line 6b. Taxable social security benefits (from worksheet).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/capitalGainOrLoss">
+      <Name>Capital gain or loss</Name>
+      <Description>Form 1040 line 7a. Capital gain or (loss) from Schedule D or Form 1099-DIV.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/otherIncome">
+      <Name>Other income</Name>
+      <Description>Form 1040 line 8. Other income from Schedule 1, line 10.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalIncome">
+      <Name>Total income</Name>
+      <Description>Form 1040 line 9. Add lines 1z, 2b, 3b, 4b, 5b, 6b, 7a, and 8.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/totalWages" />
+          <Dependency path="/taxableInterest" />
+          <Dependency path="/ordinaryDividends" />
+          <Dependency path="/taxableIraDistributions" />
+          <Dependency path="/taxablePensionsAndAnnuities" />
+          <Dependency path="/taxableSocialSecurityBenefits" />
+          <Dependency path="/capitalGainOrLoss" />
+          <Dependency path="/otherIncome" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: Derive forom sched 1 -->
+    <Fact path="/adjustmentsToIncome">
+      <Name>Adjustments to income</Name>
+      <Description>Form 1040 line 10. Adjustments to income from Schedule 1, line 26.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/agi">
+      <Name>Adjusted gross income</Name>
+      <Description>Form 1040 line 11. Subtract line 10 from line 9.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend>
+            <Dependency path="/totalIncome" />
+          </Minuend>
+          <Subtrahends>
+            <Dependency path="/adjustmentsToIncome" />
+          </Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <!-- Tax and Credits -->
+
+    <Fact path="/filerBornBefore1961">
+      <Name>Filer born before January 2, 1961</Name>
+      <Description>Form 1040 line 12d. Check if the filer was born before January 2, 1961.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/filerBlind">
+      <Name>Filer is blind</Name>
+      <Description>Form 1040 line 12d. Check if the filer was blind at the end of the tax year.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/spouseBornBefore1961">
+      <Name>Spouse born before January 2, 1961</Name>
+      <Description>Form 1040 line 12d. Check if the spouse was born before January 2, 1961.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/spouseBlind">
+      <Name>Spouse is blind</Name>
+      <Description>Form 1040 line 12d. Check if the spouse was blind at the end of the tax year.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/additionalDeductionBoxCount">
+      <Name>Additional deduction box count</Name>
+      <Description>Number of boxes checked on Form 1040 line 12d (age/blindness).</Description>
+      <Derived>
+        <Add>
+          <Switch>
+            <Case>
+              <When><Dependency path="/filerBornBefore1961" /></When>
+              <Then><Int>1</Int></Then>
+            </Case>
+            <Case>
+              <When><True/></When>
+              <Then><Int>0</Int></Then>
+            </Case>
+          </Switch>
+          <Switch>
+            <Case>
+              <When><Dependency path="/filerBlind" /></When>
+              <Then><Int>1</Int></Then>
+            </Case>
+            <Case>
+              <When><True/></When>
+              <Then><Int>0</Int></Then>
+            </Case>
+          </Switch>
+          <Switch>
+            <Case>
+              <When><Dependency path="/spouseBornBefore1961" /></When>
+              <Then><Int>1</Int></Then>
+            </Case>
+            <Case>
+              <When><True/></When>
+              <Then><Int>0</Int></Then>
+            </Case>
+          </Switch>
+          <Switch>
+            <Case>
+              <When><Dependency path="/spouseBlind" /></When>
+              <Then><Int>1</Int></Then>
+            </Case>
+            <Case>
+              <When><True/></When>
+              <Then><Int>0</Int></Then>
+            </Case>
+          </Switch>
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/standardDeductionBase">
+      <Name>Standard deduction base amount</Name>
+      <Description>Base standard deduction amount by filing status (TY2025).</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/filingStatus" /></Left>
+                <Right><Enum optionsPath="/filingStatusOptions">single</Enum></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>15750</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/filingStatus" /></Left>
+                <Right><Enum optionsPath="/filingStatusOptions">mfj</Enum></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>31500</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/filingStatus" /></Left>
+                <Right><Enum optionsPath="/filingStatusOptions">hoh</Enum></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>23625</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/filingStatus" /></Left>
+                <Right><Enum optionsPath="/filingStatusOptions">mfs</Enum></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>15750</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/filingStatus" /></Left>
+                <Right><Enum optionsPath="/filingStatusOptions">qss</Enum></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>31500</Dollar></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/additionalDeductionPerBox">
+      <Name>Additional deduction per box</Name>
+      <Description>Additional standard deduction amount per checked box on line 12d. $2,000 for single/HOH, $1,600 for MFJ/MFS/QSS.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/filingStatus" /></Left>
+                <Right><Enum optionsPath="/filingStatusOptions">single</Enum></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>2000</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/filingStatus" /></Left>
+                <Right><Enum optionsPath="/filingStatusOptions">hoh</Enum></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>2000</Dollar></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dollar>1600</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/additionalDeductionTotal">
+      <Name>Additional standard deduction total</Name>
+      <Description>Total additional standard deduction for age/blindness.</Description>
+      <Derived>
+        <Multiply>
+          <Dependency path="/additionalDeductionPerBox" />
+          <Dependency path="/additionalDeductionBoxCount" />
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/standardDeduction">
+      <Name>Standard deduction</Name>
+      <Description>Form 1040 line 12e. Standard deduction (base amount plus additional for age/blindness).</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/standardDeductionBase" />
+          <Dependency path="/additionalDeductionTotal" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: derive from f8995 -->
+    <Fact path="/qbiDeduction">
+      <Name>Qualified business income deduction</Name>
+      <Description>Form 1040 line 13a. Qualified business income deduction from Form 8995 or 8995-A.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from f8995 -->
+    <Fact path="/additionalDeductions">
+      <Name>Additional deductions</Name>
+      <Description>Form 1040 line 13b. Additional deductions from Schedule 1-A, line 38.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalDeductions">
+      <Name>Total deductions</Name>
+      <Description>Form 1040 line 14. Add lines 12e, 13a, and 13b.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/standardDeduction" />
+          <Dependency path="/qbiDeduction" />
+          <Dependency path="/additionalDeductions" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/taxableIncome">
+      <Name>Taxable income</Name>
+      <Description>Form 1040 line 15. Subtract line 14 from line 11. If zero or less, enter 0.</Description>
+      <Derived>
+        <GreaterOf>
+          <Subtract>
+            <Minuend>
+              <Dependency path="/agi" />
+            </Minuend>
+            <Subtrahends>
+              <Dependency path="/totalDeductions" />
+            </Subtrahends>
+          </Subtract>
+          <Dollar>0</Dollar>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+    
+    <Fact path="/tax">
+      <Name>Tax</Name>
+      <Description>Form 1040 line 16. Tax from tax table, tax computation worksheet, or qualified dividends worksheet.</Description>
+      <!-- TODO: derive from tax tables -->
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+    
+    <!-- TODO: derive from schedule 2 part 1 -->
+    <Fact path="/additionalTax">
+      <Name>Additional taxes</Name>
+      <Description>Form 1040 line 17. Additional taxes (e.g., self-employment tax) from Schedule 2 Line 3.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/tentativeTax">
+      <Name>Tentative tax</Name>
+      <Description>Form 1040 line 18. Tax on wages (line 16) plus Additional tax from Schedule 2, Line 3 (Line 17).</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/tax" />
+          <Dependency path="/additionalTax" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: derive from schedule 8812 -->
+    <Fact path="/ctcOdcCredit">
+      <Name>Child tax credit or ODC credit</Name>
+      <Description>Form 1040 line 19. Child tax credit or ODC credit from Schedule 8812.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from schedule 3 -->
+    <Fact path="/schedule3NonRefundableCredits">
+      <Name>Schedule 3 non-refundable credits</Name>
+      <Description>Form 1040 line 20. Non-refundable credits from Schedule 3.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalNonRefundableCredits">
+      <Name>Total non-refundable credits</Name>
+      <Description>Form 1040 line 21. Total non-refundable credits (line 19 + line 20).</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/ctcOdcCredit" />
+          <Dependency path="/schedule3NonRefundableCredits" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/tentativeTaxNetOfNonRefundableCredits">
+      <Name>Total tax net of non-refundable credits</Name>
+      <Description>Form 1040 line 22. Tentative tax (line 18) minus total non-refundable credits (line 21).</Description>
+      <Derived>
+        <Subtract>
+          <Minuend>
+            <Dependency path="/tentativeTax" />
+          </Minuend>
+          <Subtrahends>
+            <Dependency path="/totalNonRefundableCredits" />
+          </Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>   
+
+    <!-- TODO: derive from Schedule 2 part 2 -->
+    <Fact path="/otherTaxes">
+      <Name>Other taxes</Name>
+      <Description>Form 1040 line 23. Other taxes from Schedule 2, Line 21</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalTax">
+      <Name>Total tax</Name>
+      <Description>Form 1040 line 24. Tentative tax net of non-refundable credits plus other taxes .</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/tentativeTaxNetOfNonRefundableCredits" />
+          <Dependency path="/otherTaxes" />
+        </Add>
+      </Derived>
+    </Fact>    
+
+    <!-- Payments and Refundable Credits -->
+
+    <!-- TODO: derive from w2s -->
+    <Fact path="/withholdingsW2">
+      <Name>Federal tax withheld from W-2s</Name>
+      <Description>Form 1040 line 25a. Federal income tax withheld from Form(s) W-2, box 2.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from 1099s -->
+    <Fact path="/withholdings1099">
+      <Name>Federal tax withheld from 1099s</Name>
+      <Description>Form 1040 line 25b. Federal income tax withheld from Form(s) 1099.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/withholdingsOther">
+      <Name>Other withholding</Name>
+      <Description>Form 1040 line 25c. Other forms of federal income tax withheld.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalWithholdings">
+      <Name>Total federal tax withholdings from all sources</Name>
+      <Description>Form 1040 line 25d. Total withholdings from all sources (W-2s, 1099s, and other).</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/withholdingsW2" />
+          <Dependency path="/withholdings1099" />
+          <Dependency path="/withholdingsOther" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/estimatedTaxPayments">
+      <Name>Estimated tax payments</Name>
+      <Description>Form 1040 line 26. 2025 estimated tax payments and amount applied from 2024 return.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from EIC worksheet -->
+    <Fact path="/earnedIncomeCredit">
+      <Name>Earned income credit</Name>
+      <Description>Form 1040 line 27a. Earned income credit (EIC).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: update tax calculations based on selection -->
+    <Fact path="/eicClergy">
+      <Name>EIC clergy checkbox</Name>
+      <Description>Form 1040 line 27b. Clergy filing Schedule SE.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: update tax calculations based on selection -->
+    <Fact path="/eicOptOut">
+      <Name>EIC opt-out checkbox</Name>
+      <Description>Form 1040 line 27c. Check if you do not want to claim the EIC.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Schedule 8812 -->
+    <Fact path="/additionalChildTaxCredit">
+      <Name>Additional child tax credit</Name>
+      <Description>Form 1040 line 28. Additional child tax credit (ACTC) from Schedule 8812.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Form 8863 -->
+    <Fact path="/americanOpportunityTaxCredit">
+      <Name>American opportunity Tax credit</Name>
+      <Description>Form 1040 line 29. American opportunity tax credit from Form 8863, line 8.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Form 8839 -->
+    <Fact path="/refundableAdoptionCredit">
+      <Name>Refundable adoption credit</Name>
+      <Description>Form 1040 line 30. Refundable adoption credit from Form 8839, line 13.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Schedule 3 -->
+    <Fact path="/schedule3RefundableCredits">
+      <Name>Refundable credits (Schedule 3)</Name>
+      <Description>Form 1040 line 31. Amount from Schedule 3, line 15.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalOtherPaymentsAndRefundableCredits">
+      <Name>Total other payments and refundable credits</Name>
+      <Description>Form 1040 line 32. Add lines 27a, 28, 29, 30, and 31.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/earnedIncomeCredit" />
+          <Dependency path="/additionalChildTaxCredit" />
+          <Dependency path="/americanOpportunityTaxCredit" />
+          <Dependency path="/refundableAdoptionCredit" />
+          <Dependency path="/schedule3RefundableCredits" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/totalPayments">
+      <Name>Total payments</Name>
+      <Description>Form 1040 line 33. Add lines 25d, 26, and 32. These are your total payments.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/totalWithholdings" />
+          <Dependency path="/estimatedTaxPayments" />
+          <Dependency path="/totalOtherPaymentsAndRefundableCredits" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <!-- Refund -->
+
+    <Fact path="/overpaymentAmount">
+      <Name>Amount overpaid</Name>
+      <Description>Form 1040 line 34. If line 33 is more than line 24, subtract line 24 from line 33.</Description>
+      <Derived>
+        <GreaterOf>
+          <Subtract>
+            <Minuend>
+              <Dependency path="/totalPayments" />
+            </Minuend>
+            <Subtrahends>
+              <Dependency path="/totalTax" />
+            </Subtrahends>
+          </Subtract>
+          <Dollar>0</Dollar>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/refundAmount">
+      <Name>Refund amount</Name>
+      <Description>Form 1040 line 35a. Amount of line 34 you want refunded to you.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/appliedToNextYear">
+      <Name>Applied to 2026 estimated tax</Name>
+      <Description>Form 1040 line 36. Amount of line 34 you want applied to your 2026 estimated tax.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- Amount You Owe -->
+
+    <Fact path="/amountYouOwe">
+      <Name>Amount you owe</Name>
+      <Description>Form 1040 line 37. If line 24 is more than line 33, subtract line 33 from line 24.</Description>
+      <Derived>
+        <GreaterOf>
+          <Subtract>
+            <Minuend>
+              <Dependency path="/totalTax" />
+            </Minuend>
+            <Subtrahends>
+              <Dependency path="/totalPayments" />
+            </Subtrahends>
+          </Subtract>
+          <Dollar>0</Dollar>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/estimatedTaxPenalty">
+      <Name>Estimated tax penalty</Name>
+      <Description>Form 1040 line 38. Estimated tax penalty (see instructions).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>
