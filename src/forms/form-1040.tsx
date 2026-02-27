@@ -167,7 +167,7 @@ function Form1040Content() {
       </div>
 
       <div className="mt-3 space-y-0.5">
-        <FormLine line="16" label="Tax" path="/tax"><FactInput path="/tax" /></FormLine>
+        <SummaryLine line="16" label="Tax" path="/tax" />
         <FormLine line="17" label="Additional tax" path="/additionalTax"><FactInput path="/additionalTax" /></FormLine>
         <SummaryLine line="18" label="Tentative tax" path="/tentativeTax" />
       </div>
