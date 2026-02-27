@@ -202,12 +202,48 @@
       </Writable>
     </Fact>
 
-    <Fact path="/otherIncome">
-      <Name>Other income</Name>
-      <Description>Form 1040 line 8. Other income from Schedule 1, line 10.</Description>
+    <Fact path="/otherIncomeWritable">
+      <Name>Other income (manual)</Name>
+      <Description>Form 1040 line 8. Other income, manually entered when Schedule 1 is not used.</Description>
       <Writable>
         <Dollar/>
       </Writable>
+    </Fact>
+
+    <Fact path="/otherIncomeDerived">
+      <Name>Other income (from Schedule 1)</Name>
+      <Description>Form 1040 line 8. Other income derived from Schedule 1, line 10.</Description>
+      <Derived>
+        <Dependency path="/additionalIncome" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/hasSch1OtherIncome">
+      <Name>Has Schedule 1 other income</Name>
+      <Description>True when Schedule 1 additional income is greater than zero.</Description>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/additionalIncome" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/otherIncome">
+      <Name>Other income</Name>
+      <Description>Form 1040 line 8. Other income from Schedule 1, line 10.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasSch1OtherIncome" /></When>
+            <Then><Dependency path="/otherIncomeDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/otherIncomeWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/totalIncome">
@@ -227,13 +263,48 @@
       </Derived>
     </Fact>
 
-    <!-- TODO: Derive forom sched 1 -->
-    <Fact path="/adjustmentsToIncome">
-      <Name>Adjustments to income</Name>
-      <Description>Form 1040 line 10. Adjustments to income from Schedule 1, line 26.</Description>
+    <Fact path="/adjustmentsToIncomeWritable">
+      <Name>Adjustments to income (manual)</Name>
+      <Description>Form 1040 line 10. Adjustments to income, manually entered when Schedule 1 is not used.</Description>
       <Writable>
         <Dollar/>
       </Writable>
+    </Fact>
+
+    <Fact path="/adjustmentsToIncomeDerived">
+      <Name>Adjustments to income (from Schedule 1)</Name>
+      <Description>Form 1040 line 10. Adjustments to income derived from Schedule 1, line 26.</Description>
+      <Derived>
+        <Dependency path="/totalAdjustments" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/hasSch1Adjustments">
+      <Name>Has Schedule 1 adjustments</Name>
+      <Description>True when Schedule 1 total adjustments is greater than zero.</Description>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/totalAdjustments" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/adjustmentsToIncome">
+      <Name>Adjustments to income</Name>
+      <Description>Form 1040 line 10. Adjustments to income from Schedule 1, line 26.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasSch1Adjustments" /></When>
+            <Then><Dependency path="/adjustmentsToIncomeDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/adjustmentsToIncomeWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/agi">
@@ -493,13 +564,740 @@
       </Derived>
     </Fact>
     
+    <!-- Tax table rounding: income < $100k uses IRS tax table midpoints -->
+    <Fact path="/roundedTaxableIncome">
+      <Name>Rounded taxable income</Name>
+      <Description>Income less than $100,000 uses the tax tables from the Instructions for Form 1040.
+        This fact selects the midpoint that corresponds to each entry in the tax tables.</Description>
+      <Derived>
+        <Switch>
+          <!-- No tax if no taxable income -->
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency path="/taxableIncome" /></Left>
+                <Right><Dollar>0</Dollar></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <!-- Hardcoded midpoints for income less than $25 -->
+          <Case>
+            <When>
+              <LessThan>
+                <Left><Dependency path="/taxableIncome" /></Left>
+                <Right><Dollar>5</Dollar></Right>
+              </LessThan>
+            </When>
+            <Then><Dollar>2.50</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThan>
+                <Left><Dependency path="/taxableIncome" /></Left>
+                <Right><Dollar>15</Dollar></Right>
+              </LessThan>
+            </When>
+            <Then><Dollar>10</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThan>
+                <Left><Dependency path="/taxableIncome" /></Left>
+                <Right><Dollar>25</Dollar></Right>
+              </LessThan>
+            </When>
+            <Then><Dollar>20</Dollar></Then>
+          </Case>
+          <!-- $25 increments for income between $25 and $3,000 -->
+          <Case>
+            <When>
+              <LessThan>
+                <Left><Dependency path="/taxableIncome" /></Left>
+                <Right><Dollar>3000</Dollar></Right>
+              </LessThan>
+            </When>
+            <Then>
+              <Add>
+                <StepwiseMultiply>
+                  <Multiplicand><Dependency path="/taxableIncome" /></Multiplicand>
+                  <Rate><Rational>25/25</Rational></Rate>
+                </StepwiseMultiply>
+                <Dollar>12.50</Dollar>
+              </Add>
+            </Then>
+          </Case>
+          <!-- $50 increments for income between $3,000 and $100,000 -->
+          <Case>
+            <When>
+              <LessThan>
+                <Left><Dependency path="/taxableIncome" /></Left>
+                <Right><Dollar>100000</Dollar></Right>
+              </LessThan>
+            </When>
+            <Then>
+              <Add>
+                <StepwiseMultiply>
+                  <Multiplicand><Dependency path="/taxableIncome" /></Multiplicand>
+                  <Rate><Rational>50/50</Rational></Rate>
+                </StepwiseMultiply>
+                <Dollar>25</Dollar>
+              </Add>
+            </Then>
+          </Case>
+          <!-- $100,000+ uses exact taxable income (tax computation worksheet) -->
+          <Case>
+            <When>
+              <GreaterThanOrEqual>
+                <Left><Dependency path="/taxableIncome" /></Left>
+                <Right><Dollar>100000</Dollar></Right>
+              </GreaterThanOrEqual>
+            </When>
+            <Then><Dependency path="/taxableIncome" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <!-- Line 16: Tax from tax tables / tax computation worksheet -->
+    <!-- TY2025 brackets per Rev Proc 2024-40 -->
+    <!-- TODO: tax on qualified dividend and long term cap gains (QDCG Tax Worksheet)  -->
     <Fact path="/tax">
       <Name>Tax</Name>
-      <Description>Form 1040 line 16. Tax from tax table, tax computation worksheet, or qualified dividends worksheet.</Description>
-      <!-- TODO: derive from tax tables -->
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Description>Form 1040 line 16. Tax from tax table or tax computation worksheet.</Description>
+      <Derived>
+        <Round>
+          <Switch>
+
+            <!-- MARRIED FILING JOINTLY / QUALIFYING SURVIVING SPOUSE -->
+            <Case>
+              <When>
+                <Any>
+                  <Equal>
+                    <Left><Dependency path="/filingStatus" /></Left>
+                    <Right><Enum optionsPath="/filingStatusOptions">mfj</Enum></Right>
+                  </Equal>
+                  <Equal>
+                    <Left><Dependency path="/filingStatus" /></Left>
+                    <Right><Enum optionsPath="/filingStatusOptions">qss</Enum></Right>
+                  </Equal>
+                </Any>
+              </When>
+              <Then>
+                <Switch>
+                  <!-- Not over $23,850: 10% -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>23850</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Multiply>
+                        <Rational>10/100</Rational>
+                        <Dependency path="/roundedTaxableIncome" />
+                      </Multiply>
+                    </Then>
+                  </Case>
+                  <!-- Over $23,850 but not over $96,950: $2,385 + 12% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>96950</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>2385</Dollar>
+                        <Multiply>
+                          <Rational>12/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>23850</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $96,950 but not over $206,700: $11,157 + 22% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>206700</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>11157</Dollar>
+                        <Multiply>
+                          <Rational>22/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>96950</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $206,700 but not over $394,600: $35,302 + 24% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>394600</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>35302</Dollar>
+                        <Multiply>
+                          <Rational>24/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>206700</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $394,600 but not over $501,050: $80,398 + 32% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>501050</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>80398</Dollar>
+                        <Multiply>
+                          <Rational>32/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>394600</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $501,050 but not over $751,600: $114,462 + 35% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>751600</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>114462</Dollar>
+                        <Multiply>
+                          <Rational>35/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>501050</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $751,600: $202,154.50 + 37% of excess -->
+                  <Case>
+                    <When>
+                      <GreaterThan>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>751600</Dollar></Right>
+                      </GreaterThan>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>202154.50</Dollar>
+                        <Multiply>
+                          <Rational>37/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>751600</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                </Switch>
+              </Then>
+            </Case>
+
+            <!-- HEAD OF HOUSEHOLD -->
+            <Case>
+              <When>
+                <Equal>
+                  <Left><Dependency path="/filingStatus" /></Left>
+                  <Right><Enum optionsPath="/filingStatusOptions">hoh</Enum></Right>
+                </Equal>
+              </When>
+              <Then>
+                <Switch>
+                  <!-- Not over $17,000: 10% -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>17000</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Multiply>
+                        <Rational>10/100</Rational>
+                        <Dependency path="/roundedTaxableIncome" />
+                      </Multiply>
+                    </Then>
+                  </Case>
+                  <!-- Over $17,000 but not over $64,850: $1,700 + 12% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>64850</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>1700</Dollar>
+                        <Multiply>
+                          <Rational>12/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>17000</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $64,850 but not over $103,350: $7,442 + 22% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>103350</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>7442</Dollar>
+                        <Multiply>
+                          <Rational>22/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>64850</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $103,350 but not over $197,300: $15,912 + 24% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>197300</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>15912</Dollar>
+                        <Multiply>
+                          <Rational>24/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>103350</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $197,300 but not over $250,500: $38,460 + 32% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>250500</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>38460</Dollar>
+                        <Multiply>
+                          <Rational>32/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>197300</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $250,500 but not over $626,350: $55,484 + 35% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>626350</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>55484</Dollar>
+                        <Multiply>
+                          <Rational>35/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>250500</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $626,350: $187,031.50 + 37% of excess -->
+                  <Case>
+                    <When>
+                      <GreaterThan>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>626350</Dollar></Right>
+                      </GreaterThan>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>187031.50</Dollar>
+                        <Multiply>
+                          <Rational>37/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>626350</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                </Switch>
+              </Then>
+            </Case>
+
+            <!-- SINGLE -->
+            <Case>
+              <When>
+                <Equal>
+                  <Left><Dependency path="/filingStatus" /></Left>
+                  <Right><Enum optionsPath="/filingStatusOptions">single</Enum></Right>
+                </Equal>
+              </When>
+              <Then>
+                <Switch>
+                  <!-- Not over $11,925: 10% -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>11925</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Multiply>
+                        <Rational>10/100</Rational>
+                        <Dependency path="/roundedTaxableIncome" />
+                      </Multiply>
+                    </Then>
+                  </Case>
+                  <!-- Over $11,925 but not over $48,475: $1,192.50 + 12% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>48475</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>1192.50</Dollar>
+                        <Multiply>
+                          <Rational>12/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>11925</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $48,475 but not over $103,350: $5,578.50 + 22% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>103350</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>5578.50</Dollar>
+                        <Multiply>
+                          <Rational>22/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>48475</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $103,350 but not over $197,300: $17,651 + 24% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>197300</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>17651</Dollar>
+                        <Multiply>
+                          <Rational>24/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>103350</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $197,300 but not over $250,525: $40,199 + 32% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>250525</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>40199</Dollar>
+                        <Multiply>
+                          <Rational>32/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>197300</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $250,525 but not over $626,350: $57,231 + 35% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>626350</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>57231</Dollar>
+                        <Multiply>
+                          <Rational>35/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>250525</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $626,350: $188,769.75 + 37% of excess -->
+                  <Case>
+                    <When>
+                      <GreaterThan>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>626350</Dollar></Right>
+                      </GreaterThan>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>188769.75</Dollar>
+                        <Multiply>
+                          <Rational>37/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>626350</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                </Switch>
+              </Then>
+            </Case>
+
+            <!-- MARRIED FILING SEPARATELY -->
+            <Case>
+              <When>
+                <Equal>
+                  <Left><Dependency path="/filingStatus" /></Left>
+                  <Right><Enum optionsPath="/filingStatusOptions">mfs</Enum></Right>
+                </Equal>
+              </When>
+              <Then>
+                <Switch>
+                  <!-- Not over $11,925: 10% -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>11925</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Multiply>
+                        <Rational>10/100</Rational>
+                        <Dependency path="/roundedTaxableIncome" />
+                      </Multiply>
+                    </Then>
+                  </Case>
+                  <!-- Over $11,925 but not over $48,475: $1,192.50 + 12% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>48475</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>1192.50</Dollar>
+                        <Multiply>
+                          <Rational>12/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>11925</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $48,475 but not over $103,350: $5,578.50 + 22% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>103350</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>5578.50</Dollar>
+                        <Multiply>
+                          <Rational>22/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>48475</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $103,350 but not over $197,300: $17,651 + 24% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>197300</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>17651</Dollar>
+                        <Multiply>
+                          <Rational>24/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>103350</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $197,300 but not over $250,525: $40,199 + 32% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>250525</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>40199</Dollar>
+                        <Multiply>
+                          <Rational>32/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>197300</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $250,525 but not over $375,800: $57,231 + 35% of excess -->
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>375800</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>57231</Dollar>
+                        <Multiply>
+                          <Rational>35/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>250525</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <!-- Over $375,800: $101,077.25 + 37% of excess -->
+                  <Case>
+                    <When>
+                      <GreaterThan>
+                        <Left><Dependency path="/roundedTaxableIncome" /></Left>
+                        <Right><Dollar>375800</Dollar></Right>
+                      </GreaterThan>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>101077.25</Dollar>
+                        <Multiply>
+                          <Rational>37/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedTaxableIncome" /></Minuend>
+                            <Subtrahends><Dollar>375800</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                </Switch>
+              </Then>
+            </Case>
+
+          </Switch>
+        </Round>
+      </Derived>
     </Fact>
     
     <!-- TODO: derive from schedule 2 part 1 -->

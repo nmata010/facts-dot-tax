@@ -1,5 +1,10 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef, createContext, useContext } from "react";
 import { FORMS } from "@/forms/registry";
+
+const FormNavContext = createContext<(id: string, section?: string) => void>(() => {});
+export function useFormNav() {
+  return useContext(FormNavContext);
+}
 
 function getInitialFormId(): string {
   const params = new URLSearchParams(window.location.search);
@@ -22,13 +27,35 @@ export function AppShell() {
   const [selectedId, setSelectedId] = useState(getInitialFormId);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [animKey, setAnimKey] = useState(0);
+  const scrollTargetRef = useRef<string | null>(null);
+
+  // After every form switch (and initial mount), scroll to top or target section
+  // once the unfold animation (400ms) completes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const section = scrollTargetRef.current;
+      scrollTargetRef.current = null;
+      if (section) {
+        document.getElementById(section)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        window.scrollTo({ top: 0 });
+      }
+    }, 420);
+    return () => clearTimeout(timer);
+  }, [animKey]);
 
   const selectForm = useCallback(
-    (id: string) => {
+    (id: string, section?: string) => {
+      scrollTargetRef.current = section ?? null;
       if (id !== selectedId) {
         setSelectedId(id);
         setAnimKey((k) => k + 1);
         updateFormParam(id);
+      } else {
+        // Same form — scroll immediately
+        if (section) {
+          document.getElementById(section)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
       }
       setSheetOpen(false);
     },
@@ -39,6 +66,7 @@ export function AppShell() {
   const FormComponent = entry.component;
 
   return (
+    <FormNavContext.Provider value={selectForm}>
     <div className="md:flex md:min-h-screen">
       {/* Desktop sidebar */}
       <nav className="hidden md:flex flex-col shrink-0 w-40 border-r border-foreground/10 py-8 px-3 gap-1 font-mono">
@@ -111,5 +139,6 @@ export function AppShell() {
       </div>
 
     </div>
+    </FormNavContext.Provider>
   );
 }
