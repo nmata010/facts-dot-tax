@@ -6,6 +6,7 @@ import { FactCheckbox } from "@/components/fact-checkbox";
 import { FactSelect } from "@/components/fact-select";
 import { XmlSnippet } from "@/components/xml-snippet";
 import { ReceiptLayout, useView } from "@/components/receipt-layout";
+import { useFactGraphContext } from "@/App";
 
 const FILING_STATUS_OPTIONS = [
   { value: "single", label: "Single" },
@@ -40,6 +41,10 @@ function CheckboxXmlGroup({ paths }: { paths: string[] }) {
 function Form1040Content() {
   const view = useView();
   const showXml = view === "xml";
+  const { getFact, version: _v } = useFactGraphContext();
+  void _v;
+  const hasSch1OtherIncome = getFact("/hasSch1OtherIncome") === "true";
+  const hasSch1Adjustments = getFact("/hasSch1Adjustments") === "true";
 
   return (
     <>
@@ -98,7 +103,11 @@ function Form1040Content() {
         <FormLine line="6a" label="Social security" path="/socialSecurityBenefits"><FactInput path="/socialSecurityBenefits" /></FormLine>
         <FormLine line="6b" label="SS taxable" path="/taxableSocialSecurityBenefits"><FactInput path="/taxableSocialSecurityBenefits" /></FormLine>
         <FormLine line="7" label="Capital gain/(loss)" path="/capitalGainOrLoss"><FactInput path="/capitalGainOrLoss" /></FormLine>
-        <FormLine line="8" label="Other income" path="/otherIncome"><FactInput path="/otherIncome" /></FormLine>
+        {hasSch1OtherIncome ? (
+          <SummaryLine line="8" label="Other income (Sched. 1)" path="/otherIncome" link="schedule1#part1" />
+        ) : (
+          <FormLine line="8" label="Other income (Sched. 1)" path="/otherIncomeWritable" link="schedule1#part1"><FactInput path="/otherIncomeWritable" /></FormLine>
+        )}
       </div>
 
       <div className="mt-2">
@@ -106,7 +115,11 @@ function Form1040Content() {
       </div>
 
       <div className="mt-3 space-y-0.5">
-        <FormLine line="10" label="Adjustments" path="/adjustmentsToIncome"><FactInput path="/adjustmentsToIncome" /></FormLine>
+        {hasSch1Adjustments ? (
+          <SummaryLine line="10" label="Adjustments (Sched. 1)" path="/adjustmentsToIncome" link="schedule1#part2" />
+        ) : (
+          <FormLine line="10" label="Adjustments (Sched. 1)" path="/adjustmentsToIncomeWritable" link="schedule1#part2"><FactInput path="/adjustmentsToIncomeWritable" /></FormLine>
+        )}
       </div>
       <div className="mt-2">
         <SummaryLine line="11" label="ADJUSTED GROSS INCOME" path="/agi" bold />

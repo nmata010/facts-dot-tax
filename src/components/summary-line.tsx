@@ -1,17 +1,33 @@
 import { DerivedValue } from "@/components/derived-value";
 import { XmlSnippet } from "@/components/xml-snippet";
 import { useView } from "@/components/receipt-layout";
+import { useFormNav } from "@/components/app-shell";
 
 interface SummaryLineProps {
   line: string;
   label: string;
   path: string;
   bold?: boolean;
+  link?: string;
 }
 
-export function SummaryLine({ line, label, path, bold = false }: SummaryLineProps) {
+export function SummaryLine({ line, label, path, bold = false, link }: SummaryLineProps) {
   const view = useView();
   const showXml = view === "xml";
+  const navigate = useFormNav();
+
+  const [linkForm, linkSection] = link?.split("#") ?? [];
+
+  const labelContent = link ? (
+    <button
+      onClick={() => navigate(linkForm, linkSection)}
+      className={`shrink min-w-0 text-blue-900/70 dark:text-blue-300/70 hover:underline hover:decoration-blue-900/30 dark:hover:decoration-blue-300/30 underline-offset-2 transition-colors ${bold ? "font-bold" : ""}`}
+    >
+      {label}
+    </button>
+  ) : (
+    <span className={`shrink min-w-0 ${bold ? "font-bold" : ""}`}>{label}</span>
+  );
 
   return (
     <div className="relative">
@@ -25,7 +41,7 @@ export function SummaryLine({ line, label, path, bold = false }: SummaryLineProp
         }}
       >
         <span className="w-6 shrink-0 text-muted-foreground/40">{line}</span>
-        <span className={`shrink min-w-0 ${bold ? "font-bold" : ""}`}>{label}</span>
+        {labelContent}
         <span className="flex-1 border-b border-dotted border-foreground/15 self-end mb-[5px]" />
         <DerivedValue path={path} className={`shrink-0 text-right text-xs ${bold ? "font-bold" : ""}`} />
       </div>

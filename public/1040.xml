@@ -202,12 +202,48 @@
       </Writable>
     </Fact>
 
-    <Fact path="/otherIncome">
-      <Name>Other income</Name>
-      <Description>Form 1040 line 8. Other income from Schedule 1, line 10.</Description>
+    <Fact path="/otherIncomeWritable">
+      <Name>Other income (manual)</Name>
+      <Description>Form 1040 line 8. Other income, manually entered when Schedule 1 is not used.</Description>
       <Writable>
         <Dollar/>
       </Writable>
+    </Fact>
+
+    <Fact path="/otherIncomeDerived">
+      <Name>Other income (from Schedule 1)</Name>
+      <Description>Form 1040 line 8. Other income derived from Schedule 1, line 10.</Description>
+      <Derived>
+        <Dependency path="/additionalIncome" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/hasSch1OtherIncome">
+      <Name>Has Schedule 1 other income</Name>
+      <Description>True when Schedule 1 additional income is greater than zero.</Description>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/additionalIncome" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/otherIncome">
+      <Name>Other income</Name>
+      <Description>Form 1040 line 8. Other income from Schedule 1, line 10.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasSch1OtherIncome" /></When>
+            <Then><Dependency path="/otherIncomeDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/otherIncomeWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/totalIncome">
@@ -227,13 +263,48 @@
       </Derived>
     </Fact>
 
-    <!-- TODO: Derive forom sched 1 -->
-    <Fact path="/adjustmentsToIncome">
-      <Name>Adjustments to income</Name>
-      <Description>Form 1040 line 10. Adjustments to income from Schedule 1, line 26.</Description>
+    <Fact path="/adjustmentsToIncomeWritable">
+      <Name>Adjustments to income (manual)</Name>
+      <Description>Form 1040 line 10. Adjustments to income, manually entered when Schedule 1 is not used.</Description>
       <Writable>
         <Dollar/>
       </Writable>
+    </Fact>
+
+    <Fact path="/adjustmentsToIncomeDerived">
+      <Name>Adjustments to income (from Schedule 1)</Name>
+      <Description>Form 1040 line 10. Adjustments to income derived from Schedule 1, line 26.</Description>
+      <Derived>
+        <Dependency path="/totalAdjustments" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/hasSch1Adjustments">
+      <Name>Has Schedule 1 adjustments</Name>
+      <Description>True when Schedule 1 total adjustments is greater than zero.</Description>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/totalAdjustments" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/adjustmentsToIncome">
+      <Name>Adjustments to income</Name>
+      <Description>Form 1040 line 10. Adjustments to income from Schedule 1, line 26.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasSch1Adjustments" /></When>
+            <Then><Dependency path="/adjustmentsToIncomeDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/adjustmentsToIncomeWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/agi">
@@ -493,6 +564,107 @@
       </Derived>
     </Fact>
     
+<<<<<<< Updated upstream
+=======
+    <!-- Tax table rounding: income < $100k uses IRS tax table midpoints -->
+    <Fact path="/roundedTaxableIncome">
+      <Name>Rounded taxable income</Name>
+      <Description>Income less than $100,000 uses the tax tables from the Instructions for Form 1040.
+        This fact selects the midpoint that corresponds to each entry in the tax tables.</Description>
+      <Derived>
+        <Switch>
+          <!-- No tax if no taxable income -->
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency path="/taxableIncome" /></Left>
+                <Right><Dollar>0</Dollar></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <!-- Hardcoded midpoints for income less than $25 -->
+          <Case>
+            <When>
+              <LessThan>
+                <Left><Dependency path="/taxableIncome" /></Left>
+                <Right><Dollar>5</Dollar></Right>
+              </LessThan>
+            </When>
+            <Then><Dollar>2.50</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThan>
+                <Left><Dependency path="/taxableIncome" /></Left>
+                <Right><Dollar>15</Dollar></Right>
+              </LessThan>
+            </When>
+            <Then><Dollar>10</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThan>
+                <Left><Dependency path="/taxableIncome" /></Left>
+                <Right><Dollar>25</Dollar></Right>
+              </LessThan>
+            </When>
+            <Then><Dollar>20</Dollar></Then>
+          </Case>
+          <!-- $25 increments for income between $25 and $3,000 -->
+          <Case>
+            <When>
+              <LessThan>
+                <Left><Dependency path="/taxableIncome" /></Left>
+                <Right><Dollar>3000</Dollar></Right>
+              </LessThan>
+            </When>
+            <Then>
+              <Add>
+                <StepwiseMultiply>
+                  <Multiplicand><Dependency path="/taxableIncome" /></Multiplicand>
+                  <Rate><Rational>25/25</Rational></Rate>
+                </StepwiseMultiply>
+                <Dollar>12.50</Dollar>
+              </Add>
+            </Then>
+          </Case>
+          <!-- $50 increments for income between $3,000 and $100,000 -->
+          <Case>
+            <When>
+              <LessThan>
+                <Left><Dependency path="/taxableIncome" /></Left>
+                <Right><Dollar>100000</Dollar></Right>
+              </LessThan>
+            </When>
+            <Then>
+              <Add>
+                <StepwiseMultiply>
+                  <Multiplicand><Dependency path="/taxableIncome" /></Multiplicand>
+                  <Rate><Rational>50/50</Rational></Rate>
+                </StepwiseMultiply>
+                <Dollar>25</Dollar>
+              </Add>
+            </Then>
+          </Case>
+          <!-- $100,000+ uses exact taxable income (tax computation worksheet) -->
+          <Case>
+            <When>
+              <GreaterThanOrEqual>
+                <Left><Dependency path="/taxableIncome" /></Left>
+                <Right><Dollar>100000</Dollar></Right>
+              </GreaterThanOrEqual>
+            </When>
+            <Then><Dependency path="/taxableIncome" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <!-- Line 16: Tax from tax tables / tax computation worksheet -->
+    <!-- TY2025 brackets per Rev Proc 2024-40 -->
+    <!-- TODO: tax on qualified dividend and long term cap gains (QDCG Tax Worksheet)  -->
+>>>>>>> Stashed changes
     <Fact path="/tax">
       <Name>Tax</Name>
       <Description>Form 1040 line 16. Tax from tax table, tax computation worksheet, or qualified dividends worksheet.</Description>

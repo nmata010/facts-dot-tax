@@ -1,17 +1,33 @@
 import type { ReactNode } from "react";
 import { XmlSnippet } from "@/components/xml-snippet";
 import { useView } from "@/components/receipt-layout";
+import { useFormNav } from "@/components/app-shell";
 
 interface FormLineProps {
   line: string;
   label: string;
   path?: string;
+  link?: string;
   children: ReactNode;
 }
 
-export function FormLine({ line, label, path, children }: FormLineProps) {
+export function FormLine({ line, label, path, link, children }: FormLineProps) {
   const view = useView();
   const showXml = view === "xml";
+  const navigate = useFormNav();
+
+  const [linkForm, linkSection] = link?.split("#") ?? [];
+
+  const labelContent = link ? (
+    <button
+      onClick={() => navigate(linkForm, linkSection)}
+      className="shrink min-w-0 text-blue-900/70 dark:text-blue-300/70 hover:underline hover:decoration-blue-900/30 dark:hover:decoration-blue-300/30 underline-offset-2 transition-colors"
+    >
+      {label}
+    </button>
+  ) : (
+    <span className="shrink min-w-0">{label}</span>
+  );
 
   return (
     <div className="relative">
@@ -25,7 +41,7 @@ export function FormLine({ line, label, path, children }: FormLineProps) {
         }}
       >
         <span className="w-6 shrink-0 text-muted-foreground/40">{line}</span>
-        <span className="shrink min-w-0">{label}</span>
+        {labelContent}
         <span className="shrink-0 min-w-[1.5em] flex-1 border-b border-dotted border-foreground/15 self-end mb-[5px]" />
         <div className="w-28 shrink-0">{children}</div>
       </div>
