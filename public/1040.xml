@@ -507,12 +507,34 @@
 
     <Fact path="/standardDeduction">
       <Name>Standard deduction</Name>
-      <Description>Form 1040 line 12e. Standard deduction (base amount plus additional for age/blindness).</Description>
+      <Description>Standard deduction (base amount plus additional for age/blindness).</Description>
       <Derived>
         <Add>
           <Dependency path="/standardDeductionBase" />
           <Dependency path="/additionalDeductionTotal" />
         </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/standardOrItemizedDeduction">
+      <Name>Standard or itemized deduction</Name>
+      <Description>Form 1040 line 12e. The greater of standard deduction or total itemized deductions, unless the filer elects to itemize.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/electToItemize" /></When>
+            <Then><Dependency path="/totalItemizedDeductions" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then>
+              <GreaterOf>
+                <Dependency path="/standardDeduction" />
+                <Dependency path="/totalItemizedDeductions" />
+              </GreaterOf>
+            </Then>
+          </Case>
+        </Switch>
       </Derived>
     </Fact>
 
@@ -539,7 +561,7 @@
       <Description>Form 1040 line 14. Add lines 12e, 13a, and 13b.</Description>
       <Derived>
         <Add>
-          <Dependency path="/standardDeduction" />
+          <Dependency path="/standardOrItemizedDeduction" />
           <Dependency path="/qbiDeduction" />
           <Dependency path="/additionalDeductions" />
         </Add>

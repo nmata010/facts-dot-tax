@@ -156,7 +156,7 @@ function Form1040Content() {
           paths={["/filerBornBefore1961", "/filerBlind", "/spouseBornBefore1961", "/spouseBlind"]}
         />
 
-        <SummaryLine line="12e" label="Standard deduction" path="/standardDeduction" />
+        <SummaryLine line="12e" label="Standard or itemized deduction" path="/standardOrItemizedDeduction" link="scheduleA" />
         <FormLine line="13a" label="QBI deduction" path="/qbiDeduction"><FactInput path="/qbiDeduction" /></FormLine>
         <FormLine line="13b" label="Additional deductions" path="/additionalDeductions"><FactInput path="/additionalDeductions" /></FormLine>
         <SummaryLine line="14" label="Total deductions" path="/totalDeductions" />
