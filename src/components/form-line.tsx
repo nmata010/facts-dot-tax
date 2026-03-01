@@ -21,7 +21,7 @@ export function FormLine({ line, label, path, link, children }: FormLineProps) {
   const labelContent = link ? (
     <button
       onClick={() => navigate(linkForm, linkSection)}
-      className="shrink min-w-0 text-blue-900/70 dark:text-blue-300/70 hover:underline hover:decoration-blue-900/30 dark:hover:decoration-blue-300/30 underline-offset-2 transition-colors"
+      className="shrink min-w-0 text-left text-blue-900/70 dark:text-blue-300/70 hover:underline hover:decoration-blue-900/30 dark:hover:decoration-blue-300/30 underline-offset-2 transition-colors"
     >
       {label}
     </button>

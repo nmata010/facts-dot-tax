@@ -1,0 +1,311 @@
+<FactDictionaryModule>
+  <Facts>
+
+    <Fact path="/foreignTaxCredit">
+      <Name>Foreign tax credit</Name>
+      <Description>Schedule 3 line 1. Foreign tax credit. Attach Form 1116 if required.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: CDC credit F2441 -->
+    <Fact path="/childDependentCareCredit">
+      <Name>Child and dependent care credit</Name>
+      <Description>Schedule 3 line 2. Credit for child and dependent care expenses from Form 2441, line 11.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: Edu credits f8863 -->
+    <Fact path="/educationCredits">
+      <Name>Education credits</Name>
+      <Description>Schedule 3 line 3. Education credits from Form 8863, line 19.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: saver's credit calculation f8880 -->
+    <Fact path="/retirementSavingsCredit">
+      <Name>Retirement savings contributions credit</Name>
+      <Description>Schedule 3 line 4. Retirement savings contributions credit. Attach Form 8880.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/residentialCleanEnergyCredit">
+      <Name>Residential clean energy credit</Name>
+      <Description>Schedule 3 line 5a. Residential clean energy credit from Form 5695, line 15.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/energyEfficientHomeCredit">
+      <Name>Energy efficient home improvement credit</Name>
+      <Description>Schedule 3 line 5b. Energy efficient home improvement credit from Form 5695, line 32.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/generalBusinessCredit">
+      <Name>General business credit</Name>
+      <Description>Schedule 3 line 6a. General business credit. Attach Form 3800.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/priorYearMinTaxCredit">
+      <Name>Credit for prior year minimum tax</Name>
+      <Description>Schedule 3 line 6b. Credit for prior year minimum tax. Attach Form 8801.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: credit from Form 8839 -->
+    <Fact path="/adoptionCredit">
+      <Name>Adoption credit</Name>
+      <Description>Schedule 3 line 6c. Adoption credit. Attach Form 8839.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Schedule R -->
+    <Fact path="/elderlyDisabledCredit">
+      <Name>Credit for the elderly or disabled</Name>
+      <Description>Schedule 3 line 6d. Credit for the elderly or disabled. Attach Schedule R.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/cleanVehicleCredit">
+      <Name>Clean vehicle credit</Name>
+      <Description>Schedule 3 line 6f. Clean vehicle credit. Attach Form 8936.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Form 8396 -->
+    <Fact path="/mortgageInterestCredit">
+      <Name>Mortgage interest credit</Name>
+      <Description>Schedule 3 line 6g. Mortgage interest credit. Attach Form 8396.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Form 8859 -->
+    <Fact path="/dcFirstTimeHomebuyerCredit">
+      <Name>DC first-time homebuyer credit</Name>
+      <Description>Schedule 3 line 6h. District of Columbia first-time homebuyer credit. Attach Form 8859.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Form 8834 -->
+    <Fact path="/qualifiedElectricVehicleCredit">
+      <Name>Qualified electric vehicle credit</Name>
+      <Description>Schedule 3 line 6i. Qualified electric vehicle credit. Attach Form 8834.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Form 8911 -->
+    <Fact path="/altFuelVehicleCredit">
+      <Name>Alternative fuel vehicle refueling property credit</Name>
+      <Description>Schedule 3 line 6j. Alternative fuel vehicle refueling property credit. Attach Form 8911.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Form 8912 -->
+    <Fact path="/taxCreditBondsCredit">
+      <Name>Credit to holders of tax credit bonds</Name>
+      <Description>Schedule 3 line 6k. Credit to holders of tax credit bonds. Attach Form 8912.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Form 8978 -->
+    <Fact path="/form8978Credit">
+      <Name>Form 8978 credit</Name>
+      <Description>Schedule 3 line 6l. Amount on Form 8978, line 14.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Form 8936 -->
+    <Fact path="/prevOwnedCleanVehicleCredit">
+      <Name>Credit for previously owned clean vehicles</Name>
+      <Description>Schedule 3 line 6m. Credit for previously owned clean vehicles. Attach Form 8936.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/otherNonrefundableCredits">
+      <Name>Other nonrefundable credits</Name>
+      <Description>Schedule 3 line 6z. Other nonrefundable credits. List type and amount.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+    
+    <Fact path="/totalOtherNonrefundableCredits">
+      <Name>Total other nonrefundable credits</Name>
+      <Description>Schedule 3 line 7. Add lines 6a through 6z.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/generalBusinessCredit" />
+          <Dependency path="/priorYearMinTaxCredit" />
+          <Dependency path="/adoptionCredit" />
+          <Dependency path="/elderlyDisabledCredit" />
+          <Dependency path="/cleanVehicleCredit" />
+          <Dependency path="/mortgageInterestCredit" />
+          <Dependency path="/dcFirstTimeHomebuyerCredit" />
+          <Dependency path="/qualifiedElectricVehicleCredit" />
+          <Dependency path="/altFuelVehicleCredit" />
+          <Dependency path="/taxCreditBondsCredit" />
+          <Dependency path="/form8978Credit" />
+          <Dependency path="/prevOwnedCleanVehicleCredit" />
+          <Dependency path="/otherNonrefundableCredits" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/totalNonrefundableCreditsSchedule3">
+      <Name>Total nonrefundable credits</Name>
+      <Description>Schedule 3 line 8. Add lines 1 through 4, 5a, 5b, and 7. Enter here and on Form 1040, line 20.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/foreignTaxCredit" />
+          <Dependency path="/childDependentCareCredit" />
+          <Dependency path="/educationCredits" />
+          <Dependency path="/retirementSavingsCredit" />
+          <Dependency path="/residentialCleanEnergyCredit" />
+          <Dependency path="/energyEfficientHomeCredit" />
+          <Dependency path="/totalOtherNonrefundableCredits" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: derive from Form 8962 -->
+    <Fact path="/netPremiumTaxCredit">
+      <Name>Net premium tax credit</Name>
+      <Description>Schedule 3 line 9. Net premium tax credit. Attach Form 8962.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/extensionPayment">
+      <Name>Extension payment</Name>
+      <Description>Schedule 3 line 10. Amount paid with request for extension to file.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/excessSocialSecurityTax">
+      <Name>Excess social security tax withheld</Name>
+      <Description>Schedule 3 line 11. Excess social security and tier 1 RRTA tax withheld.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Form 4136 -->
+    <Fact path="/federalFuelTaxCredit">
+      <Name>Credit for federal tax on fuels</Name>
+      <Description>Schedule 3 line 12. Credit for federal tax on fuels. Attach Form 4136.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Form 2439 -->
+    <Fact path="/form2439Credit">
+      <Name>Form 2439 credit</Name>
+      <Description>Schedule 3 line 13a. Form 2439.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/section1341Credit">
+      <Name>Section 1341 credit</Name>
+      <Description>Schedule 3 line 13b. Section 1341 credit for repayment of amounts included in income from earlier years.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Form 3800 -->
+    <Fact path="/electivePaymentElection">
+      <Name>Net elective payment election</Name>
+      <Description>Schedule 3 line 13c. Net elective payment election amount from Form 3800, Part III, line 6, column (j).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/deferred965TaxLiability">
+      <Name>Deferred net 965 tax liability</Name>
+      <Description>Schedule 3 line 13d. Deferred amount of net 965 tax liability.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/otherRefundableCredits">
+      <Name>Other refundable credits</Name>
+      <Description>Schedule 3 line 13z. Other refundable credits.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalOtherRefundableCredits">
+      <Name>Total other payments or refundable credits</Name>
+      <Description>Schedule 3 line 14. Add lines 13a through 13z.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/form2439Credit" />
+          <Dependency path="/section1341Credit" />
+          <Dependency path="/electivePaymentElection" />
+          <Dependency path="/deferred965TaxLiability" />
+          <Dependency path="/otherRefundableCredits" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/totalRefundableCreditsSchedule3">
+      <Name>Total other payments and refundable credits</Name>
+      <Description>Schedule 3 line 15. Add lines 9 through 12 and 14. Enter here and on Form 1040, line 31.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/netPremiumTaxCredit" />
+          <Dependency path="/extensionPayment" />
+          <Dependency path="/excessSocialSecurityTax" />
+          <Dependency path="/federalFuelTaxCredit" />
+          <Dependency path="/totalOtherRefundableCredits" />
+        </Add>
+      </Derived>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>

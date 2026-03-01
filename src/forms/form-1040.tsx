@@ -45,6 +45,8 @@ function Form1040Content() {
   void _v;
   const hasSch1OtherIncome = getFact("/hasSch1OtherIncome") === "true";
   const hasSch1Adjustments = getFact("/hasSch1Adjustments") === "true";
+  const hasSch3NonRefundableCredits = getFact("/hasSch3NonRefundableCredits") === "true";
+  const hasSch3RefundableCredits = getFact("/hasSch3RefundableCredits") === "true";
 
   return (
     <>
@@ -175,7 +177,11 @@ function Form1040Content() {
       <div className="text-[10px] text-muted-foreground mt-4 mb-2">Credits</div>
       <div className="space-y-0.5">
         <FormLine line="19" label="CTC / ODC (Sched. 8812)" path="/ctcOdcCredit"><FactInput path="/ctcOdcCredit" /></FormLine>
-        <FormLine line="20" label="Nonrefundable credits" path="/schedule3NonRefundableCredits"><FactInput path="/schedule3NonRefundableCredits" /></FormLine>
+        {hasSch3NonRefundableCredits ? (
+          <SummaryLine line="20" label="Nonrefundable credits (Sched. 3)" path="/schedule3NonRefundableCredits" link="schedule3#part1" />
+        ) : (
+          <FormLine line="20" label="Nonrefundable credits (Sched. 3)" path="/schedule3NonRefundableCreditsWritable" link="schedule3#part1"><FactInput path="/schedule3NonRefundableCreditsWritable" /></FormLine>
+        )}
         <SummaryLine line="21" label="Total credits" path="/totalNonRefundableCredits" />
         <SummaryLine line="22" label="Tax after credits" path="/tentativeTaxNetOfNonRefundableCredits" />
         <FormLine line="23" label="Other taxes" path="/otherTaxes"><FactInput path="/otherTaxes" /></FormLine>
@@ -224,7 +230,11 @@ function Form1040Content() {
         <FormLine line="28" label="Additional child tax credit" path="/additionalChildTaxCredit"><FactInput path="/additionalChildTaxCredit" /></FormLine>
         <FormLine line="29" label="American opportunity credit" path="/americanOpportunityTaxCredit"><FactInput path="/americanOpportunityTaxCredit" /></FormLine>
         <FormLine line="30" label="Adoption credit" path="/refundableAdoptionCredit"><FactInput path="/refundableAdoptionCredit" /></FormLine>
-        <FormLine line="31" label="Refundable credits" path="/schedule3RefundableCredits"><FactInput path="/schedule3RefundableCredits" /></FormLine>
+        {hasSch3RefundableCredits ? (
+          <SummaryLine line="31" label="Refundable credits (Sched. 3)" path="/schedule3RefundableCredits" link="schedule3#part2" />
+        ) : (
+          <FormLine line="31" label="Refundable credits (Sched. 3)" path="/schedule3RefundableCreditsWritable" link="schedule3#part2"><FactInput path="/schedule3RefundableCreditsWritable" /></FormLine>
+        )}
         <SummaryLine line="32" label="Total other payments/credits" path="/totalOtherPaymentsAndRefundableCredits" />
       </div>
 
