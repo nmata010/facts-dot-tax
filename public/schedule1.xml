@@ -1,8 +1,6 @@
 <FactDictionaryModule>
   <Facts>
 
-    <!-- ===== Part I — Additional Income ===== -->
-
     <Fact path="/taxableSaltRefunds">
       <Name>Taxable refunds of state and local taxes</Name>
       <Description>Schedule 1 line 1. Taxable refunds, credits, or offsets of state and local income taxes.</Description>
@@ -58,8 +56,6 @@
         <Dollar/>
       </Writable>
     </Fact>
-
-    <!-- Lines 8a–8z: Other income -->
 
     <Fact path="/netOperatingLoss">
       <Name>Net operating loss</Name>
@@ -245,7 +241,6 @@
       </Writable>
     </Fact>
 
-    <!-- Line 9: Total other income (sum of 8a–8z) -->
     <Fact path="/totalOtherIncome">
       <Name>Total other income</Name>
       <Description>Schedule 1 line 9. Add lines 8a through 8z.</Description>
@@ -278,7 +273,6 @@
       </Derived>
     </Fact>
 
-    <!-- Line 10: Total additional income (sum of 1–7 and 9) -->
     <Fact path="/additionalIncome">
       <Name>Total additional income</Name>
       <Description>Schedule 1 line 10. Combine lines 1 through 7 and 9. Enter here and on Form 1040, line 8.</Description>
@@ -295,8 +289,6 @@
         </Add>
       </Derived>
     </Fact>
-
-    <!-- ===== Part II — Adjustments to Income ===== -->
 
     <Fact path="/educatorExpensesDeduction">
       <Name>Educator expenses</Name>
@@ -386,8 +378,6 @@
       </Writable>
     </Fact>
 
-    <!-- Line 22: Reserved for future use -->
-
     <Fact path="/archerMSADeduction">
       <Name>Archer MSA deduction</Name>
       <Description>Schedule 1 line 23. Archer MSA deduction.</Description>
@@ -395,8 +385,6 @@
         <Dollar/>
       </Writable>
     </Fact>
-
-    <!-- Lines 24a–24z: Other adjustments -->
 
     <Fact path="/adjJuryDutyPayDeduction">
       <Name>Jury duty pay adjustment</Name>
@@ -494,7 +482,6 @@
       </Writable>
     </Fact>
 
-    <!-- Line 25: Total other adjustments (sum of 24a–24z) -->
     <Fact path="/totalOtherAdjustments">
       <Name>Total other adjustments</Name>
       <Description>Schedule 1 line 25. Add lines 24a through 24z.</Description>
@@ -516,7 +503,6 @@
       </Derived>
     </Fact>
 
-    <!-- Line 26: Total adjustments to income (sum of 11–23 and 25) -->
     <Fact path="/totalAdjustments">
       <Name>Total adjustments to income</Name>
       <Description>Schedule 1 line 26. Add lines 11 through 23 and 25. Enter here and on Form 1040, line 10.</Description>

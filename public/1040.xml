@@ -1351,13 +1351,48 @@
       </Writable>
     </Fact>
 
-    <!-- TODO: derive from schedule 3 -->
-    <Fact path="/schedule3NonRefundableCredits">
-      <Name>Schedule 3 non-refundable credits</Name>
-      <Description>Form 1040 line 20. Non-refundable credits from Schedule 3.</Description>
+    <Fact path="/schedule3NonRefundableCreditsWritable">
+      <Name>Schedule 3 non-refundable credits (manual)</Name>
+      <Description>Form 1040 line 20. Non-refundable credits, manually entered when Schedule 3 is not used.</Description>
       <Writable>
         <Dollar/>
       </Writable>
+    </Fact>
+
+    <Fact path="/schedule3NonRefundableCreditsDerived">
+      <Name>Schedule 3 non-refundable credits (from Schedule 3)</Name>
+      <Description>Form 1040 line 20. Non-refundable credits derived from Schedule 3, line 8.</Description>
+      <Derived>
+        <Dependency path="/totalNonrefundableCreditsSchedule3" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/hasSch3NonRefundableCredits">
+      <Name>Has Schedule 3 non-refundable credits</Name>
+      <Description>True when Schedule 3 total non-refundable credits is greater than zero.</Description>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/totalNonrefundableCreditsSchedule3" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schedule3NonRefundableCredits">
+      <Name>Schedule 3 non-refundable credits</Name>
+      <Description>Form 1040 line 20. Non-refundable credits from Schedule 3, line 8.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasSch3NonRefundableCredits" /></When>
+            <Then><Dependency path="/schedule3NonRefundableCreditsDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/schedule3NonRefundableCreditsWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/totalNonRefundableCredits">
@@ -1508,13 +1543,48 @@
       </Writable>
     </Fact>
 
-    <!-- TODO: derive from Schedule 3 -->
-    <Fact path="/schedule3RefundableCredits">
-      <Name>Refundable credits (Schedule 3)</Name>
-      <Description>Form 1040 line 31. Amount from Schedule 3, line 15.</Description>
+    <Fact path="/schedule3RefundableCreditsWritable">
+      <Name>Refundable credits (manual)</Name>
+      <Description>Form 1040 line 31. Other payments and refundable credits, manually entered when Schedule 3 is not used.</Description>
       <Writable>
         <Dollar/>
       </Writable>
+    </Fact>
+
+    <Fact path="/schedule3RefundableCreditsDerived">
+      <Name>Refundable credits (from Schedule 3)</Name>
+      <Description>Form 1040 line 31. Other payments and refundable credits derived from Schedule 3, line 15.</Description>
+      <Derived>
+        <Dependency path="/totalRefundableCreditsSchedule3" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/hasSch3RefundableCredits">
+      <Name>Has Schedule 3 refundable credits</Name>
+      <Description>True when Schedule 3 total refundable credits is greater than zero.</Description>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/totalRefundableCreditsSchedule3" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schedule3RefundableCredits">
+      <Name>Refundable credits (Schedule 3)</Name>
+      <Description>Form 1040 line 31. Other payments and refundable credits from Schedule 3, line 15.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasSch3RefundableCredits" /></When>
+            <Then><Dependency path="/schedule3RefundableCreditsDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/schedule3RefundableCreditsWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/totalOtherPaymentsAndRefundableCredits">
