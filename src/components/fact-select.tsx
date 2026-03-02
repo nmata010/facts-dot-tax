@@ -20,7 +20,10 @@ interface FactSelectProps {
 }
 
 export function FactSelect({ path, options, defaultValue }: FactSelectProps) {
-  const { setFact } = useFactGraphContext();
+  const { setFact, getFact } = useFactGraphContext();
+
+  const stored = getFact(path);
+  const initial = stored !== "\u2014" ? stored : defaultValue;
 
   useEffect(() => {
     if (defaultValue) {
@@ -30,7 +33,7 @@ export function FactSelect({ path, options, defaultValue }: FactSelectProps) {
 
   return (
     <Select
-      defaultValue={defaultValue}
+      defaultValue={initial}
       onValueChange={(value) => setFact(path, value)}
     >
       <SelectTrigger className="w-full">

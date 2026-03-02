@@ -1,0 +1,496 @@
+<FactDictionaryModule>
+  <Facts>
+
+    <!-- TODO: derive from F8962 -->
+    <Fact path="/excessPTCRepayment">
+      <Name>Excess advance premium tax credit repayment</Name>
+      <Description>Schedule 2 line 1a. Excess advance premium tax credit repayment from Form 8962.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/repaymentNewCleanVehicleCredit">
+      <Name>Repayment of new clean vehicle credit</Name>
+      <Description>Schedule 2 line 1b. Repayment of new clean vehicle credit(s) transferred to a registered dealer from Schedule A (Form 8936), Part II.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/repaymentPrevOwnedCleanVehicleCredit">
+      <Name>Repayment of previously owned clean vehicle credit</Name>
+      <Description>Schedule 2 line 1c. Repayment of previously owned clean vehicle credit(s) transferred to a registered dealer from Schedule A (Form 8936), Part IV.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/recaptureNetEPE4255">
+      <Name>Recapture of net EPE</Name>
+      <Description>Schedule 2 line 1d. Recapture of net EPE from Form 4255, line 2a, column (l).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/excessivePaymentsLine1a">
+      <Name>Excessive payments - Line 1a</Name>
+      <Description>Schedule 2 line 1e checkbox (i). Excessive payments on gross EPE from Form 4255 relates to line 1a.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/excessivePaymentsLine1c">
+      <Name>Excessive payments - Line 1c</Name>
+      <Description>Schedule 2 line 1e checkbox (ii). Excessive payments on gross EPE from Form 4255 relates to line 1c.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/excessivePaymentsLine1d">
+      <Name>Excessive payments - Line 1d</Name>
+      <Description>Schedule 2 line 1e checkbox (iii). Excessive payments on gross EPE from Form 4255 relates to line 1d.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/excessivePaymentsLine2a">
+      <Name>Excessive payments - Line 2a</Name>
+      <Description>Schedule 2 line 1e checkbox (iv). Excessive payments on gross EPE from Form 4255 relates to line 2a.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/excessivePaymentsGrossEPE">
+      <Name>Excessive payments on gross EPE</Name>
+      <Description>Schedule 2 line 1e. Excessive payments (EPs) on gross EPE from Form 4255.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/twentyPercentEPLine1a">
+      <Name>20% EP - Line 1a</Name>
+      <Description>Schedule 2 line 1f checkbox (i). 20% EP from Form 4255 relates to line 1a.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/twentyPercentEPLine1c">
+      <Name>20% EP - Line 1c</Name>
+      <Description>Schedule 2 line 1f checkbox (ii). 20% EP from Form 4255 relates to line 1c.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/twentyPercentEPLine1d">
+      <Name>20% EP - Line 1d</Name>
+      <Description>Schedule 2 line 1f checkbox (iii). 20% EP from Form 4255 relates to line 1d.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/twentyPercentEPLine2a">
+      <Name>20% EP - Line 2a</Name>
+      <Description>Schedule 2 line 1f checkbox (iv). 20% EP from Form 4255 relates to line 2a.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/twentyPercentEP4255">
+      <Name>20% EP from Form 4255</Name>
+      <Description>Schedule 2 line 1f. 20% EP from Form 4255.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/otherAdditionsToTax">
+      <Name>Other additions to tax</Name>
+      <Description>Schedule 2 line 1y. Other additions to tax.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalAdditionsToTax">
+      <Name>Total additions to tax</Name>
+      <Description>Schedule 2 line 1z. Add lines 1a through 1y.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/excessPTCRepayment" />
+          <Dependency path="/repaymentNewCleanVehicleCredit" />
+          <Dependency path="/repaymentPrevOwnedCleanVehicleCredit" />
+          <Dependency path="/recaptureNetEPE4255" />
+          <Dependency path="/excessivePaymentsGrossEPE" />
+          <Dependency path="/twentyPercentEP4255" />
+          <Dependency path="/otherAdditionsToTax" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: derive from F6251 -->
+    <Fact path="/alternativeMinimumTax">
+      <Name>Alternative minimum tax</Name>
+      <Description>Schedule 2 line 2. Alternative minimum tax from Form 6251.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalAdditionalTaxSchedule2">
+      <Name>Total additional tax</Name>
+      <Description>Schedule 2 line 3. Add lines 1z and 2. Enter here and on Form 1040, line 17.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/totalAdditionsToTax" />
+          <Dependency path="/alternativeMinimumTax" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/seExemption4361">
+      <Name>SE tax exemption - Form 4361</Name>
+      <Description>Schedule 2 line 4 checkbox 1. Self-employment tax exemption from Form 4361.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/seExemption4029">
+      <Name>SE tax exemption - Form 4029</Name>
+      <Description>Schedule 2 line 4 checkbox 2. Self-employment tax exemption from Form 4029.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/seExemptionOther">
+      <Name>SE tax exemption - other</Name>
+      <Description>Schedule 2 line 4 checkbox 3. Other self-employment tax exemption.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from Schedule SE -->
+    <Fact path="/selfEmploymentTax">
+      <Name>Self-employment tax</Name>
+      <Description>Schedule 2 line 4. Self-employment tax from Schedule SE.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/unreportedTipTax">
+      <Name>Social security and Medicare tax on unreported tips</Name>
+      <Description>Schedule 2 line 5. Social security and Medicare tax on unreported tip income from Form 4137.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/uncollectedSsMedicareTaxWages">
+      <Name>Uncollected social security and Medicare tax on wages</Name>
+      <Description>Schedule 2 line 6. Uncollected social security and Medicare tax on wages from Form 8919.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalAdditionalSsMedicareTax">
+      <Name>Total additional social security and Medicare tax</Name>
+      <Description>Schedule 2 line 7. Add lines 5 and 6.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/unreportedTipTax" />
+          <Dependency path="/uncollectedSsMedicareTaxWages" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/additionalTaxIRA">
+      <Name>Additional tax on IRAs or other tax-favored accounts</Name>
+      <Description>Schedule 2 line 8. Additional tax on IRAs or other tax-favored accounts from Form 5329.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/householdEmploymentTaxes">
+      <Name>Household employment taxes</Name>
+      <Description>Schedule 2 line 9. Household employment taxes from Schedule H.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from F8959 -->
+    <Fact path="/additionalMedicareTax">
+      <Name>Additional Medicare Tax</Name>
+      <Description>Schedule 2 line 11. Additional Medicare Tax from Form 8959.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from F8960 -->
+    <Fact path="/netInvestmentIncomeTax">
+      <Name>Net investment income tax</Name>
+      <Description>Schedule 2 line 12. Net investment income tax from Form 8960.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/uncollectedSsMedicareW2">
+      <Name>Uncollected social security and Medicare or RRTA tax</Name>
+      <Description>Schedule 2 line 13. Uncollected social security and Medicare or RRTA tax on tips or group-term life insurance from Form W-2, box 12.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/interestInstallmentIncome">
+      <Name>Interest on installment income</Name>
+      <Description>Schedule 2 line 14. Interest on tax due on installment income from the sale of certain residential lots and timeshares.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/interestDeferredTaxInstallment">
+      <Name>Interest on deferred tax on installment sales</Name>
+      <Description>Schedule 2 line 15. Interest on the deferred tax on gain from certain installment sales with a sales price over $150,000.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/recaptureLowIncomeHousingCredit">
+      <Name>Recapture of low-income housing credit</Name>
+      <Description>Schedule 2 line 16. Recapture of low-income housing credit from Form 8611.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/recaptureOtherCredits">
+      <Name>Recapture of other credits</Name>
+      <Description>Schedule 2 line 17a. Recapture of other credits.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/recaptureFederalMortgageSubsidy">
+      <Name>Recapture of federal mortgage subsidy</Name>
+      <Description>Schedule 2 line 17b. Recapture of federal mortgage subsidy.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/additionalTaxHSADistributions">
+      <Name>Additional tax on HSA distributions</Name>
+      <Description>Schedule 2 line 17c. Additional tax on HSA distributions from Form 8889.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/additionalTaxHSAIneligible">
+      <Name>Additional tax on HSA - ineligible individual</Name>
+      <Description>Schedule 2 line 17d. Additional tax on an HSA because you didn't remain an eligible individual from Form 8889.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/additionalTaxArcherMSA">
+      <Name>Additional tax on Archer MSA distributions</Name>
+      <Description>Schedule 2 line 17e. Additional tax on Archer MSA distributions from Form 8853.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/additionalTaxMedicareAdvantageMSA">
+      <Name>Additional tax on Medicare Advantage MSA distributions</Name>
+      <Description>Schedule 2 line 17f. Additional tax on Medicare Advantage MSA distributions from Form 8853.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/recaptureCharitableDeduction">
+      <Name>Recapture of charitable contribution deduction</Name>
+      <Description>Schedule 2 line 17g. Recapture of a charitable contribution deduction related to a fractional interest in tangible personal property.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/nonqualifiedDeferredComp409A">
+      <Name>Nonqualified deferred compensation - section 409A</Name>
+      <Description>Schedule 2 line 17h. Income from a nonqualified deferred compensation plan that fails to meet the requirements of section 409A.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/nonqualifiedDeferredComp457A">
+      <Name>Nonqualified deferred compensation - section 457A</Name>
+      <Description>Schedule 2 line 17i. Compensation from a nonqualified deferred compensation plan described in section 457A.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/excessBenefitsTax72m5">
+      <Name>Section 72(m)(5) excess benefits tax</Name>
+      <Description>Schedule 2 line 17j. Section 72(m)(5) excess benefits tax.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/goldenParachutePayments">
+      <Name>Golden parachute payments</Name>
+      <Description>Schedule 2 line 17k. Golden parachute payments.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/trustAccumulationDistributionTax">
+      <Name>Tax on accumulation distribution of trusts</Name>
+      <Description>Schedule 2 line 17l. Tax on accumulation distribution of trusts.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/exciseTaxInsiderStockComp">
+      <Name>Excise tax on insider stock compensation</Name>
+      <Description>Schedule 2 line 17m. Excise tax on insider stock compensation from an expatriated corporation.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/lookBackInterest">
+      <Name>Look-back interest</Name>
+      <Description>Schedule 2 line 17n. Look-back interest under section 167(g) or 460(b) from Form 8697 or 8866.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/nonEffectivelyConnectedIncomeTax">
+      <Name>Tax on non-effectively connected income</Name>
+      <Description>Schedule 2 line 17o. Tax on non-effectively connected income for any part of the year you were a nonresident alien from Form 1040-NR.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/interestForm8621Line16f">
+      <Name>Interest from Form 8621, line 16f</Name>
+      <Description>Schedule 2 line 17p. Any interest from Form 8621, line 16f, relating to distributions from, and dispositions of, stock of a section 1291 fund.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/interestForm8621Line24">
+      <Name>Interest from Form 8621, line 24</Name>
+      <Description>Schedule 2 line 17q. Any interest from Form 8621, line 24.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/otherAdditionalTaxes">
+      <Name>Other additional taxes</Name>
+      <Description>Schedule 2 line 17z. Any other taxes.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalOtherAdditionalTaxes">
+      <Name>Total additional taxes</Name>
+      <Description>Schedule 2 line 18. Add lines 17a through 17z.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/recaptureOtherCredits" />
+          <Dependency path="/recaptureFederalMortgageSubsidy" />
+          <Dependency path="/additionalTaxHSADistributions" />
+          <Dependency path="/additionalTaxHSAIneligible" />
+          <Dependency path="/additionalTaxArcherMSA" />
+          <Dependency path="/additionalTaxMedicareAdvantageMSA" />
+          <Dependency path="/recaptureCharitableDeduction" />
+          <Dependency path="/nonqualifiedDeferredComp409A" />
+          <Dependency path="/nonqualifiedDeferredComp457A" />
+          <Dependency path="/excessBenefitsTax72m5" />
+          <Dependency path="/goldenParachutePayments" />
+          <Dependency path="/trustAccumulationDistributionTax" />
+          <Dependency path="/exciseTaxInsiderStockComp" />
+          <Dependency path="/lookBackInterest" />
+          <Dependency path="/nonEffectivelyConnectedIncomeTax" />
+          <Dependency path="/interestForm8621Line16f" />
+          <Dependency path="/interestForm8621Line24" />
+          <Dependency path="/otherAdditionalTaxes" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/recaptureNetEPE4255Line1d">
+      <Name>Recapture of net EPE</Name>
+      <Description>Schedule 2 line 19. Recapture of net EPE from Form 4255, line 1d, column (l).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/section965Installment">
+      <Name>Section 965 net tax liability installment</Name>
+      <Description>Schedule 2 line 20. Section 965 net tax liability installment from Form 965-A.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalOtherTaxesSchedule2">
+      <Name>Total other taxes</Name>
+      <Description>Schedule 2 line 21. Add lines 4, 7 through 16, 18, and 19. Enter here and on Form 1040, line 23.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/selfEmploymentTax" />
+          <Dependency path="/totalAdditionalSsMedicareTax" />
+          <Dependency path="/additionalTaxIRA" />
+          <Dependency path="/householdEmploymentTaxes" />
+          <Dependency path="/additionalMedicareTax" />
+          <Dependency path="/netInvestmentIncomeTax" />
+          <Dependency path="/uncollectedSsMedicareW2" />
+          <Dependency path="/interestInstallmentIncome" />
+          <Dependency path="/interestDeferredTaxInstallment" />
+          <Dependency path="/recaptureLowIncomeHousingCredit" />
+          <Dependency path="/totalOtherAdditionalTaxes" />
+          <Dependency path="/recaptureNetEPE4255Line1d" />
+        </Add>
+      </Derived>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>

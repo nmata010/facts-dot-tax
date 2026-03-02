@@ -7,13 +7,17 @@ interface FactCheckboxProps {
 }
 
 export function FactCheckbox({ path, label }: FactCheckboxProps) {
-  const { setFact } = useFactGraphContext();
+  const { setFact, getFact } = useFactGraphContext();
+
+  const stored = getFact(path);
+  const checked = stored === "true";
 
   return (
     <label className="flex items-center gap-1.5 cursor-pointer">
       <Checkbox
         className="h-3 w-3 rounded-[2px]"
-        onCheckedChange={(checked) => setFact(path, checked.toString())}
+        defaultChecked={checked}
+        onCheckedChange={(c) => setFact(path, c.toString())}
       />
       <span className="text-[11px]">{label}</span>
     </label>

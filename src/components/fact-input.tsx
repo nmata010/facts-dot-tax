@@ -5,7 +5,10 @@ interface FactInputProps {
 }
 
 export function FactInput({ path }: FactInputProps) {
-  const { setFact } = useFactGraphContext();
+  const { setFact, getFact } = useFactGraphContext();
+
+  const stored = getFact(path);
+  const initial = stored === "\u2014" || stored === "0" ? "" : stored;
 
   return (
     <div className="flex items-center text-xs">
@@ -13,7 +16,8 @@ export function FactInput({ path }: FactInputProps) {
       <input
         type="text"
         placeholder="0"
-        defaultValue=""
+        defaultValue={initial}
+        key={path}
         className="w-full bg-transparent text-right outline-none border-b border-foreground/10 focus:border-foreground/40 py-0.5 px-1 tabular-nums transition-colors"
         onChange={(e) => setFact(path, e.target.value || "0")}
       />
