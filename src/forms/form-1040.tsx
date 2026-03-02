@@ -45,6 +45,8 @@ function Form1040Content() {
   void _v;
   const hasSch1OtherIncome = getFact("/hasSch1OtherIncome") === "true";
   const hasSch1Adjustments = getFact("/hasSch1Adjustments") === "true";
+  const hasSch2AdditionalTax = getFact("/hasSch2AdditionalTax") === "true";
+  const hasSch2OtherTaxes = getFact("/hasSch2OtherTaxes") === "true";
   const hasSch3NonRefundableCredits = getFact("/hasSch3NonRefundableCredits") === "true";
   const hasSch3RefundableCredits = getFact("/hasSch3RefundableCredits") === "true";
 
@@ -170,7 +172,11 @@ function Form1040Content() {
 
       <div className="mt-3 space-y-0.5">
         <SummaryLine line="16" label="Tax" path="/tax" />
-        <FormLine line="17" label="Additional tax" path="/additionalTax"><FactInput path="/additionalTax" /></FormLine>
+        {hasSch2AdditionalTax ? (
+          <SummaryLine line="17" label="Additional tax (Sched. 2)" path="/additionalTax" link="schedule2#part1" />
+        ) : (
+          <FormLine line="17" label="Additional tax (Sched. 2)" path="/schedule2AdditionalTaxWritable" link="schedule2#part1"><FactInput path="/schedule2AdditionalTaxWritable" /></FormLine>
+        )}
         <SummaryLine line="18" label="Tentative tax" path="/tentativeTax" />
       </div>
 
@@ -184,7 +190,11 @@ function Form1040Content() {
         )}
         <SummaryLine line="21" label="Total credits" path="/totalNonRefundableCredits" />
         <SummaryLine line="22" label="Tax after credits" path="/tentativeTaxNetOfNonRefundableCredits" />
-        <FormLine line="23" label="Other taxes" path="/otherTaxes"><FactInput path="/otherTaxes" /></FormLine>
+        {hasSch2OtherTaxes ? (
+          <SummaryLine line="23" label="Other taxes (Sched. 2)" path="/otherTaxes" link="schedule2#part2" />
+        ) : (
+          <FormLine line="23" label="Other taxes (Sched. 2)" path="/schedule2OtherTaxesWritable" link="schedule2#part2"><FactInput path="/schedule2OtherTaxesWritable" /></FormLine>
+        )}
       </div>
       <div className="mt-2">
         <SummaryLine line="24" label="TOTAL TAX" path="/totalTax" bold />

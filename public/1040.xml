@@ -1322,13 +1322,38 @@
       </Derived>
     </Fact>
     
-    <!-- TODO: derive from schedule 2 part 1 -->
+    <Fact path="/schedule2AdditionalTaxWritable">
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/schedule2AdditionalTaxDerived">
+      <Derived><Dependency path="/totalAdditionalTaxSchedule2" /></Derived>
+    </Fact>
+
+    <Fact path="/hasSch2AdditionalTax">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/totalAdditionalTaxSchedule2" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
     <Fact path="/additionalTax">
       <Name>Additional taxes</Name>
-      <Description>Form 1040 line 17. Additional taxes (e.g., self-employment tax) from Schedule 2 Line 3.</Description>
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Description>Form 1040 line 17. Additional taxes from Schedule 2, line 3.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasSch2AdditionalTax" /></When>
+            <Then><Dependency path="/schedule2AdditionalTaxDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/schedule2AdditionalTaxWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/tentativeTax">
@@ -1421,13 +1446,38 @@
       </Derived>
     </Fact>   
 
-    <!-- TODO: derive from Schedule 2 part 2 -->
+    <Fact path="/schedule2OtherTaxesWritable">
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/schedule2OtherTaxesDerived">
+      <Derived><Dependency path="/totalOtherTaxesSchedule2" /></Derived>
+    </Fact>
+
+    <Fact path="/hasSch2OtherTaxes">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/totalOtherTaxesSchedule2" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
     <Fact path="/otherTaxes">
       <Name>Other taxes</Name>
-      <Description>Form 1040 line 23. Other taxes from Schedule 2, Line 21</Description>
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Description>Form 1040 line 23. Other taxes from Schedule 2, line 21.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasSch2OtherTaxes" /></When>
+            <Then><Dependency path="/schedule2OtherTaxesDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/schedule2OtherTaxesWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/totalTax">
