@@ -1367,13 +1367,46 @@
       </Derived>
     </Fact>
 
-    <!-- TODO: derive from schedule 8812 -->
-    <Fact path="/ctcOdcCredit">
-      <Name>Child tax credit or ODC credit</Name>
-      <Description>Form 1040 line 19. Child tax credit or ODC credit from Schedule 8812.</Description>
+    <Fact path="/ctcOdcCreditWritable">
+      <Name>Child tax credit or ODC credit (manual)</Name>
+      <Description>Form 1040 line 19. Manually entered when Schedule 8812 is not filled out.</Description>
       <Writable>
         <Dollar/>
       </Writable>
+    </Fact>
+
+    <Fact path="/ctcOdcCreditDerived">
+      <Name>Child tax credit or ODC credit (from Schedule 8812)</Name>
+      <Description>Form 1040 line 19. Derived from Schedule 8812 line 14.</Description>
+      <Derived>
+        <Dependency path="/totalCtcAndOdc" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/hasSch8812CtcOdc">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/totalCtcAndOdc" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/ctcOdcCredit">
+      <Name>Child tax credit or ODC credit</Name>
+      <Description>Form 1040 line 19. Child tax credit or ODC credit from Schedule 8812.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasSch8812CtcOdc" /></When>
+            <Then><Dependency path="/ctcOdcCreditDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/ctcOdcCreditWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/schedule3NonRefundableCreditsWritable">
@@ -1566,13 +1599,46 @@
       </Writable>
     </Fact>
 
-    <!-- TODO: derive from Schedule 8812 -->
-    <Fact path="/additionalChildTaxCredit">
-      <Name>Additional child tax credit</Name>
-      <Description>Form 1040 line 28. Additional child tax credit (ACTC) from Schedule 8812.</Description>
+    <Fact path="/additionalChildTaxCreditWritable">
+      <Name>Additional child tax credit (manual)</Name>
+      <Description>Form 1040 line 28. Manually entered when Schedule 8812 is not filled out.</Description>
       <Writable>
         <Dollar/>
       </Writable>
+    </Fact>
+
+    <Fact path="/additionalChildTaxCreditDerived">
+      <Name>Additional child tax credit (from Schedule 8812)</Name>
+      <Description>Form 1040 line 28. Derived from Schedule 8812 line 27.</Description>
+      <Derived>
+        <Dependency path="/additionalCtc" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/hasSch8812Actc">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/additionalCtc" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/additionalChildTaxCredit">
+      <Name>Additional child tax credit</Name>
+      <Description>Form 1040 line 28. Additional child tax credit (ACTC) from Schedule 8812.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasSch8812Actc" /></When>
+            <Then><Dependency path="/additionalChildTaxCreditDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/additionalChildTaxCreditWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <!-- TODO: derive from Form 8863 -->

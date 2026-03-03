@@ -46,6 +46,17 @@ export function Schedule8812() {
         <SummaryLine line="13" label="Credit Limit Worksheet A" path="/creditLimit" />
       </div>
 
+      {/* ===== Credit Limit Worksheet A ===== */}
+      <FormSection title="Credit Limit Worksheet A" id="worksheetA" />
+
+      <div className="space-y-0.5">
+        <SummaryLine line="1" label="Form 1040, line 18" path="/tentativeTax" link="form1040" />
+        <SummaryLine line="2" label="Sch. 3 lines 1, 2, 3, 4, 5b, 6d, 6f, 6l, 6m" path="/creditLimitWsLine2" />
+        <SummaryLine line="3" label="Line 1 minus line 2" path="/creditLimitWsLine3" />
+        <SummaryLine line="4" label="Credit Limit Worksheet B" path="/creditLimitWsLine4" />
+        <SummaryLine line="5" label="Line 3 minus line 4" path="/creditLimit" />
+      </div>
+
       <div className="mt-2">
         <SummaryLine line="14" label="CHILD TAX CREDIT AND ODC" path="/totalCtcAndOdc" bold />
       </div>
@@ -60,9 +71,7 @@ export function Schedule8812() {
       </div>
 
       <div className="mt-3 space-y-0.5">
-        <FormLine line="18a" label="Earned income" path="/earnedIncome">
-          <FactInput path="/earnedIncome" />
-        </FormLine>
+        <SummaryLine line="18a" label="Earned income (1040 line 1z)" path="/earnedIncome" link="form1040" />
         <FormLine line="18b" label="Nontaxable combat pay" path="/nontaxableCombatPay">
           <FactInput path="/nontaxableCombatPay" />
         </FormLine>

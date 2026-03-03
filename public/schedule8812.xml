@@ -295,12 +295,13 @@
       </Derived>
     </Fact>
 
+    <!-- TODO: derive from Earned Income Worksheet -->
     <Fact path="/earnedIncome">
       <Name>Earned income</Name>
       <Description>Schedule 8812 line 18a. Earned income (see instructions).</Description>
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Derived>
+        <Dependency path="/totalWages" />
+      </Derived>
     </Fact>
 
     <Fact path="/nontaxableCombatPay">
