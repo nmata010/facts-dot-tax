@@ -49,6 +49,8 @@ function Form1040Content() {
   const hasSch2OtherTaxes = getFact("/hasSch2OtherTaxes") === "true";
   const hasSch3NonRefundableCredits = getFact("/hasSch3NonRefundableCredits") === "true";
   const hasSch3RefundableCredits = getFact("/hasSch3RefundableCredits") === "true";
+  const hasSch8812CtcOdc = getFact("/hasSch8812CtcOdc") === "true";
+  const hasSch8812Actc = getFact("/hasSch8812Actc") === "true";
 
   return (
     <>
@@ -182,7 +184,11 @@ function Form1040Content() {
 
       <div className="text-[10px] text-muted-foreground mt-4 mb-2">Credits</div>
       <div className="space-y-0.5">
-        <FormLine line="19" label="CTC / ODC (Sched. 8812)" path="/ctcOdcCredit"><FactInput path="/ctcOdcCredit" /></FormLine>
+        {hasSch8812CtcOdc ? (
+          <SummaryLine line="19" label="CTC / ODC (Sched. 8812)" path="/ctcOdcCredit" link="schedule8812#part1" />
+        ) : (
+          <FormLine line="19" label="CTC / ODC (Sched. 8812)" path="/ctcOdcCreditWritable" link="schedule8812#part1"><FactInput path="/ctcOdcCreditWritable" /></FormLine>
+        )}
         {hasSch3NonRefundableCredits ? (
           <SummaryLine line="20" label="Nonrefundable credits (Sched. 3)" path="/schedule3NonRefundableCredits" link="schedule3#part1" />
         ) : (
@@ -237,7 +243,11 @@ function Form1040Content() {
         {/* EIC checkboxes — xml view */}
         <CheckboxXmlGroup paths={["/eicClergy", "/eicOptOut"]} />
 
-        <FormLine line="28" label="Additional child tax credit" path="/additionalChildTaxCredit"><FactInput path="/additionalChildTaxCredit" /></FormLine>
+        {hasSch8812Actc ? (
+          <SummaryLine line="28" label="Additional child tax credit" path="/additionalChildTaxCredit" link="schedule8812#part2c" />
+        ) : (
+          <FormLine line="28" label="Additional child tax credit" path="/additionalChildTaxCreditWritable" link="schedule8812#part2c"><FactInput path="/additionalChildTaxCreditWritable" /></FormLine>
+        )}
         <FormLine line="29" label="American opportunity credit" path="/americanOpportunityTaxCredit"><FactInput path="/americanOpportunityTaxCredit" /></FormLine>
         <FormLine line="30" label="Adoption credit" path="/refundableAdoptionCredit"><FactInput path="/refundableAdoptionCredit" /></FormLine>
         {hasSch3RefundableCredits ? (

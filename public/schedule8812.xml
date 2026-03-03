@@ -1,0 +1,448 @@
+<FactDictionaryModule>
+  <Facts>
+
+    <!-- Part I — Child Tax Credit and Credit for Other Dependents -->
+
+    <Fact path="/puertoRicoExcludedIncome">
+      <Name>Puerto Rico excluded income</Name>
+      <Description>Schedule 8812 line 2a. Income from Puerto Rico that you excluded.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/form2555ExcludedIncome">
+      <Name>Form 2555 excluded income</Name>
+      <Description>Schedule 8812 line 2b. Amounts from lines 45 and 50 of Form 2555.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/form4563ExcludedIncome">
+      <Name>Form 4563 excluded income</Name>
+      <Description>Schedule 8812 line 2c. Amount from line 15 of Form 4563.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalExcludedIncome">
+      <Name>Total excluded income</Name>
+      <Description>Schedule 8812 line 2d. Add lines 2a through 2c.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/puertoRicoExcludedIncome" />
+          <Dependency path="/form2555ExcludedIncome" />
+          <Dependency path="/form4563ExcludedIncome" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/dependentCreditMagi">
+      <Name>Modified AGI for dependent credits</Name>
+      <Description>Schedule 8812 line 3. Add lines 1 and 2d.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/agi" />
+          <Dependency path="/totalExcludedIncome" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/ctcEligibleDependents">
+      <Name>CTC-eligible dependents</Name>
+      <Description>Schedule 8812 line 4. Number of qualifying children under age 17 with the required social security number.</Description>
+      <Writable>
+        <Int/>
+      </Writable>
+      <Placeholder>
+        <Int>0</Int>
+      </Placeholder>
+    </Fact>
+
+    <Fact path="/totalPotentialCtc">
+      <Name>Total potential CTC</Name>
+      <Description>Schedule 8812 line 5. Multiply line 4 by $2,200.</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <Dependency path="/ctcEligibleDependents" />
+            <Dollar>2200</Dollar>
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/odcEligibleDependents">
+      <Name>ODC-eligible dependents</Name>
+      <Description>Schedule 8812 line 6. Number of other dependents, including qualifying children not under age 17 or without required SSN.</Description>
+      <Writable>
+        <Int/>
+      </Writable>
+      <Placeholder>
+        <Int>0</Int>
+      </Placeholder>
+    </Fact>
+
+    <Fact path="/totalPotentialOdc">
+      <Name>Total potential ODC</Name>
+      <Description>Schedule 8812 line 7. Multiply line 6 by $500.</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <Dependency path="/odcEligibleDependents" />
+            <Dollar>500</Dollar>
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/totalPotentialDependentCredits">
+      <Name>Total potential dependent credits</Name>
+      <Description>Schedule 8812 line 8. Add lines 5 and 7.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/totalPotentialCtc" />
+          <Dependency path="/totalPotentialOdc" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/dependentCreditPhaseoutThreshold">
+      <Name>Dependent credit phaseout threshold</Name>
+      <Description>Schedule 8812 line 9. $400,000 if MFJ, $200,000 for all other filing statuses.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/filingStatus" /></Left>
+                <Right><Enum optionsPath="/filingStatusOptions">mfj</Enum></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>400000</Dollar></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dollar>200000</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/dependentCreditMagiAboveThreshold">
+      <Name>MAGI above phaseout threshold</Name>
+      <Description>Schedule 8812 line 10 intermediate. Line 3 minus line 9, floored at zero.</Description>
+      <Derived>
+        <GreaterOf>
+          <Subtract>
+            <Minuend><Dependency path="/dependentCreditMagi" /></Minuend>
+            <Subtrahends><Dependency path="/dependentCreditPhaseoutThreshold" /></Subtrahends>
+          </Subtract>
+          <Dollar>0</Dollar>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/roundedMagiAboveThreshold">
+      <Name>MAGI above threshold rounded up to next $1,000</Name>
+      <Description>Schedule 8812 line 10. Subtract line 9 from line 3. If zero or less, enter 0. If more than zero and not a multiple of $1,000, enter the next multiple of $1,000.</Description>
+      <Derived>
+        <Round>
+          <StepwiseMultiply>
+            <Multiplicand>
+              <Add>
+                <Dependency path="/dependentCreditMagiAboveThreshold" />
+                <Dollar>999.99</Dollar>
+              </Add>
+            </Multiplicand>
+            <Rate><Rational>1000/1000</Rational></Rate>
+          </StepwiseMultiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/dependentCreditPhaseout">
+      <Name>Dependent credit phaseout amount</Name>
+      <Description>Schedule 8812 line 11. Multiply line 10 by 5% (0.05).</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <Dependency path="/roundedMagiAboveThreshold" />
+            <Rational>5/100</Rational>
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/dependentCreditLessPhaseout">
+      <Name>Credits after phaseout</Name>
+      <Description>Schedule 8812 line 12. Subtract line 11 from line 8. If zero or less, enter 0.</Description>
+      <Derived>
+        <GreaterOf>
+          <Subtract>
+            <Minuend><Dependency path="/totalPotentialDependentCredits" /></Minuend>
+            <Subtrahends><Dependency path="/dependentCreditPhaseout" /></Subtrahends>
+          </Subtract>
+          <Dollar>0</Dollar>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <!-- Credit Limit Worksheet A -->
+
+    <Fact path="/creditLimitWsLine2">
+      <Name>Credit Limit Worksheet A line 2</Name>
+      <Description>Sum of Schedule 3 lines 1, 2, 3, 4, 5b, 6d, 6f, 6l, and 6m.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/foreignTaxCredit" />
+          <Dependency path="/childDependentCareCredit" />
+          <Dependency path="/educationCredits" />
+          <Dependency path="/retirementSavingsCredit" />
+          <Dependency path="/energyEfficientHomeCredit" />
+          <Dependency path="/elderlyDisabledCredit" />
+          <Dependency path="/cleanVehicleCredit" />
+          <Dependency path="/form8978Credit" />
+          <Dependency path="/prevOwnedCleanVehicleCredit" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/creditLimitWsLine3">
+      <Name>Credit Limit Worksheet A line 3</Name>
+      <Description>Subtract Credit Limit Worksheet A line 2 from Form 1040 line 18.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/tentativeTax" /></Minuend>
+          <Subtrahends><Dependency path="/creditLimitWsLine2" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: Credit Limit Worksheet B -->
+    <Fact path="/creditLimitWsLine4">
+      <Name>Credit Limit Worksheet A line 4</Name>
+      <Description>Credit Limit Worksheet B result. Stubbed as $0.</Description>
+      <Derived>
+        <Dollar>0</Dollar>
+      </Derived>
+    </Fact>
+
+    <Fact path="/creditLimit">
+      <Name>Credit limit</Name>
+      <Description>Schedule 8812 line 13. Credit Limit Worksheet A line 5. Subtract line 4 from line 3.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency path="/creditLimitWsLine3" /></Minuend>
+            <Subtrahends><Dependency path="/creditLimitWsLine4" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/totalCtcAndOdc">
+      <Name>Child tax credit and credit for other dependents</Name>
+      <Description>Schedule 8812 line 14. Enter the smaller of line 12 or line 13. This is your child tax credit and credit for other dependents.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/dependentCreditLessPhaseout" />
+          <Dependency path="/creditLimit" />
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+    <!-- Part II-A — Additional Child Tax Credit for All Filers -->
+
+    <Fact path="/remainingCtcAndOdc">
+      <Name>Remaining CTC and ODC</Name>
+      <Description>Schedule 8812 line 16a. Subtract line 14 from line 12.</Description>
+      <Derived>
+        <GreaterOf>
+          <Subtract>
+            <Minuend><Dependency path="/dependentCreditLessPhaseout" /></Minuend>
+            <Subtrahends><Dependency path="/totalCtcAndOdc" /></Subtrahends>
+          </Subtract>
+          <Dollar>0</Dollar>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/totalPotentialActc">
+      <Name>Total potential additional CTC</Name>
+      <Description>Schedule 8812 line 16b. Number of qualifying children under 17 multiplied by $1,700.</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <Dependency path="/ctcEligibleDependents" />
+            <Dollar>1700</Dollar>
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/remainingPotentialActc">
+      <Name>Remaining potential additional CTC</Name>
+      <Description>Schedule 8812 line 17. Enter the smaller of line 16a or line 16b.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/remainingCtcAndOdc" />
+          <Dependency path="/totalPotentialActc" />
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: derive from Earned Income Worksheet -->
+    <Fact path="/earnedIncome">
+      <Name>Earned income</Name>
+      <Description>Schedule 8812 line 18a. Earned income (see instructions).</Description>
+      <Derived>
+        <Dependency path="/totalWages" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/nontaxableCombatPay">
+      <Name>Nontaxable combat pay</Name>
+      <Description>Schedule 8812 line 18b. Nontaxable combat pay (see instructions).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/earnedIncomeAboveActcThreshold">
+      <Name>Earned income above ACTC threshold</Name>
+      <Description>Schedule 8812 line 19. Subtract $2,500 from line 18a. If line 18a is $2,500 or less, enter 0.</Description>
+      <Derived>
+        <GreaterOf>
+          <Subtract>
+            <Minuend><Dependency path="/earnedIncome" /></Minuend>
+            <Subtrahends><Dollar>2500</Dollar></Subtrahends>
+          </Subtract>
+          <Dollar>0</Dollar>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/regularMaximumActc">
+      <Name>Regular maximum additional CTC</Name>
+      <Description>Schedule 8812 line 20. Multiply line 19 by 15% (0.15).</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <Dependency path="/earnedIncomeAboveActcThreshold" />
+            <Rational>15/100</Rational>
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <!-- Part II-B — Certain Filers Who Have Three or More Qualifying Children -->
+
+    <Fact path="/threeOrMoreCtcEligibleDependents">
+      <Name>Three or more CTC-eligible dependents</Name>
+      <Description>Whether the taxpayer has three or more qualifying children under 17. Equivalent to line 16b being $5,100 or more.</Description>
+      <Derived>
+        <GreaterThanOrEqual>
+          <Left><Dependency path="/ctcEligibleDependents" /></Left>
+          <Right><Int>3</Int></Right>
+        </GreaterThanOrEqual>
+      </Derived>
+    </Fact>
+
+    <Fact path="/withheldSocialSecurityMedicare">
+      <Name>Withheld social security and Medicare taxes</Name>
+      <Description>Schedule 8812 line 21. Withheld social security, Medicare, and Additional Medicare taxes from Form(s) W-2, boxes 4 and 6.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/seTaxAndAdditionalTaxes">
+      <Name>SE tax deduction and additional taxes</Name>
+      <Description>Schedule 8812 line 22. Total of Schedule 1 line 15, Schedule 2 lines 5, 6, and 13.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/selfEmploymentTaxDeduction" />
+          <Dependency path="/unreportedTipTax" />
+          <Dependency path="/uncollectedSsMedicareTaxWages" />
+          <Dependency path="/uncollectedSsMedicareW2" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/totalFicaAndSeTax">
+      <Name>Total FICA and SE tax</Name>
+      <Description>Schedule 8812 line 23. Add lines 21 and 22.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/withheldSocialSecurityMedicare" />
+          <Dependency path="/seTaxAndAdditionalTaxes" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicAndExcessSocialSecurity">
+      <Name>EIC and excess social security</Name>
+      <Description>Schedule 8812 line 24. Total of Form 1040 line 27a and Schedule 3 line 11.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/earnedIncomeCredit" />
+          <Dependency path="/excessSocialSecurityTax" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/ficaExcessOverEic">
+      <Name>FICA and SE tax excess over EIC</Name>
+      <Description>Schedule 8812 line 25. Subtract line 24 from line 23. If zero or less, enter 0.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency path="/totalFicaAndSeTax" /></Minuend>
+            <Subtrahends><Dependency path="/eicAndExcessSocialSecurity" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/maximumActc">
+      <Name>Maximum additional CTC</Name>
+      <Description>Schedule 8812 line 26. If 3+ qualifying children, enter the larger of line 20 or line 25. Otherwise, line 20.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/threeOrMoreCtcEligibleDependents" /></When>
+            <Then>
+              <GreaterOf>
+                <Dependency path="/regularMaximumActc" />
+                <Dependency path="/ficaExcessOverEic" />
+              </GreaterOf>
+            </Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/regularMaximumActc" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <!-- Part II-C — Additional Child Tax Credit -->
+
+    <Fact path="/additionalCtc">
+      <Name>Additional child tax credit</Name>
+      <Description>Schedule 8812 line 27. The smaller of line 17 or line 26. Enter on Form 1040 line 28.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/remainingPotentialActc" />
+          <Dependency path="/maximumActc" />
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>
