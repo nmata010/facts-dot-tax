@@ -547,13 +547,38 @@
       </Writable>
     </Fact>
 
-    <!-- TODO: derive from f8995 -->
+    <Fact path="/additionalDeductionsWritable">
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/additionalDeductionsDerived">
+      <Derived><Dependency path="/totalAdditionalDeductions" /></Derived>
+    </Fact>
+
+    <Fact path="/hasAdditionalDeductions">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/totalAdditionalDeductions" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
     <Fact path="/additionalDeductions">
       <Name>Additional deductions</Name>
       <Description>Form 1040 line 13b. Additional deductions from Schedule 1-A, line 38.</Description>
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasAdditionalDeductions" /></When>
+            <Then><Dependency path="/additionalDeductionsDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/additionalDeductionsWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/totalDeductions">
