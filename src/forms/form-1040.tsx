@@ -51,6 +51,7 @@ function Form1040Content() {
   const hasSch3RefundableCredits = getFact("/hasSch3RefundableCredits") === "true";
   const hasSch8812CtcOdc = getFact("/hasSch8812CtcOdc") === "true";
   const hasSch8812Actc = getFact("/hasSch8812Actc") === "true";
+  const hasAdditionalDeductions = getFact("/hasAdditionalDeductions") === "true";
 
   return (
     <>
@@ -164,7 +165,11 @@ function Form1040Content() {
 
         <SummaryLine line="12e" label="Standard or itemized deduction" path="/standardOrItemizedDeduction" link="scheduleA" />
         <FormLine line="13a" label="QBI deduction" path="/qbiDeduction"><FactInput path="/qbiDeduction" /></FormLine>
-        <FormLine line="13b" label="Additional deductions" path="/additionalDeductions"><FactInput path="/additionalDeductions" /></FormLine>
+        {hasAdditionalDeductions ? (
+          <SummaryLine line="13b" label="Additional deductions (Sched. 1-A)" path="/additionalDeductions" link="schedule1A#part6" />
+        ) : (
+          <FormLine line="13b" label="Additional deductions (Sched. 1-A)" path="/additionalDeductionsWritable" link="schedule1A#part6"><FactInput path="/additionalDeductionsWritable" /></FormLine>
+        )}
         <SummaryLine line="14" label="Total deductions" path="/totalDeductions" />
       </div>
 

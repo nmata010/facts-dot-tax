@@ -100,8 +100,6 @@
       </Derived>
     </Fact>
 
-    <!-- TODO: See instructions for the list of deductible taxes (e.g., foreign taxes
-         not claimed as a credit, generation-skipping transfer tax). -->
     <Fact path="/otherDeductibleTaxes">
       <Name>Other taxes</Name>
       <Description>Schedule A line 6. Other taxes. List type and amount (see instructions).</Description>
