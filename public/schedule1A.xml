@@ -9,6 +9,7 @@
       </Writable>
     </Fact>
 
+    <!-- TODO: derive from Form 2555 -->
     <Fact path="/form2555Line45">
       <Name>Form 2555 line 45</Name>
       <Description>Schedule 1-A line 2b. Amount from Form 2555, line 45.</Description>
@@ -17,6 +18,7 @@
       </Writable>
     </Fact>
 
+    <!-- TODO: derive from Form 2555 -->
     <Fact path="/form2555Line50">
       <Name>Form 2555 line 50</Name>
       <Description>Schedule 1-A line 2c. Amount from Form 2555, line 50.</Description>
@@ -25,6 +27,7 @@
       </Writable>
     </Fact>
 
+    <!-- TODO: derive from Form 4563 -->
     <Fact path="/form4563Line15">
       <Name>Form 4563 line 15</Name>
       <Description>Schedule 1-A line 2d. Amount from Form 4563, line 15.</Description>
@@ -73,6 +76,7 @@
       </Writable>
     </Fact>
 
+    <!-- TODO: multi-employer worksheet — currently assumes single employer (GreaterOf 4a/4b) -->
     <Fact path="/qualifiedTipsEmployee">
       <Name>Qualified tips from employment</Name>
       <Description>Schedule 1-A line 4c. Larger of line 4a or line 4b (single employer).</Description>
@@ -84,6 +88,7 @@
       </Derived>
     </Fact>
 
+    <!-- TODO: net income limitation + multiple trades/businesses worksheet -->
     <Fact path="/qualifiedTipsSelfEmployed">
       <Name>Qualified tips from self-employment</Name>
       <Description>Schedule 1-A line 5. Qualified tip amount from Forms 1099-NEC, 1099-MISC, or 1099-K.</Description>
