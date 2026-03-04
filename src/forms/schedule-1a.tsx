@@ -3,15 +3,25 @@ import { FormLine } from "@/components/form-line";
 import { SummaryLine } from "@/components/summary-line";
 import { FactInput } from "@/components/fact-input";
 import { ReceiptLayout } from "@/components/receipt-layout";
+import { useFactGraphContext } from "@/App";
 
-export function Schedule1A() {
+
+function Schedule1AContent() {
+  const { getFact, version: _v } = useFactGraphContext();
+  void _v;
+  const hasAgiFrom1040 = getFact("/hasAgiFrom1040") === "true";
+
   return (
-    <ReceiptLayout subtitle="Additional Deductions" formName="Schedule 1-A">
+    <>
       {/* ===== Part I — Modified Adjusted Gross Income (MAGI) Amount ===== */}
       <FormSection title="Part I — Modified Adjusted Gross Income (MAGI) Amount" id="part1" />
 
       <div className="space-y-0.5">
-        <SummaryLine line="1" label="AGI (Form 1040, line 11b)" path="/agi" link="form1040" />
+        {hasAgiFrom1040 ? (
+          <SummaryLine line="1" label="AGI (Form 1040, line 11b)" path="/schedule1aAgi" link="form1040" />
+        ) : (
+          <FormLine line="1" label="AGI (Form 1040, line 11b)" path="/schedule1aAgiWritable" link="form1040"><FactInput path="/schedule1aAgiWritable" /></FormLine>
+        )}
         <FormLine line="2a" label="Puerto Rico excluded income" path="/puertoRicoExcludedIncome">
           <FactInput path="/puertoRicoExcludedIncome" />
         </FormLine>
@@ -118,6 +128,14 @@ export function Schedule1A() {
       <div className="mt-2">
         <SummaryLine line="38" label="TOTAL ADDITIONAL DEDUCTIONS" path="/totalAdditionalDeductions" bold />
       </div>
+    </>
+  );
+}
+
+export function Schedule1A() {
+  return (
+    <ReceiptLayout subtitle="Additional Deductions" formName="Schedule 1-A">
+      <Schedule1AContent />
     </ReceiptLayout>
   );
 }

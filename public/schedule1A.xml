@@ -1,6 +1,40 @@
 <FactDictionaryModule>
   <Facts>
 
+    <Fact path="/schedule1aAgiWritable">
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/schedule1aAgiDerived">
+      <Derived><Dependency path="/agi" /></Derived>
+    </Fact>
+
+    <Fact path="/hasAgiFrom1040">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/agi" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schedule1aAgi">
+      <Name>Adjusted gross income</Name>
+      <Description>Schedule 1-A line 1. Enter the amount from Form 1040, line 11b.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasAgiFrom1040" /></When>
+            <Then><Dependency path="/schedule1aAgiDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/schedule1aAgiWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
     <Fact path="/puertoRicoExcludedIncome">
       <Name>Puerto Rico excluded income</Name>
       <Description>Schedule 1-A line 2a. Income from Puerto Rico that was excluded.</Description>
@@ -54,7 +88,7 @@
       <Description>Schedule 1-A line 3. Add lines 1 and 2e.</Description>
       <Derived>
         <Add>
-          <Dependency path="/agi" />
+          <Dependency path="/schedule1aAgi" />
           <Dependency path="/magiExclusions" />
         </Add>
       </Derived>
