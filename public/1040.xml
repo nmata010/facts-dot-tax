@@ -1711,7 +1711,640 @@
         </Round>
       </Derived>
     </Fact>
-    
+
+    <Fact path="/qdcgLine22">
+      <Name>QDCG tax on ordinary income</Name>
+      <Description>QDCG worksheet line 22. Tax on line 5 using tax table or tax computation worksheet.</Description>
+      <Derived>
+        <Round>
+          <Switch>
+
+            <!-- MARRIED FILING JOINTLY / QUALIFYING SURVIVING SPOUSE -->
+            <Case>
+              <When>
+                <Any>
+                  <Equal>
+                    <Left><Dependency path="/filingStatus" /></Left>
+                    <Right><Enum optionsPath="/filingStatusOptions">mfj</Enum></Right>
+                  </Equal>
+                  <Equal>
+                    <Left><Dependency path="/filingStatus" /></Left>
+                    <Right><Enum optionsPath="/filingStatusOptions">qss</Enum></Right>
+                  </Equal>
+                </Any>
+              </When>
+              <Then>
+                <Switch>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>23850</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Multiply>
+                        <Rational>10/100</Rational>
+                        <Dependency path="/roundedQdcgLine5" />
+                      </Multiply>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>96950</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>2385</Dollar>
+                        <Multiply>
+                          <Rational>12/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>23850</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>206700</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>11157</Dollar>
+                        <Multiply>
+                          <Rational>22/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>96950</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>394600</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>35302</Dollar>
+                        <Multiply>
+                          <Rational>24/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>206700</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>501050</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>80398</Dollar>
+                        <Multiply>
+                          <Rational>32/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>394600</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>751600</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>114462</Dollar>
+                        <Multiply>
+                          <Rational>35/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>501050</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <GreaterThan>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>751600</Dollar></Right>
+                      </GreaterThan>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>202154.50</Dollar>
+                        <Multiply>
+                          <Rational>37/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>751600</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                </Switch>
+              </Then>
+            </Case>
+
+            <!-- HEAD OF HOUSEHOLD -->
+            <Case>
+              <When>
+                <Equal>
+                  <Left><Dependency path="/filingStatus" /></Left>
+                  <Right><Enum optionsPath="/filingStatusOptions">hoh</Enum></Right>
+                </Equal>
+              </When>
+              <Then>
+                <Switch>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>17000</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Multiply>
+                        <Rational>10/100</Rational>
+                        <Dependency path="/roundedQdcgLine5" />
+                      </Multiply>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>64850</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>1700</Dollar>
+                        <Multiply>
+                          <Rational>12/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>17000</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>103350</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>7442</Dollar>
+                        <Multiply>
+                          <Rational>22/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>64850</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>197300</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>15912</Dollar>
+                        <Multiply>
+                          <Rational>24/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>103350</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>250500</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>38460</Dollar>
+                        <Multiply>
+                          <Rational>32/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>197300</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>626350</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>55484</Dollar>
+                        <Multiply>
+                          <Rational>35/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>250500</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <GreaterThan>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>626350</Dollar></Right>
+                      </GreaterThan>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>187031.50</Dollar>
+                        <Multiply>
+                          <Rational>37/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>626350</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                </Switch>
+              </Then>
+            </Case>
+
+            <!-- SINGLE -->
+            <Case>
+              <When>
+                <Equal>
+                  <Left><Dependency path="/filingStatus" /></Left>
+                  <Right><Enum optionsPath="/filingStatusOptions">single</Enum></Right>
+                </Equal>
+              </When>
+              <Then>
+                <Switch>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>11925</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Multiply>
+                        <Rational>10/100</Rational>
+                        <Dependency path="/roundedQdcgLine5" />
+                      </Multiply>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>48475</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>1192.50</Dollar>
+                        <Multiply>
+                          <Rational>12/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>11925</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>103350</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>5578.50</Dollar>
+                        <Multiply>
+                          <Rational>22/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>48475</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>197300</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>17651</Dollar>
+                        <Multiply>
+                          <Rational>24/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>103350</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>250525</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>40199</Dollar>
+                        <Multiply>
+                          <Rational>32/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>197300</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>626350</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>57231</Dollar>
+                        <Multiply>
+                          <Rational>35/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>250525</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <GreaterThan>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>626350</Dollar></Right>
+                      </GreaterThan>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>188769.75</Dollar>
+                        <Multiply>
+                          <Rational>37/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>626350</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                </Switch>
+              </Then>
+            </Case>
+
+            <!-- MARRIED FILING SEPARATELY -->
+            <Case>
+              <When>
+                <Equal>
+                  <Left><Dependency path="/filingStatus" /></Left>
+                  <Right><Enum optionsPath="/filingStatusOptions">mfs</Enum></Right>
+                </Equal>
+              </When>
+              <Then>
+                <Switch>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>11925</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Multiply>
+                        <Rational>10/100</Rational>
+                        <Dependency path="/roundedQdcgLine5" />
+                      </Multiply>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>48475</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>1192.50</Dollar>
+                        <Multiply>
+                          <Rational>12/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>11925</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>103350</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>5578.50</Dollar>
+                        <Multiply>
+                          <Rational>22/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>48475</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>197300</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>17651</Dollar>
+                        <Multiply>
+                          <Rational>24/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>103350</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>250525</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>40199</Dollar>
+                        <Multiply>
+                          <Rational>32/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>197300</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <LessThanOrEqual>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>375800</Dollar></Right>
+                      </LessThanOrEqual>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>57231</Dollar>
+                        <Multiply>
+                          <Rational>35/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>250525</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                  <Case>
+                    <When>
+                      <GreaterThan>
+                        <Left><Dependency path="/roundedQdcgLine5" /></Left>
+                        <Right><Dollar>375800</Dollar></Right>
+                      </GreaterThan>
+                    </When>
+                    <Then>
+                      <Add>
+                        <Dollar>101077.25</Dollar>
+                        <Multiply>
+                          <Rational>37/100</Rational>
+                          <Subtract>
+                            <Minuend><Dependency path="/roundedQdcgLine5" /></Minuend>
+                            <Subtrahends><Dollar>375800</Dollar></Subtrahends>
+                          </Subtract>
+                        </Multiply>
+                      </Add>
+                    </Then>
+                  </Case>
+                </Switch>
+              </Then>
+            </Case>
+
+          </Switch>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine23">
+      <Name>QDCG blended tax</Name>
+      <Description>QDCG worksheet line 23. Add lines 18, 21, and 22.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/qdcgLine18" />
+          <Dependency path="/qdcgLine21" />
+          <Dependency path="/qdcgLine22" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/tax">
+      <Name>Tax</Name>
+      <Description>Form 1040 line 16. QDCG worksheet line 25. Smaller of line 23 or line 24.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/regularTax" />
+          <Dependency path="/qdcgLine23" />
+        </LesserOf>
+      </Derived>
+    </Fact>
+
     <Fact path="/schedule2AdditionalTaxWritable">
       <Writable><Dollar/></Writable>
     </Fact>
