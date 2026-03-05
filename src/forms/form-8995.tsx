@@ -7,9 +7,22 @@ export function Form8995() {
   return (
     <ReceiptLayout subtitle="Qualified Business Income Deduction — Simplified Computation" formName="Form 8995">
       <div className="space-y-0.5">
-        <FormLine line="2" label="Total qualified business income or (loss)" path="/totalQbi">
-          <FactInput path="/totalQbi" />
+        <FormLine line="1i" label="Business i — QBI" path="/qbiIncome1">
+          <FactInput path="/qbiIncome1" />
         </FormLine>
+        <FormLine line="1ii" label="Business ii — QBI" path="/qbiIncome2">
+          <FactInput path="/qbiIncome2" />
+        </FormLine>
+        <FormLine line="1iii" label="Business iii — QBI" path="/qbiIncome3">
+          <FactInput path="/qbiIncome3" />
+        </FormLine>
+        <FormLine line="1iv" label="Business iv — QBI" path="/qbiIncome4">
+          <FactInput path="/qbiIncome4" />
+        </FormLine>
+        <FormLine line="1v" label="Business v — QBI" path="/qbiIncome5">
+          <FactInput path="/qbiIncome5" />
+        </FormLine>
+        <SummaryLine line="2" label="Total qualified business income or (loss)" path="/totalQbi" />
         <FormLine line="3" label="QBI net (loss) carryforward from prior year" path="/qbiLossCarryforward">
           <FactInput path="/qbiLossCarryforward" />
         </FormLine>

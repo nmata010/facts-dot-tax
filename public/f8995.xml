@@ -1,12 +1,48 @@
 <FactDictionaryModule>
   <Facts>
 
+    <Fact path="/qbiIncome1">
+      <Name>QBI — business i</Name>
+      <Description>Form 8995 line 1i(c). Qualified business income or (loss) for business i.</Description>
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/qbiIncome2">
+      <Name>QBI — business ii</Name>
+      <Description>Form 8995 line 1ii(c). Qualified business income or (loss) for business ii.</Description>
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/qbiIncome3">
+      <Name>QBI — business iii</Name>
+      <Description>Form 8995 line 1iii(c). Qualified business income or (loss) for business iii.</Description>
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/qbiIncome4">
+      <Name>QBI — business iv</Name>
+      <Description>Form 8995 line 1iv(c). Qualified business income or (loss) for business iv.</Description>
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/qbiIncome5">
+      <Name>QBI — business v</Name>
+      <Description>Form 8995 line 1v(c). Qualified business income or (loss) for business v.</Description>
+      <Writable><Dollar/></Writable>
+    </Fact>
+
     <Fact path="/totalQbi">
       <Name>Total qualified business income</Name>
-      <Description>Form 8995 line 2. Total qualified business income or (loss).</Description>
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Description>Form 8995 line 2. Combine lines 1i through 1v, column (c).</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/qbiIncome1" />
+          <Dependency path="/qbiIncome2" />
+          <Dependency path="/qbiIncome3" />
+          <Dependency path="/qbiIncome4" />
+          <Dependency path="/qbiIncome5" />
+        </Add>
+      </Derived>
     </Fact>
 
     <Fact path="/qbiLossCarryforward">
