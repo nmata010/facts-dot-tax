@@ -706,6 +706,373 @@
       </Derived>
     </Fact>
 
+    <!-- TODO: use min(SchD line 15, SchD line 16) when Schedule D is implemented -->
+    <Fact path="/qdcgLine3">
+      <Name>QDCG worksheet capital gains</Name>
+      <Description>QDCG worksheet line 3. Capital gain or loss from Form 1040 line 7a (no Schedule D).</Description>
+      <Derived>
+        <Dependency path="/capitalGainOrLoss" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine4">
+      <Name>QDCG worksheet qualified income</Name>
+      <Description>QDCG worksheet line 4. Add lines 2 and 3 (qualified dividends plus capital gains).</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/qualifiedDividends" />
+          <Dependency path="/qdcgLine3" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine5">
+      <Name>QDCG worksheet ordinary income</Name>
+      <Description>QDCG worksheet line 5. Subtract line 4 from line 1. If zero or less, enter 0.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency path="/taxableIncome" /></Minuend>
+            <Subtrahends><Dependency path="/qdcgLine4" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgTier1Threshold">
+      <Name>QDCG 0% rate threshold</Name>
+      <Description>QDCG worksheet line 6. Income threshold for 0% capital gains rate by filing status.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <Any>
+                <Equal>
+                  <Left><Dependency path="/filingStatus" /></Left>
+                  <Right><Enum optionsPath="/filingStatusOptions">single</Enum></Right>
+                </Equal>
+                <Equal>
+                  <Left><Dependency path="/filingStatus" /></Left>
+                  <Right><Enum optionsPath="/filingStatusOptions">mfs</Enum></Right>
+                </Equal>
+              </Any>
+            </When>
+            <Then><Dollar>48350</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <Any>
+                <Equal>
+                  <Left><Dependency path="/filingStatus" /></Left>
+                  <Right><Enum optionsPath="/filingStatusOptions">mfj</Enum></Right>
+                </Equal>
+                <Equal>
+                  <Left><Dependency path="/filingStatus" /></Left>
+                  <Right><Enum optionsPath="/filingStatusOptions">qss</Enum></Right>
+                </Equal>
+              </Any>
+            </When>
+            <Then><Dollar>96700</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/filingStatus" /></Left>
+                <Right><Enum optionsPath="/filingStatusOptions">hoh</Enum></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>64750</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine7">
+      <Name>QDCG worksheet line 7</Name>
+      <Description>QDCG worksheet line 7. Smaller of line 1 or line 6.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/taxableIncome" />
+          <Dependency path="/qdcgTier1Threshold" />
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine8">
+      <Name>QDCG worksheet line 8</Name>
+      <Description>QDCG worksheet line 8. Smaller of line 5 or line 7.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/qdcgLine5" />
+          <Dependency path="/qdcgLine7" />
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine9">
+      <Name>QDCG amount taxed at 0%</Name>
+      <Description>QDCG worksheet line 9. Subtract line 8 from line 7. This amount is taxed at 0%.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/qdcgLine7" /></Minuend>
+          <Subtrahends><Dependency path="/qdcgLine8" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine10">
+      <Name>QDCG worksheet line 10</Name>
+      <Description>QDCG worksheet line 10. Smaller of line 1 or line 4.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/taxableIncome" />
+          <Dependency path="/qdcgLine4" />
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine12">
+      <Name>QDCG worksheet line 12</Name>
+      <Description>QDCG worksheet line 12. Subtract line 11 from line 10. (Line 11 equals line 9.)</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/qdcgLine10" /></Minuend>
+          <Subtrahends><Dependency path="/qdcgLine9" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgTier2Threshold">
+      <Name>QDCG 15% rate threshold</Name>
+      <Description>QDCG worksheet line 13. Income threshold for 15% capital gains rate by filing status.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/filingStatus" /></Left>
+                <Right><Enum optionsPath="/filingStatusOptions">single</Enum></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>533400</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/filingStatus" /></Left>
+                <Right><Enum optionsPath="/filingStatusOptions">mfs</Enum></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>300000</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <Any>
+                <Equal>
+                  <Left><Dependency path="/filingStatus" /></Left>
+                  <Right><Enum optionsPath="/filingStatusOptions">mfj</Enum></Right>
+                </Equal>
+                <Equal>
+                  <Left><Dependency path="/filingStatus" /></Left>
+                  <Right><Enum optionsPath="/filingStatusOptions">qss</Enum></Right>
+                </Equal>
+              </Any>
+            </When>
+            <Then><Dollar>600050</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/filingStatus" /></Left>
+                <Right><Enum optionsPath="/filingStatusOptions">hoh</Enum></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>566700</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine14">
+      <Name>QDCG worksheet line 14</Name>
+      <Description>QDCG worksheet line 14. Smaller of line 1 or line 13.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/taxableIncome" />
+          <Dependency path="/qdcgTier2Threshold" />
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine15">
+      <Name>QDCG worksheet line 15</Name>
+      <Description>QDCG worksheet line 15. Add lines 5 and 9.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/qdcgLine5" />
+          <Dependency path="/qdcgLine9" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine16ws">
+      <Name>QDCG amount eligible for 15%</Name>
+      <Description>QDCG worksheet line 16. Subtract line 15 from line 14. If zero or less, enter 0.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency path="/qdcgLine14" /></Minuend>
+            <Subtrahends><Dependency path="/qdcgLine15" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine17">
+      <Name>QDCG worksheet line 17</Name>
+      <Description>QDCG worksheet line 17. Smaller of line 12 or line 16.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/qdcgLine12" />
+          <Dependency path="/qdcgLine16ws" />
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine18">
+      <Name>QDCG 15% tax</Name>
+      <Description>QDCG worksheet line 18. Multiply line 17 by 15%.</Description>
+      <Derived>
+        <Multiply>
+          <Dependency path="/qdcgLine17" />
+          <Rational>15/100</Rational>
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine19">
+      <Name>QDCG worksheet line 19</Name>
+      <Description>QDCG worksheet line 19. Add lines 9 and 17.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/qdcgLine9" />
+          <Dependency path="/qdcgLine17" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine20">
+      <Name>QDCG amount taxed at 20%</Name>
+      <Description>QDCG worksheet line 20. Subtract line 19 from line 10.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/qdcgLine10" /></Minuend>
+          <Subtrahends><Dependency path="/qdcgLine19" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qdcgLine21">
+      <Name>QDCG 20% tax</Name>
+      <Description>QDCG worksheet line 21. Multiply line 20 by 20%.</Description>
+      <Derived>
+        <Multiply>
+          <Dependency path="/qdcgLine20" />
+          <Rational>20/100</Rational>
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/roundedQdcgLine5">
+      <Name>Rounded QDCG ordinary income</Name>
+      <Description>Tax table rounding applied to QDCG worksheet line 5 (ordinary income portion).</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <LessThanOrEqual>
+                <Left><Dependency path="/qdcgLine5" /></Left>
+                <Right><Dollar>0</Dollar></Right>
+              </LessThanOrEqual>
+            </When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThan>
+                <Left><Dependency path="/qdcgLine5" /></Left>
+                <Right><Dollar>5</Dollar></Right>
+              </LessThan>
+            </When>
+            <Then><Dollar>2.50</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThan>
+                <Left><Dependency path="/qdcgLine5" /></Left>
+                <Right><Dollar>15</Dollar></Right>
+              </LessThan>
+            </When>
+            <Then><Dollar>10</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThan>
+                <Left><Dependency path="/qdcgLine5" /></Left>
+                <Right><Dollar>25</Dollar></Right>
+              </LessThan>
+            </When>
+            <Then><Dollar>20</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThan>
+                <Left><Dependency path="/qdcgLine5" /></Left>
+                <Right><Dollar>3000</Dollar></Right>
+              </LessThan>
+            </When>
+            <Then>
+              <Add>
+                <StepwiseMultiply>
+                  <Multiplicand><Dependency path="/qdcgLine5" /></Multiplicand>
+                  <Rate><Rational>25/25</Rational></Rate>
+                </StepwiseMultiply>
+                <Dollar>12.50</Dollar>
+              </Add>
+            </Then>
+          </Case>
+          <Case>
+            <When>
+              <LessThan>
+                <Left><Dependency path="/qdcgLine5" /></Left>
+                <Right><Dollar>100000</Dollar></Right>
+              </LessThan>
+            </When>
+            <Then>
+              <Add>
+                <StepwiseMultiply>
+                  <Multiplicand><Dependency path="/qdcgLine5" /></Multiplicand>
+                  <Rate><Rational>50/50</Rational></Rate>
+                </StepwiseMultiply>
+                <Dollar>25</Dollar>
+              </Add>
+            </Then>
+          </Case>
+          <Case>
+            <When>
+              <GreaterThanOrEqual>
+                <Left><Dependency path="/qdcgLine5" /></Left>
+                <Right><Dollar>100000</Dollar></Right>
+              </GreaterThanOrEqual>
+            </When>
+            <Then><Dependency path="/qdcgLine5" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
     <!-- TY2025 brackets per Rev Proc 2024-40 -->
     <Fact path="/regularTax">
       <Name>Tax on taxable income</Name>
