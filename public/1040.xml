@@ -706,12 +706,10 @@
       </Derived>
     </Fact>
 
-    <!-- Line 16: Tax from tax tables / tax computation worksheet -->
     <!-- TY2025 brackets per Rev Proc 2024-40 -->
-    <!-- TODO: tax on qualified dividend and long term cap gains (QDCG Tax Worksheet)  -->
-    <Fact path="/tax">
-      <Name>Tax</Name>
-      <Description>Form 1040 line 16. Tax from tax table or tax computation worksheet.</Description>
+    <Fact path="/regularTax">
+      <Name>Tax on taxable income</Name>
+      <Description>QDCG worksheet line 24. Tax on taxable income before qualified dividends and long-term capital gains. 1040 line 16 when no QDCG income.</Description>
       <Derived>
         <Round>
           <Switch>
