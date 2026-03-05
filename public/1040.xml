@@ -538,13 +538,38 @@
       </Derived>
     </Fact>
 
-    <!-- TODO: derive from f8995 -->
+    <Fact path="/qbiDeductionWritable">
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/qbiDeductionDerived">
+      <Derived><Dependency path="/qualifiedBusinessIncomeDeduction" /></Derived>
+    </Fact>
+
+    <Fact path="/hasQbiDeduction">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/qualifiedBusinessIncomeDeduction" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
     <Fact path="/qbiDeduction">
       <Name>Qualified business income deduction</Name>
       <Description>Form 1040 line 13a. Qualified business income deduction from Form 8995 or 8995-A.</Description>
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasQbiDeduction" /></When>
+            <Then><Dependency path="/qbiDeductionDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/qbiDeductionWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/additionalDeductionsWritable">
