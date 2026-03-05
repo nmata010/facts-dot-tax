@@ -1,0 +1,231 @@
+<FactDictionaryModule>
+  <Facts>
+
+    <Fact path="/qbiIncome1">
+      <Name>QBI — business i</Name>
+      <Description>Form 8995 line 1i(c). Qualified business income or (loss) for business i.</Description>
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/qbiIncome2">
+      <Name>QBI — business ii</Name>
+      <Description>Form 8995 line 1ii(c). Qualified business income or (loss) for business ii.</Description>
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/qbiIncome3">
+      <Name>QBI — business iii</Name>
+      <Description>Form 8995 line 1iii(c). Qualified business income or (loss) for business iii.</Description>
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/qbiIncome4">
+      <Name>QBI — business iv</Name>
+      <Description>Form 8995 line 1iv(c). Qualified business income or (loss) for business iv.</Description>
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/qbiIncome5">
+      <Name>QBI — business v</Name>
+      <Description>Form 8995 line 1v(c). Qualified business income or (loss) for business v.</Description>
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/totalQbi">
+      <Name>Total qualified business income</Name>
+      <Description>Form 8995 line 2. Combine lines 1i through 1v, column (c).</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/qbiIncome1" />
+          <Dependency path="/qbiIncome2" />
+          <Dependency path="/qbiIncome3" />
+          <Dependency path="/qbiIncome4" />
+          <Dependency path="/qbiIncome5" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qbiLossCarryforward">
+      <Name>QBI loss carryforward</Name>
+      <Description>Form 8995 line 3. Qualified business net (loss) carryforward from the prior year.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalQualifiedBusinessIncome">
+      <Name>Total qualified business income</Name>
+      <Description>Form 8995 line 4. Combine lines 2 and 3. If zero or less, enter -0-.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Add>
+            <Dependency path="/totalQbi" />
+            <Dependency path="/qbiLossCarryforward" />
+          </Add>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: For TY 2026+, apply $400 minimum deduction floor when QBI >= $1,000 -->
+    <Fact path="/qbiComponent">
+      <Name>QBI component</Name>
+      <Description>Form 8995 line 5. Qualified business income component. Multiply line 4 by 20%.</Description>
+      <Derived>
+        <Multiply>
+          <Dependency path="/totalQualifiedBusinessIncome" />
+          <Rational>2/10</Rational>
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/reitAndPtpIncome">
+      <Name>REIT and PTP income</Name>
+      <Description>Form 8995 line 6. Qualified REIT dividends and publicly traded partnership (PTP) income or (loss).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/reitPtpLossCarryforward">
+      <Name>REIT/PTP loss carryforward</Name>
+      <Description>Form 8995 line 7. Qualified REIT dividends and qualified PTP (loss) carryforward from the prior year.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/totalReitAndPtpIncome">
+      <Name>Total REIT and PTP income</Name>
+      <Description>Form 8995 line 8. Combine lines 6 and 7. If zero or less, enter -0-.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Add>
+            <Dependency path="/reitAndPtpIncome" />
+            <Dependency path="/reitPtpLossCarryforward" />
+          </Add>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/reitPtpComponent">
+      <Name>REIT and PTP component</Name>
+      <Description>Form 8995 line 9. REIT and PTP component. Multiply line 8 by 20%.</Description>
+      <Derived>
+        <Multiply>
+          <Dependency path="/totalReitAndPtpIncome" />
+          <Rational>2/10</Rational>
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qbiDeductionBeforeLimit">
+      <Name>QBI deduction before income limitation</Name>
+      <Description>Form 8995 line 10. Add lines 5 and 9.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/qbiComponent" />
+          <Dependency path="/reitPtpComponent" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/taxableIncomeBeforeQbi">
+      <Name>Taxable income before QBI deduction</Name>
+      <Description>Form 8995 line 11. Form 1040 line 11a minus lines 12e and 13b.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/agi" /></Minuend>
+          <Subtrahends>
+            <Dependency path="/standardOrItemizedDeduction" />
+            <Dependency path="/additionalDeductions" />
+          </Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/netCapitalGainPlusQualifiedDividends">
+      <Name>Net capital gain plus qualified dividends</Name>
+      <Description>Form 8995 line 12. Net capital gain, if any, plus qualified dividends.</Description>
+      <Derived>
+        <Dependency path="/qdcgLine4" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/incomeMinusCapitalGains">
+      <Name>Income minus capital gains</Name>
+      <Description>Form 8995 line 13. Subtract line 12 from line 11. If zero or less, enter -0-.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency path="/taxableIncomeBeforeQbi" /></Minuend>
+            <Subtrahends><Dependency path="/netCapitalGainPlusQualifiedDividends" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/incomeLimitation">
+      <Name>Income limitation</Name>
+      <Description>Form 8995 line 14. Multiply line 13 by 20%.</Description>
+      <Derived>
+        <Multiply>
+          <Dependency path="/incomeMinusCapitalGains" />
+          <Rational>2/10</Rational>
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qualifiedBusinessIncomeDeduction">
+      <Name>Qualified business income deduction</Name>
+      <Description>Form 8995 line 15. Enter the smaller of line 10 or line 14.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/qbiDeductionBeforeLimit" />
+          <Dependency path="/incomeLimitation" />
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/qbiLossCarryforwardOut">
+      <Name>QBI loss carryforward</Name>
+      <Description>Form 8995 line 16. Total qualified business (loss) carryforward. Combine lines 2 and 3. If greater than zero, enter -0-.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dollar>0</Dollar></Minuend>
+            <Subtrahends>
+              <Add>
+                <Dependency path="/totalQbi" />
+                <Dependency path="/qbiLossCarryforward" />
+              </Add>
+            </Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/reitPtpLossCarryforwardOut">
+      <Name>REIT/PTP loss carryforward</Name>
+      <Description>Form 8995 line 17. Total qualified REIT dividends and PTP (loss) carryforward. Combine lines 6 and 7. If greater than zero, enter -0-.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dollar>0</Dollar></Minuend>
+            <Subtrahends>
+              <Add>
+                <Dependency path="/reitAndPtpIncome" />
+                <Dependency path="/reitPtpLossCarryforward" />
+              </Add>
+            </Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>

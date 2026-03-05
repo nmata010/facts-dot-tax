@@ -52,6 +52,7 @@ function Form1040Content() {
   const hasSch8812CtcOdc = getFact("/hasSch8812CtcOdc") === "true";
   const hasSch8812Actc = getFact("/hasSch8812Actc") === "true";
   const hasAdditionalDeductions = getFact("/hasAdditionalDeductions") === "true";
+  const hasQbiDeduction = getFact("/hasQbiDeduction") === "true";
 
   return (
     <>
@@ -164,7 +165,11 @@ function Form1040Content() {
         />
 
         <SummaryLine line="12e" label="Standard or itemized deduction" path="/standardOrItemizedDeduction" link="scheduleA" />
-        <FormLine line="13a" label="QBI deduction" path="/qbiDeduction"><FactInput path="/qbiDeduction" /></FormLine>
+        {hasQbiDeduction ? (
+          <SummaryLine line="13a" label="QBI deduction (Form 8995)" path="/qbiDeduction" link="form8995" />
+        ) : (
+          <FormLine line="13a" label="QBI deduction (Form 8995)" path="/qbiDeductionWritable" link="form8995"><FactInput path="/qbiDeductionWritable" /></FormLine>
+        )}
         {hasAdditionalDeductions ? (
           <SummaryLine line="13b" label="Additional deductions (Sched. 1-A)" path="/additionalDeductions" link="schedule1A#part6" />
         ) : (
