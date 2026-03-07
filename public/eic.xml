@@ -78,6 +78,7 @@
       </Derived>
     </Fact>
 
+    <!-- TODO: Investment income should include Form 4797, Schedule E, rental income, Form 8814, passive activities (Step 2 Q3-Q4) -->
     <Fact path="/eicInvestmentIncome">
       <Name>Investment income for EIC</Name>
       <Description>EIC Step 2. Tax-exempt interest + taxable interest + ordinary dividends + max(capital gain, 0).</Description>
@@ -146,6 +147,7 @@
       <Description>Whether the filer passes all eligibility tests for EIC.</Description>
       <Derived>
         <All>
+          <Not><Dependency path="/eicOptOut" /></Not>
           <Not><Dependency path="/eicFilingForm2555" /></Not>
           <Not><Dependency path="/eicNonresidentAlien" /></Not>
           <Not><Dependency path="/eicQualifyingChildOfAnother" /></Not>
@@ -159,40 +161,80 @@
     <!-- TODO: Worksheet B for self-employed (Schedule C/F/SE) -->
     <Fact path="/eicEarnedIncome">
       <Name>Earned income for EIC</Name>
-      <Description>EIC Step 5. Form 1040 line 1z plus nontaxable combat pay election.</Description>
+      <Description>EIC Step 5. Based on Form 1040 lines 1z and 1i, Schedule 1 lines 8r, 8s, and 15.</Description>
       <Derived>
         <Add>
           <Dependency path="/totalWages" />
           <Dependency path="/nontaxableCombatPay" />
+          <Dependency path="/scholarshipGrants" />
+          <Subtract>
+            <Minuend><Dollar>0</Dollar></Minuend>
+            <Subtrahends>
+              <Dependency path="/nontaxableMedicaid" />
+              <Dependency path="/selfEmploymentTaxDeduction" />
+            </Subtrahends>
+          </Subtract>
         </Add>
       </Derived>
     </Fact>
 
     <Fact path="/eicRoundedEarnedIncome">
       <Name>Rounded earned income</Name>
-      <Description>Earned income rounded to $50 bracket midpoint for EIC table lookup.</Description>
+      <Description>Earned income rounded to $50 bracket midpoint for EIC table lookup. EIC table starts at $1; $0 income yields $0.</Description>
       <Derived>
-        <Add>
-          <StepwiseMultiply>
-            <Multiplicand><Dependency path="/eicEarnedIncome" /></Multiplicand>
-            <Rate><Rational>50/50</Rational></Rate>
-          </StepwiseMultiply>
-          <Dollar>25</Dollar>
-        </Add>
+        <Switch>
+          <Case>
+            <When>
+              <GreaterThan>
+                <Left><Dependency path="/eicEarnedIncome" /></Left>
+                <Right><Dollar>0</Dollar></Right>
+              </GreaterThan>
+            </When>
+            <Then>
+              <Add>
+                <StepwiseMultiply>
+                  <Multiplicand><Dependency path="/eicEarnedIncome" /></Multiplicand>
+                  <Rate><Rational>50/50</Rational></Rate>
+                </StepwiseMultiply>
+                <Dollar>25</Dollar>
+              </Add>
+            </Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
       </Derived>
     </Fact>
 
     <Fact path="/eicRoundedAgi">
       <Name>Rounded AGI</Name>
-      <Description>AGI rounded to $50 bracket midpoint for EIC table lookup.</Description>
+      <Description>AGI rounded to $50 bracket midpoint for EIC table lookup. EIC table starts at $1; $0 AGI yields $0.</Description>
       <Derived>
-        <Add>
-          <StepwiseMultiply>
-            <Multiplicand><Dependency path="/agi" /></Multiplicand>
-            <Rate><Rational>50/50</Rational></Rate>
-          </StepwiseMultiply>
-          <Dollar>25</Dollar>
-        </Add>
+        <Switch>
+          <Case>
+            <When>
+              <GreaterThan>
+                <Left><Dependency path="/agi" /></Left>
+                <Right><Dollar>0</Dollar></Right>
+              </GreaterThan>
+            </When>
+            <Then>
+              <Add>
+                <StepwiseMultiply>
+                  <Multiplicand><Dependency path="/agi" /></Multiplicand>
+                  <Rate><Rational>50/50</Rational></Rate>
+                </StepwiseMultiply>
+                <Dollar>25</Dollar>
+              </Add>
+            </Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
       </Derived>
     </Fact>
 

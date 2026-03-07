@@ -22,7 +22,7 @@ export function Eic() {
       </div>
 
       <div className="text-[10px] text-muted-foreground mt-4 mb-2">
-        Check any that apply to you — each disqualifies you from EIC
+        Check any that apply to you
       </div>
 
       <div className="space-y-1 ml-2">
@@ -43,7 +43,14 @@ export function Eic() {
 
       <div className="mt-3 space-y-0.5">
         <SummaryLine line="" label="Investment income" path="/eicInvestmentIncome" />
-        <SummaryLine line="" label="Eligible for EIC" path="/eicIsEligible" />
+        <div className="flex items-baseline gap-2 text-xs leading-7">
+          <span className="w-6 shrink-0 text-muted-foreground/40"></span>
+          <span className="shrink min-w-0">Eligible for EIC</span>
+          <span className="flex-1 border-b border-dotted border-foreground/15 self-end mb-[5px]" />
+          <span className="shrink-0 text-right text-xs tabular-nums">
+            {getFact("/eicIsEligible") === "true" ? "YES" : "NO"}
+          </span>
+        </div>
       </div>
 
       <FormSection title="Worksheet A — EIC Computation" />
