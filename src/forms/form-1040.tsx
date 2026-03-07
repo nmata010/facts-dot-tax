@@ -54,6 +54,8 @@ function Form1040Content() {
   const hasAdditionalDeductions = getFact("/hasAdditionalDeductions") === "true";
   const hasQbiDeduction = getFact("/hasQbiDeduction") === "true";
   const hasEicCredit = getFact("/hasEicCredit") === "true";
+  const hasSchBTaxableInterest = getFact("/hasSchBTaxableInterest") === "true";
+  const hasSchBOrdinaryDividends = getFact("/hasSchBOrdinaryDividends") === "true";
 
   return (
     <>
@@ -102,9 +104,17 @@ function Form1040Content() {
       <div className="text-[10px] text-muted-foreground mt-4 mb-2">Other Income</div>
       <div className="space-y-0.5">
         <FormLine line="2a" label="Tax-exempt interest" path="/taxExemptInterest"><FactInput path="/taxExemptInterest" /></FormLine>
-        <FormLine line="2b" label="Taxable interest" path="/taxableInterest"><FactInput path="/taxableInterest" /></FormLine>
+        {hasSchBTaxableInterest ? (
+          <SummaryLine line="2b" label="Taxable interest (Sched. B)" path="/taxableInterest" link="scheduleB#part1" />
+        ) : (
+          <FormLine line="2b" label="Taxable interest" path="/taxableInterestWritable" link="scheduleB#part1"><FactInput path="/taxableInterestWritable" /></FormLine>
+        )}
         <FormLine line="3a" label="Qualified dividends" path="/qualifiedDividends"><FactInput path="/qualifiedDividends" /></FormLine>
-        <FormLine line="3b" label="Ordinary dividends" path="/ordinaryDividends"><FactInput path="/ordinaryDividends" /></FormLine>
+        {hasSchBOrdinaryDividends ? (
+          <SummaryLine line="3b" label="Ordinary dividends (Sched. B)" path="/ordinaryDividends" link="scheduleB#part2" />
+        ) : (
+          <FormLine line="3b" label="Ordinary dividends" path="/ordinaryDividendsWritable" link="scheduleB#part2"><FactInput path="/ordinaryDividendsWritable" /></FormLine>
+        )}
         <FormLine line="4a" label="IRA distributions" path="/iraDistributions"><FactInput path="/iraDistributions" /></FormLine>
         <FormLine line="4b" label="IRA taxable" path="/taxableIraDistributions"><FactInput path="/taxableIraDistributions" /></FormLine>
         <FormLine line="5a" label="Pensions & annuities" path="/pensionsAndAnnuities"><FactInput path="/pensionsAndAnnuities" /></FormLine>
