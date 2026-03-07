@@ -2620,13 +2620,45 @@
       </Writable>
     </Fact>
 
-    <!-- TODO: derive from EIC worksheet -->
-    <Fact path="/earnedIncomeCredit">
-      <Name>Earned income credit</Name>
-      <Description>Form 1040 line 27a. Earned income credit (EIC).</Description>
+    <Fact path="/earnedIncomeCreditWritable">
+      <Name>Earned income credit (manual)</Name>
+      <Description>Form 1040 line 27a. Writable fallback when EIC worksheet is not filled out.</Description>
       <Writable>
         <Dollar/>
       </Writable>
+    </Fact>
+
+    <Fact path="/earnedIncomeCreditDerived">
+      <Description>Form 1040 line 27a. Derived from EIC worksheet.</Description>
+      <Derived>
+        <Dependency path="/eicFinalCredit" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/hasEicCredit">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/eicFinalCredit" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/earnedIncomeCredit">
+      <Name>Earned income credit</Name>
+      <Description>Form 1040 line 27a. Earned income credit (EIC).</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasEicCredit" /></When>
+            <Then><Dependency path="/earnedIncomeCreditDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dependency path="/earnedIncomeCreditWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <!-- TODO: update tax calculations based on selection -->
