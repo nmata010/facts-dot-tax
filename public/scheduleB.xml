@@ -1,0 +1,73 @@
+<FactDictionaryModule>
+  <Facts>
+
+    <!-- TODO: Line 1 should support multiple payer entries (name + amount) -->
+    <Fact path="/totalInterestScheduleB">
+      <Name>Total interest</Name>
+      <Description>Schedule B line 2. Add the amounts on line 1.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: Should be derived from Form 8815 -->
+    <Fact path="/excludableSavingsBondInterest">
+      <Name>Excludable savings bond interest</Name>
+      <Description>Schedule B line 3. Excludable interest on series EE and I U.S. savings bonds issued after 1989.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/taxableInterestScheduleB">
+      <Name>Taxable interest</Name>
+      <Description>Schedule B line 4. Subtract line 3 from line 2. Enter the result here and on Form 1040, line 2b.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency path="/totalInterestScheduleB" /></Minuend>
+            <Subtrahends><Dependency path="/excludableSavingsBondInterest" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: Line 5 should support multiple payer entries (name + amount) -->
+    <Fact path="/totalOrdinaryDividendsScheduleB">
+      <Name>Total ordinary dividends</Name>
+      <Description>Schedule B line 6. Add the amounts on line 5. Enter the total here and on Form 1040, line 3b.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/hasForeignAccount">
+      <Name>Foreign financial account</Name>
+      <Description>Schedule B line 7a. Had financial interest in or signature authority over a foreign financial account.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/requiredToFileFbar">
+      <Name>Required to file FBAR</Name>
+      <Description>Schedule B line 7a. Required to file FinCEN Form 114 to report foreign financial interest or signature authority.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: Line 7b (foreign country names) skipped -->
+
+    <!-- TODO: Form 3520 if yes -->
+    <Fact path="/hasForeignTrust">
+      <Name>Foreign trust distribution</Name>
+      <Description>Schedule B line 8. Received a distribution from, or was grantor of, or transferor to, a foreign trust.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>

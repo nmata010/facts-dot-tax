@@ -122,12 +122,45 @@
       </Writable>
     </Fact>
 
-    <Fact path="/taxableInterest">
+    <Fact path="/taxableInterestWritable">
       <Name>Taxable interest</Name>
-      <Description>Form 1040 line 2b. Taxable interest.</Description>
+      <Description>Form 1040 line 2b. Taxable interest, manually entered when Schedule B is not used.</Description>
       <Writable>
         <Dollar/>
       </Writable>
+    </Fact>
+
+    <Fact path="/taxableInterestDerived">
+      <Description>Form 1040 line 2b. Taxable interest derived from Schedule B line 4.</Description>
+      <Derived>
+        <Dependency path="/taxableInterestScheduleB" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/hasSchBTaxableInterest">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/taxableInterestScheduleB" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/taxableInterest">
+      <Name>Taxable interest</Name>
+      <Description>Form 1040 line 2b. Taxable interest.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasSchBTaxableInterest" /></When>
+            <Then><Dependency path="/taxableInterestDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/taxableInterestWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/qualifiedDividends">
@@ -138,12 +171,45 @@
       </Writable>
     </Fact>
 
-    <Fact path="/ordinaryDividends">
+    <Fact path="/ordinaryDividendsWritable">
       <Name>Ordinary dividends</Name>
-      <Description>Form 1040 line 3b. Ordinary dividends.</Description>
+      <Description>Form 1040 line 3b. Ordinary dividends, manually entered when Schedule B is not used.</Description>
       <Writable>
         <Dollar/>
       </Writable>
+    </Fact>
+
+    <Fact path="/ordinaryDividendsDerived">
+      <Description>Form 1040 line 3b. Ordinary dividends derived from Schedule B line 6.</Description>
+      <Derived>
+        <Dependency path="/totalOrdinaryDividendsScheduleB" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/hasSchBOrdinaryDividends">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/totalOrdinaryDividendsScheduleB" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/ordinaryDividends">
+      <Name>Ordinary dividends</Name>
+      <Description>Form 1040 line 3b. Ordinary dividends.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasSchBOrdinaryDividends" /></When>
+            <Then><Dependency path="/ordinaryDividendsDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/ordinaryDividendsWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/iraDistributions">
