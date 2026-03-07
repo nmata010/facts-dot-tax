@@ -1,0 +1,566 @@
+<FactDictionaryModule>
+  <Facts>
+
+    <Fact path="/eicQualifyingChildren">
+      <Name>EIC qualifying children</Name>
+      <Description>EIC worksheet. Number of qualifying children with valid SSNs (0-3).</Description>
+      <Writable>
+        <Int/>
+      </Writable>
+      <Placeholder>
+        <Int>0</Int>
+      </Placeholder>
+    </Fact>
+
+    <Fact path="/eicFilingForm2555">
+      <Name>Filing Form 2555</Name>
+      <Description>EIC Step 1 Q3. Check if filing Form 2555 (foreign earned income).</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/eicNonresidentAlien">
+      <Name>Nonresident alien</Name>
+      <Description>EIC Step 1 Q4. Check if you or spouse were a nonresident alien for any part of the year.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/eicQualifyingChildOfAnother">
+      <Name>Qualifying child of another</Name>
+      <Description>EIC Step 3 Q6 / Step 4 Q5. Check if you could be a qualifying child of another taxpayer.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/eicCanBeClaimedAsDependent">
+      <Name>Can be claimed as dependent</Name>
+      <Description>EIC Step 4 Q6. Check if you can be claimed as a dependent on someone else's return (0 QC only).</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/eicDoesNotMeetAgeReq">
+      <Name>Does not meet age requirement</Name>
+      <Description>EIC Step 4 Q2. Check if you (or spouse if MFJ) are NOT age 25-64 at year end (0 QC only).</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/eicMainHomeNotInUs">
+      <Name>Main home not in US</Name>
+      <Description>EIC Step 4 Q3. Check if your main home was NOT in the US for more than half the year (0 QC only).</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/eicMfsNotLivingApart">
+      <Name>MFS not living apart</Name>
+      <Description>EIC Step 3 Q4. Check if MFS and did NOT live apart from spouse for last 6 months (with QC only).</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/eicHasQualifyingChildren">
+      <Description>Whether the filer has qualifying children for EIC.</Description>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/eicQualifyingChildren" /></Left>
+          <Right><Int>0</Int></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicInvestmentIncome">
+      <Name>Investment income for EIC</Name>
+      <Description>EIC Step 2. Tax-exempt interest + taxable interest + ordinary dividends + max(capital gain, 0).</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/taxExemptInterest" />
+          <Dependency path="/taxableInterest" />
+          <Dependency path="/ordinaryDividends" />
+          <GreaterOf>
+            <Dependency path="/capitalGainOrLoss" />
+            <Dollar>0</Dollar>
+          </GreaterOf>
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicInvestmentIncomeExceedsLimit">
+      <Description>Whether investment income exceeds the EIC limit ($11,950 for TY2025).</Description>
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/eicInvestmentIncome" /></Left>
+          <Right><Dollar>11950</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicIsMfs">
+      <Description>Whether the filer is married filing separately.</Description>
+      <Derived>
+        <Equal>
+          <Left><Dependency path="/filingStatus" /></Left>
+          <Right><Enum optionsPath="/filingStatusOptions">mfs</Enum></Right>
+        </Equal>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicMfsDisqualified">
+      <Description>MFS filers are disqualified if: 0 QC, or QC but did not live apart from spouse.</Description>
+      <Derived>
+        <All>
+          <Dependency path="/eicIsMfs" />
+          <Any>
+            <Not><Dependency path="/eicHasQualifyingChildren" /></Not>
+            <Dependency path="/eicMfsNotLivingApart" />
+          </Any>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicNoQcDisqualified">
+      <Description>0-QC filers are disqualified if they fail age, home, or dependent tests.</Description>
+      <Derived>
+        <All>
+          <Not><Dependency path="/eicHasQualifyingChildren" /></Not>
+          <Any>
+            <Dependency path="/eicDoesNotMeetAgeReq" />
+            <Dependency path="/eicMainHomeNotInUs" />
+            <Dependency path="/eicCanBeClaimedAsDependent" />
+          </Any>
+        </All>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicIsEligible">
+      <Name>Eligible for EIC</Name>
+      <Description>Whether the filer passes all eligibility tests for EIC.</Description>
+      <Derived>
+        <All>
+          <Not><Dependency path="/eicFilingForm2555" /></Not>
+          <Not><Dependency path="/eicNonresidentAlien" /></Not>
+          <Not><Dependency path="/eicQualifyingChildOfAnother" /></Not>
+          <Not><Dependency path="/eicInvestmentIncomeExceedsLimit" /></Not>
+          <Not><Dependency path="/eicMfsDisqualified" /></Not>
+          <Not><Dependency path="/eicNoQcDisqualified" /></Not>
+        </All>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: Worksheet B for self-employed (Schedule C/F/SE) -->
+    <Fact path="/eicEarnedIncome">
+      <Name>Earned income for EIC</Name>
+      <Description>EIC Step 5. Form 1040 line 1z plus nontaxable combat pay election.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/totalWages" />
+          <Dependency path="/nontaxableCombatPay" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicRoundedEarnedIncome">
+      <Name>Rounded earned income</Name>
+      <Description>Earned income rounded to $50 bracket midpoint for EIC table lookup.</Description>
+      <Derived>
+        <Add>
+          <StepwiseMultiply>
+            <Multiplicand><Dependency path="/eicEarnedIncome" /></Multiplicand>
+            <Rate><Rational>50/50</Rational></Rate>
+          </StepwiseMultiply>
+          <Dollar>25</Dollar>
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicRoundedAgi">
+      <Name>Rounded AGI</Name>
+      <Description>AGI rounded to $50 bracket midpoint for EIC table lookup.</Description>
+      <Derived>
+        <Add>
+          <StepwiseMultiply>
+            <Multiplicand><Dependency path="/agi" /></Multiplicand>
+            <Rate><Rational>50/50</Rational></Rate>
+          </StepwiseMultiply>
+          <Dollar>25</Dollar>
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicPhaseInRate">
+      <Name>EIC phase-in rate</Name>
+      <Description>The rate at which EIC phases in with earned income.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                <Right><Int>0</Int></Right>
+              </Equal>
+            </When>
+            <Then><Rational>765/10000</Rational></Then>
+          </Case>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                <Right><Int>1</Int></Right>
+              </Equal>
+            </When>
+            <Then><Rational>34/100</Rational></Then>
+          </Case>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                <Right><Int>2</Int></Right>
+              </Equal>
+            </When>
+            <Then><Rational>40/100</Rational></Then>
+          </Case>
+          <Case>
+            <When>
+              <GreaterThanOrEqual>
+                <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                <Right><Int>3</Int></Right>
+              </GreaterThanOrEqual>
+            </When>
+            <Then><Rational>45/100</Rational></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicPhaseOutRate">
+      <Name>EIC phase-out rate</Name>
+      <Description>The rate at which EIC phases out as income exceeds the threshold.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                <Right><Int>0</Int></Right>
+              </Equal>
+            </When>
+            <Then><Rational>765/10000</Rational></Then>
+          </Case>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                <Right><Int>1</Int></Right>
+              </Equal>
+            </When>
+            <Then><Rational>1598/10000</Rational></Then>
+          </Case>
+          <Case>
+            <When>
+              <GreaterThanOrEqual>
+                <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                <Right><Int>2</Int></Right>
+              </GreaterThanOrEqual>
+            </When>
+            <Then><Rational>2106/10000</Rational></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicMaxCredit">
+      <Name>EIC maximum credit</Name>
+      <Description>Maximum EIC amount for the current number of qualifying children.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                <Right><Int>0</Int></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>649</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                <Right><Int>1</Int></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>4328</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                <Right><Int>2</Int></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>7152</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <GreaterThanOrEqual>
+                <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                <Right><Int>3</Int></Right>
+              </GreaterThanOrEqual>
+            </When>
+            <Then><Dollar>8046</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicPhaseInEnd">
+      <Name>EIC phase-in endpoint</Name>
+      <Description>Earned income level where EIC reaches its maximum (TY2025).</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                <Right><Int>0</Int></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>8490</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                <Right><Int>1</Int></Right>
+              </Equal>
+            </When>
+            <Then><Dollar>12730</Dollar></Then>
+          </Case>
+          <Case>
+            <When>
+              <GreaterThanOrEqual>
+                <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                <Right><Int>2</Int></Right>
+              </GreaterThanOrEqual>
+            </When>
+            <Then><Dollar>17880</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicPhaseOutStart">
+      <Name>EIC phase-out start</Name>
+      <Description>Income level where EIC begins to phase out (TY2025, varies by filing status and QC count).</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <Equal>
+                <Left><Dependency path="/filingStatus" /></Left>
+                <Right><Enum optionsPath="/filingStatusOptions">mfj</Enum></Right>
+              </Equal>
+            </When>
+            <Then>
+              <Switch>
+                <Case>
+                  <When>
+                    <Equal>
+                      <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                      <Right><Int>0</Int></Right>
+                    </Equal>
+                  </When>
+                  <Then><Dollar>17730</Dollar></Then>
+                </Case>
+                <Case>
+                  <When>
+                    <GreaterThanOrEqual>
+                      <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                      <Right><Int>1</Int></Right>
+                    </GreaterThanOrEqual>
+                  </When>
+                  <Then><Dollar>30470</Dollar></Then>
+                </Case>
+              </Switch>
+            </Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then>
+              <Switch>
+                <Case>
+                  <When>
+                    <Equal>
+                      <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                      <Right><Int>0</Int></Right>
+                    </Equal>
+                  </When>
+                  <Then><Dollar>10620</Dollar></Then>
+                </Case>
+                <Case>
+                  <When>
+                    <GreaterThanOrEqual>
+                      <Left><Dependency path="/eicQualifyingChildren" /></Left>
+                      <Right><Int>1</Int></Right>
+                    </GreaterThanOrEqual>
+                  </When>
+                  <Then><Dollar>23350</Dollar></Then>
+                </Case>
+              </Switch>
+            </Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicCreditFromEarnedIncome">
+      <Name>EIC from earned income</Name>
+      <Description>EIC Worksheet A line 2. Credit from EIC table based on earned income.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <GreaterThan>
+                <Left><Dependency path="/eicRoundedEarnedIncome" /></Left>
+                <Right><Dependency path="/eicPhaseOutStart" /></Right>
+              </GreaterThan>
+            </When>
+            <Then>
+              <GreaterOf>
+                <Dollar>0</Dollar>
+                <Subtract>
+                  <Minuend><Dependency path="/eicMaxCredit" /></Minuend>
+                  <Subtrahends>
+                    <Round>
+                      <Multiply>
+                        <Subtract>
+                          <Minuend><Dependency path="/eicRoundedEarnedIncome" /></Minuend>
+                          <Subtrahends><Dependency path="/eicPhaseOutStart" /></Subtrahends>
+                        </Subtract>
+                        <Dependency path="/eicPhaseOutRate" />
+                      </Multiply>
+                    </Round>
+                  </Subtrahends>
+                </Subtract>
+              </GreaterOf>
+            </Then>
+          </Case>
+          <Case>
+            <When>
+              <GreaterThan>
+                <Left><Dependency path="/eicRoundedEarnedIncome" /></Left>
+                <Right><Dependency path="/eicPhaseInEnd" /></Right>
+              </GreaterThan>
+            </When>
+            <Then><Dependency path="/eicMaxCredit" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then>
+              <Round>
+                <Multiply>
+                  <Dependency path="/eicRoundedEarnedIncome" />
+                  <Dependency path="/eicPhaseInRate" />
+                </Multiply>
+              </Round>
+            </Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicCreditFromAgi">
+      <Name>EIC from AGI</Name>
+      <Description>EIC Worksheet A line 5. Credit from EIC table based on AGI.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <GreaterThan>
+                <Left><Dependency path="/eicRoundedAgi" /></Left>
+                <Right><Dependency path="/eicPhaseOutStart" /></Right>
+              </GreaterThan>
+            </When>
+            <Then>
+              <GreaterOf>
+                <Dollar>0</Dollar>
+                <Subtract>
+                  <Minuend><Dependency path="/eicMaxCredit" /></Minuend>
+                  <Subtrahends>
+                    <Round>
+                      <Multiply>
+                        <Subtract>
+                          <Minuend><Dependency path="/eicRoundedAgi" /></Minuend>
+                          <Subtrahends><Dependency path="/eicPhaseOutStart" /></Subtrahends>
+                        </Subtract>
+                        <Dependency path="/eicPhaseOutRate" />
+                      </Multiply>
+                    </Round>
+                  </Subtrahends>
+                </Subtract>
+              </GreaterOf>
+            </Then>
+          </Case>
+          <Case>
+            <When>
+              <GreaterThan>
+                <Left><Dependency path="/eicRoundedAgi" /></Left>
+                <Right><Dependency path="/eicPhaseInEnd" /></Right>
+              </GreaterThan>
+            </When>
+            <Then><Dependency path="/eicMaxCredit" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then>
+              <Round>
+                <Multiply>
+                  <Dependency path="/eicRoundedAgi" />
+                  <Dependency path="/eicPhaseInRate" />
+                </Multiply>
+              </Round>
+            </Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicComputedCredit">
+      <Name>Computed EIC</Name>
+      <Description>EIC Worksheet A line 6. Lesser of credit from earned income and credit from AGI.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/eicCreditFromEarnedIncome" />
+          <Dependency path="/eicCreditFromAgi" />
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/eicFinalCredit">
+      <Name>Earned income credit</Name>
+      <Description>Final EIC amount. Zero if not eligible, otherwise the computed credit.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/eicIsEligible" /></When>
+            <Then><Dependency path="/eicComputedCredit" /></Then>
+          </Case>
+          <Case>
+            <When><True /></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>

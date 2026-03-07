@@ -8,6 +8,7 @@ import { ScheduleA } from "./schedule-a";
 import { Schedule1A } from "./schedule-1a";
 import { Schedule8812 } from "./schedule-8812";
 import { Form8995 } from "./form-8995";
+import { Eic } from "./eic";
 
 export interface FormEntry {
   id: string;
@@ -25,5 +26,6 @@ export const FORMS: FormEntry[] = [
   { id: "scheduleA", label: "Schedule A", component: ScheduleA, xmlFile: "scheduleA.xml" },
   { id: "schedule8812", label: "Schedule 8812", component: Schedule8812, xmlFile: "schedule8812.xml" },
   { id: "form8995", label: "Form 8995", component: Form8995, xmlFile: "f8995.xml" },
+  { id: "eic", label: "EIC Worksheet", component: Eic, xmlFile: "eic.xml" },
   { id: "formtbd", label: "Form TBD", component: FormTbd, xmlFile: "formtbd.xml" },
 ];

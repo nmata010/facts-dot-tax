@@ -53,6 +53,7 @@ function Form1040Content() {
   const hasSch8812Actc = getFact("/hasSch8812Actc") === "true";
   const hasAdditionalDeductions = getFact("/hasAdditionalDeductions") === "true";
   const hasQbiDeduction = getFact("/hasQbiDeduction") === "true";
+  const hasEicCredit = getFact("/hasEicCredit") === "true";
 
   return (
     <>
@@ -233,7 +234,13 @@ function Form1040Content() {
 
       <div className="text-[10px] text-muted-foreground mt-4 mb-2">Refundable Credits</div>
       <div className="space-y-0.5">
-        <FormLine line="27a" label="Earned income credit (EIC)" path="/earnedIncomeCredit"><FactInput path="/earnedIncomeCredit" /></FormLine>
+        {hasEicCredit ? (
+          <SummaryLine line="27a" label="Earned income credit (EIC)" path="/earnedIncomeCredit" link="eic" />
+        ) : (
+          <FormLine line="27a" label="Earned income credit (EIC)" path="/earnedIncomeCreditWritable" link="eic">
+            <FactInput path="/earnedIncomeCreditWritable" />
+          </FormLine>
+        )}
 
         {/* EIC checkboxes — form view */}
         <div
