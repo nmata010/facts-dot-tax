@@ -42,7 +42,6 @@
       </Writable>
     </Fact>
 
-    <!-- TODO: If yes, filer may need to file FinCEN Form 114 (FBAR) -->
     <Fact path="/hasForeignAccount">
       <Name>Foreign financial account</Name>
       <Description>Schedule B line 7a. Had financial interest in or signature authority over a foreign financial account.</Description>
@@ -51,7 +50,6 @@
       </Writable>
     </Fact>
 
-    <!-- TODO: If yes, filer must file FinCEN Form 114 -->
     <Fact path="/requiredToFileFbar">
       <Name>Required to file FBAR</Name>
       <Description>Schedule B line 7a. Required to file FinCEN Form 114 to report foreign financial interest or signature authority.</Description>
@@ -60,9 +58,9 @@
       </Writable>
     </Fact>
 
-    <!-- TODO: Line 7b (foreign country names) skipped — no string type in fact graph -->
+    <!-- TODO: Line 7b (foreign country names) skipped -->
 
-    <!-- TODO: If yes, filer may need to file Form 3520 -->
+    <!-- TODO: Form 3520 if yes -->
     <Fact path="/hasForeignTrust">
       <Name>Foreign trust distribution</Name>
       <Description>Schedule B line 8. Received a distribution from, or was grantor of, or transferor to, a foreign trust.</Description>
