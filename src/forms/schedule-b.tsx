@@ -17,13 +17,13 @@ export function ScheduleB() {
         <FormLine line="3" label="Excludable savings bond interest (Form 8815)" path="/excludableSavingsBondInterest">
           <FactInput path="/excludableSavingsBondInterest" />
         </FormLine>
-        <SummaryLine line="4" label="Taxable interest (line 2 minus line 3) → 1040 line 2b" path="/taxableInterestScheduleB" bold />
+        <SummaryLine line="4" label="Taxable interest (1040 line 2b)" path="/taxableInterestScheduleB" bold />
       </div>
 
       <FormSection title="Part II — Ordinary Dividends" id="part2" />
 
       <div className="space-y-0.5">
-        <FormLine line="6" label="Total ordinary dividends (add line 5 amounts) → 1040 line 3b" path="/totalOrdinaryDividendsScheduleB">
+        <FormLine line="6" label="Total ordinary dividends (1040 line 3b)" path="/totalOrdinaryDividendsScheduleB">
           <FactInput path="/totalOrdinaryDividendsScheduleB" />
         </FormLine>
       </div>
