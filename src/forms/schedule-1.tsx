@@ -3,10 +3,15 @@ import { FormLine } from "@/components/form-line";
 import { SummaryLine } from "@/components/summary-line";
 import { FactInput } from "@/components/fact-input";
 import { ReceiptLayout } from "@/components/receipt-layout";
+import { useFactGraphContext } from "@/App";
 
-export function Schedule1() {
+function Schedule1Content() {
+  const { getFact, version: _v } = useFactGraphContext();
+  const hasIncomeFrom8889 = getFact("/hasIncomeFrom8889") === "true";
+  const hasHsaDeduction = getFact("/hasHsaDeduction") === "true";
+
   return (
-    <ReceiptLayout subtitle="Additional Income and Adjustments to Income" formName="Schedule 1">
+    <>
       {/* ===== Part I — Additional Income ===== */}
       <FormSection title="Part I — Additional Income" id="part1" />
 
@@ -51,9 +56,13 @@ export function Schedule1() {
         <FormLine line="8e" label="Income from Form 8853" path="/incomeFrom8853">
           <FactInput path="/incomeFrom8853" />
         </FormLine>
-        <FormLine line="8f" label="Income from Form 8889" path="/incomeFrom8889">
-          <FactInput path="/incomeFrom8889" />
-        </FormLine>
+        {hasIncomeFrom8889 ? (
+          <SummaryLine line="8f" label="Income from Form 8889" path="/incomeFrom8889" link="form8889#part2" />
+        ) : (
+          <FormLine line="8f" label="Income from Form 8889" path="/incomeFrom8889Writable" link="form8889#part2">
+            <FactInput path="/incomeFrom8889Writable" />
+          </FormLine>
+        )}
         <FormLine line="8g" label="Alaska Permanent Fund dividends" path="/alaskaPFD">
           <FactInput path="/alaskaPFD" />
         </FormLine>
@@ -122,9 +131,13 @@ export function Schedule1() {
         <FormLine line="12" label="Reservist business expenses" path="/reservistExpensesDeduction">
           <FactInput path="/reservistExpensesDeduction" />
         </FormLine>
-        <FormLine line="13" label="HSA deduction" path="/hsaDeduction">
-          <FactInput path="/hsaDeduction" />
-        </FormLine>
+        {hasHsaDeduction ? (
+          <SummaryLine line="13" label="HSA deduction" path="/hsaDeduction" link="form8889#part1" />
+        ) : (
+          <FormLine line="13" label="HSA deduction" path="/hsaDeductionWritable" link="form8889#part1">
+            <FactInput path="/hsaDeductionWritable" />
+          </FormLine>
+        )}
         <FormLine line="14" label="Moving expenses (Armed Forces)" path="/movingExpensesDeduction">
           <FactInput path="/movingExpensesDeduction" />
         </FormLine>
@@ -198,6 +211,14 @@ export function Schedule1() {
       <div className="mt-2">
         <SummaryLine line="26" label="TOTAL ADJUSTMENTS" path="/totalAdjustments" bold />
       </div>
+    </>
+  );
+}
+
+export function Schedule1() {
+  return (
+    <ReceiptLayout subtitle="Additional Income and Adjustments to Income" formName="Schedule 1">
+      <Schedule1Content />
     </ReceiptLayout>
   );
 }

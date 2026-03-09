@@ -1,0 +1,498 @@
+<FactDictionaryModule>
+  <Facts>
+
+    <Fact path="/hsaCoverageTypeOptions">
+      <Derived>
+        <EnumOptions>
+          <String>selfOnly</String>
+          <String>family</String>
+        </EnumOptions>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaCoverageType">
+      <Name>HDHP coverage type</Name>
+      <Description>Form 8889 line 1. Type of HDHP coverage during 2025.</Description>
+      <Writable>
+        <Enum optionsPath="/hsaCoverageTypeOptions" />
+      </Writable>
+    </Fact>
+
+    <Fact path="/hsaEligibleMonths">
+      <Name>Months eligible</Name>
+      <Description>Number of months you were an eligible individual with HDHP coverage during 2025.</Description>
+      <Writable>
+        <Int/>
+      </Writable>
+      <Placeholder><Int>12</Int></Placeholder>
+    </Fact>
+
+    <Fact path="/hsaAge55OrOlder">
+      <Name>Age 55 or older</Name>
+      <Description>Whether you were age 55 or older at the end of 2025.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/hsaMarried">
+      <Name>Married</Name>
+      <Description>Whether you were married at the end of 2025.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/hsaIsFamilyCoverage">
+      <Derived>
+        <Equal>
+          <Left><Dependency path="/hsaCoverageType" /></Left>
+          <Right><Enum optionsPath="/hsaCoverageTypeOptions">family</Enum></Right>
+        </Equal>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaMonthsFraction">
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>1</Int></Right></Equal></When>
+            <Then><Rational>1/12</Rational></Then>
+          </Case>
+          <Case>
+            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>2</Int></Right></Equal></When>
+            <Then><Rational>2/12</Rational></Then>
+          </Case>
+          <Case>
+            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>3</Int></Right></Equal></When>
+            <Then><Rational>3/12</Rational></Then>
+          </Case>
+          <Case>
+            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>4</Int></Right></Equal></When>
+            <Then><Rational>4/12</Rational></Then>
+          </Case>
+          <Case>
+            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>5</Int></Right></Equal></When>
+            <Then><Rational>5/12</Rational></Then>
+          </Case>
+          <Case>
+            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>6</Int></Right></Equal></When>
+            <Then><Rational>6/12</Rational></Then>
+          </Case>
+          <Case>
+            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>7</Int></Right></Equal></When>
+            <Then><Rational>7/12</Rational></Then>
+          </Case>
+          <Case>
+            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>8</Int></Right></Equal></When>
+            <Then><Rational>8/12</Rational></Then>
+          </Case>
+          <Case>
+            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>9</Int></Right></Equal></When>
+            <Then><Rational>9/12</Rational></Then>
+          </Case>
+          <Case>
+            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>10</Int></Right></Equal></When>
+            <Then><Rational>10/12</Rational></Then>
+          </Case>
+          <Case>
+            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>11</Int></Right></Equal></When>
+            <Then><Rational>11/12</Rational></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Rational>12/12</Rational></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaCatchupInLine3">
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hsaAge55OrOlder" /></When>
+            <Then>
+              <Switch>
+                <Case>
+                  <When><Dependency path="/hsaMarried" /></When>
+                  <Then>
+                    <Switch>
+                      <Case>
+                        <When><Dependency path="/hsaIsFamilyCoverage" /></When>
+                        <Then><False/></Then>
+                      </Case>
+                      <Case>
+                        <When><True/></When>
+                        <Then><True/></Then>
+                      </Case>
+                    </Switch>
+                  </Then>
+                </Case>
+                <Case>
+                  <When><True/></When>
+                  <Then><True/></Then>
+                </Case>
+              </Switch>
+            </Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><False/></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaPerMonthAmount">
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hsaCatchupInLine3" /></When>
+            <Then>
+              <Switch>
+                <Case>
+                  <When><Dependency path="/hsaIsFamilyCoverage" /></When>
+                  <Then><Dollar>9550</Dollar></Then>
+                </Case>
+                <Case>
+                  <When><True/></When>
+                  <Then><Dollar>5300</Dollar></Then>
+                </Case>
+              </Switch>
+            </Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then>
+              <Switch>
+                <Case>
+                  <When><Dependency path="/hsaIsFamilyCoverage" /></When>
+                  <Then><Dollar>8550</Dollar></Then>
+                </Case>
+                <Case>
+                  <When><True/></When>
+                  <Then><Dollar>4300</Dollar></Then>
+                </Case>
+              </Switch>
+            </Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaContributions">
+      <Name>HSA contributions you made</Name>
+      <Description>Form 8889 line 2. HSA contributions you made for 2025, not including employer contributions, cafeteria plan, or rollovers.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: does not handle coverage type changes mid-year or Medicare enrollment months -->
+    <Fact path="/hsaContributionLimit">
+      <Name>Contribution limit</Name>
+      <Description>Form 8889 line 3. HSA contribution limit based on HDHP coverage type, prorated by eligible months.</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <Dependency path="/hsaPerMonthAmount" />
+            <Dependency path="/hsaMonthsFraction" />
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/archerMsaContributions">
+      <Name>Archer MSA contributions</Name>
+      <Description>Form 8889 line 4. Archer MSA contributions from Form 8853.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/hsaLimitLessMsa">
+      <Name>Limit less MSA</Name>
+      <Description>Form 8889 line 5. Subtract line 4 from line 3. If zero or less, enter -0-.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency path="/hsaContributionLimit" /></Minuend>
+            <Subtrahends><Dependency path="/archerMsaContributions" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: Line 6 allocation worksheet for MFJ spouses with separate HSAs and family HDHP coverage -->
+    <Fact path="/hsaContributionLimitAllocated">
+      <Name>Contribution limit after allocation</Name>
+      <Description>Form 8889 line 6. Enter amount from line 5, or allocated amount if MFJ with separate HSAs and family coverage.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/hsaCatchupInLine7">
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hsaAge55OrOlder" /></When>
+            <Then>
+              <Switch>
+                <Case>
+                  <When><Dependency path="/hsaMarried" /></When>
+                  <Then><Dependency path="/hsaIsFamilyCoverage" /></Then>
+                </Case>
+                <Case>
+                  <When><True/></When>
+                  <Then><False/></Then>
+                </Case>
+              </Switch>
+            </Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><False/></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaAdditionalContribution">
+      <Name>Additional contribution amount</Name>
+      <Description>Form 8889 line 7. Additional contribution for age 55 or older, married, with family HDHP coverage. Prorated by eligible months.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hsaCatchupInLine7" /></When>
+            <Then>
+              <Round>
+                <Multiply>
+                  <Dollar>1000</Dollar>
+                  <Dependency path="/hsaMonthsFraction" />
+                </Multiply>
+              </Round>
+            </Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaTotalContributionLimit">
+      <Name>Total contribution limit</Name>
+      <Description>Form 8889 line 8. Add lines 6 and 7.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/hsaContributionLimitAllocated" />
+          <Dependency path="/hsaAdditionalContribution" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: derive from W-2 box 12, code W -->
+    <Fact path="/hsaEmployerContributions">
+      <Name>Employer contributions</Name>
+      <Description>Form 8889 line 9. Employer contributions made to your HSAs for 2025.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: derive from 1099-R -->
+    <Fact path="/hsaFundingDistributions">
+      <Name>Qualified HSA funding distributions</Name>
+      <Description>Form 8889 line 10. Qualified HSA funding distributions from IRA.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/hsaEmployerAndFunding">
+      <Name>Employer contributions plus funding distributions</Name>
+      <Description>Form 8889 line 11. Add lines 9 and 10.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/hsaEmployerContributions" />
+          <Dependency path="/hsaFundingDistributions" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaMaxDeductibleContribution">
+      <Name>Maximum deductible contribution</Name>
+      <Description>Form 8889 line 12. Subtract line 11 from line 8. If zero or less, enter -0-.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency path="/hsaTotalContributionLimit" /></Minuend>
+            <Subtrahends><Dependency path="/hsaEmployerAndFunding" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaDeductionAmount">
+      <Name>HSA deduction</Name>
+      <Description>Form 8889 line 13. Smaller of line 2 or line 12.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/hsaContributions" />
+          <Dependency path="/hsaMaxDeductibleContribution" />
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaTotalDistributions">
+      <Name>Total distributions</Name>
+      <Description>Form 8889 line 14a. Total distributions received from all HSAs.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/hsaRolloversAndExcess">
+      <Name>Rollovers and excess contributions withdrawn</Name>
+      <Description>Form 8889 line 14b. Distributions rolled over to another HSA plus excess contributions withdrawn by due date.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/hsaNetDistributions">
+      <Name>Net distributions</Name>
+      <Description>Form 8889 line 14c. Subtract line 14b from line 14a.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/hsaTotalDistributions" /></Minuend>
+          <Subtrahends><Dependency path="/hsaRolloversAndExcess" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaQualifiedMedicalExpenses">
+      <Name>Qualified medical expenses</Name>
+      <Description>Form 8889 line 15. Qualified medical expenses paid using HSA distributions.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/hsaTaxableDistributions">
+      <Name>Taxable HSA distributions</Name>
+      <Description>Form 8889 line 16. Subtract line 15 from line 14c. If zero or less, enter -0-.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dollar>0</Dollar>
+          <Subtract>
+            <Minuend><Dependency path="/hsaNetDistributions" /></Minuend>
+            <Subtrahends><Dependency path="/hsaQualifiedMedicalExpenses" /></Subtrahends>
+          </Subtract>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaHasDistributionExceptions">
+      <Name>Has exceptions to additional 20% tax</Name>
+      <Description>Form 8889 line 17a. Whether any distributions on line 16 meet exceptions to the additional 20% tax (death, disability, or age 65+).</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/hsaDistributionsSubjectToTax">
+      <Name>Distributions subject to additional tax</Name>
+      <Description>Form 8889 line 17b input. Distributions on line 16 subject to additional 20% tax when exceptions apply to only some distributions.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/hsaAdditionalTax20Pct">
+      <Name>Additional 20% tax on HSA distributions</Name>
+      <Description>Form 8889 line 17b. 20% of distributions subject to the additional tax.</Description>
+      <Derived>
+        <Round>
+          <Switch>
+            <Case>
+              <When><Dependency path="/hsaHasDistributionExceptions" /></When>
+              <Then>
+                <Multiply>
+                  <Dependency path="/hsaDistributionsSubjectToTax" />
+                  <Rational>1/5</Rational>
+                </Multiply>
+              </Then>
+            </Case>
+            <Case>
+              <When><True/></When>
+              <Then>
+                <Multiply>
+                  <Dependency path="/hsaTaxableDistributions" />
+                  <Rational>1/5</Rational>
+                </Multiply>
+              </Then>
+            </Case>
+          </Switch>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaLastMonthRuleIncome">
+      <Name>Last-month rule income</Name>
+      <Description>Form 8889 line 18. Income from failure to maintain HDHP coverage under last-month rule.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/hsaFundingDistIncome">
+      <Name>Qualified HSA funding distribution income</Name>
+      <Description>Form 8889 line 19. Income from failure to remain eligible after qualified HSA funding distribution.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/hsaTotalIncome">
+      <Name>Total income from HDHP coverage failure</Name>
+      <Description>Form 8889 line 20. Add lines 18 and 19.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/hsaLastMonthRuleIncome" />
+          <Dependency path="/hsaFundingDistIncome" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaAdditionalTax10Pct">
+      <Name>Additional 10% tax</Name>
+      <Description>Form 8889 line 21. Multiply line 20 by 10%.</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <Dependency path="/hsaTotalIncome" />
+            <Rational>1/10</Rational>
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaIncomeToSchedule1">
+      <Name>HSA income to Schedule 1</Name>
+      <Description>Form 8889 lines 16 + 20. Combined taxable distributions and coverage failure income reported on Schedule 1, line 8f.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/hsaTaxableDistributions" />
+          <Dependency path="/hsaTotalIncome" />
+        </Add>
+      </Derived>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>

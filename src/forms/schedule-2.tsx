@@ -5,6 +5,7 @@ import { FactInput } from "@/components/fact-input";
 import { FactCheckbox } from "@/components/fact-checkbox";
 import { XmlSnippet } from "@/components/xml-snippet";
 import { ReceiptLayout, useView } from "@/components/receipt-layout";
+import { useFactGraphContext } from "@/App";
 
 function CheckboxXmlGroup({ paths }: { paths: string[] }) {
   const view = useView();
@@ -27,6 +28,9 @@ function CheckboxXmlGroup({ paths }: { paths: string[] }) {
 function Schedule2Content() {
   const view = useView();
   const showXml = view === "xml";
+  const { getFact, version: _v } = useFactGraphContext();
+  const hasAdditionalTaxHSADistributions = getFact("/hasAdditionalTaxHSADistributions") === "true";
+  const hasAdditionalTaxHSAIneligible = getFact("/hasAdditionalTaxHSAIneligible") === "true";
 
   return (
     <>
@@ -164,12 +168,20 @@ function Schedule2Content() {
         <FormLine line="17b" label="Recapture of federal mortgage subsidy" path="/recaptureFederalMortgageSubsidy">
           <FactInput path="/recaptureFederalMortgageSubsidy" />
         </FormLine>
-        <FormLine line="17c" label="Additional tax on HSA distributions" path="/additionalTaxHSADistributions">
-          <FactInput path="/additionalTaxHSADistributions" />
-        </FormLine>
-        <FormLine line="17d" label="Additional tax on HSA (ineligible)" path="/additionalTaxHSAIneligible">
-          <FactInput path="/additionalTaxHSAIneligible" />
-        </FormLine>
+        {hasAdditionalTaxHSADistributions ? (
+          <SummaryLine line="17c" label="Additional tax on HSA distributions" path="/additionalTaxHSADistributions" link="form8889#part2" />
+        ) : (
+          <FormLine line="17c" label="Additional tax on HSA distributions" path="/additionalTaxHSADistributionsWritable" link="form8889#part2">
+            <FactInput path="/additionalTaxHSADistributionsWritable" />
+          </FormLine>
+        )}
+        {hasAdditionalTaxHSAIneligible ? (
+          <SummaryLine line="17d" label="Additional tax on HSA (ineligible)" path="/additionalTaxHSAIneligible" link="form8889#part3" />
+        ) : (
+          <FormLine line="17d" label="Additional tax on HSA (ineligible)" path="/additionalTaxHSAIneligibleWritable" link="form8889#part3">
+            <FactInput path="/additionalTaxHSAIneligibleWritable" />
+          </FormLine>
+        )}
         <FormLine line="17e" label="Additional tax on Archer MSA" path="/additionalTaxArcherMSA">
           <FactInput path="/additionalTaxArcherMSA" />
         </FormLine>
