@@ -1,6 +1,8 @@
 <FactDictionaryModule>
   <Facts>
 
+    <!-- TODO: only handles a single filer's HSA; MFJ couples with two HSAs each need a separate Form 8889 with results summed before flowing to Schedule 1/2 -->
+
     <Fact path="/hsaCoverageTypeOptions">
       <Derived>
         <EnumOptions>
