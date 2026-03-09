@@ -33,6 +33,9 @@ function Form8889Content() {
         <FormLine line="" label="Months eligible" path="/hsaEligibleMonths">
           <FactIntInput path="/hsaEligibleMonths" />
         </FormLine>
+        <FormLine line="" label="Months enrolled in Medicare" path="/hsaMedicareMonths">
+          <FactIntInput path="/hsaMedicareMonths" />
+        </FormLine>
         <FormLine line="2" label="HSA contributions you made for 2025" path="/hsaContributions">
           <FactInput path="/hsaContributions" />
         </FormLine>

@@ -43,6 +43,44 @@
       </Writable>
     </Fact>
 
+    <Fact path="/hsaMedicareMonths">
+      <Name>Months enrolled in Medicare</Name>
+      <Description>Number of months you were enrolled in Medicare during 2025.</Description>
+      <Writable>
+        <Int/>
+      </Writable>
+      <Placeholder><Int>0</Int></Placeholder>
+    </Fact>
+
+    <Fact path="/hsaEffectiveMonthsRaw">
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/hsaEligibleMonths" /></Minuend>
+          <Subtrahends><Dependency path="/hsaMedicareMonths" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/hsaEffectiveMonths">
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <GreaterThan>
+                <Left><Dependency path="/hsaEffectiveMonthsRaw" /></Left>
+                <Right><Int>0</Int></Right>
+              </GreaterThan>
+            </When>
+            <Then><Dependency path="/hsaEffectiveMonthsRaw" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Int>0</Int></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
     <Fact path="/hsaIsFamilyCoverage">
       <Derived>
         <Equal>
@@ -56,47 +94,51 @@
       <Derived>
         <Switch>
           <Case>
-            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>1</Int></Right></Equal></When>
+            <When><Equal><Left><Dependency path="/hsaEffectiveMonths" /></Left><Right><Int>0</Int></Right></Equal></When>
+            <Then><Rational>0/12</Rational></Then>
+          </Case>
+          <Case>
+            <When><Equal><Left><Dependency path="/hsaEffectiveMonths" /></Left><Right><Int>1</Int></Right></Equal></When>
             <Then><Rational>1/12</Rational></Then>
           </Case>
           <Case>
-            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>2</Int></Right></Equal></When>
+            <When><Equal><Left><Dependency path="/hsaEffectiveMonths" /></Left><Right><Int>2</Int></Right></Equal></When>
             <Then><Rational>2/12</Rational></Then>
           </Case>
           <Case>
-            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>3</Int></Right></Equal></When>
+            <When><Equal><Left><Dependency path="/hsaEffectiveMonths" /></Left><Right><Int>3</Int></Right></Equal></When>
             <Then><Rational>3/12</Rational></Then>
           </Case>
           <Case>
-            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>4</Int></Right></Equal></When>
+            <When><Equal><Left><Dependency path="/hsaEffectiveMonths" /></Left><Right><Int>4</Int></Right></Equal></When>
             <Then><Rational>4/12</Rational></Then>
           </Case>
           <Case>
-            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>5</Int></Right></Equal></When>
+            <When><Equal><Left><Dependency path="/hsaEffectiveMonths" /></Left><Right><Int>5</Int></Right></Equal></When>
             <Then><Rational>5/12</Rational></Then>
           </Case>
           <Case>
-            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>6</Int></Right></Equal></When>
+            <When><Equal><Left><Dependency path="/hsaEffectiveMonths" /></Left><Right><Int>6</Int></Right></Equal></When>
             <Then><Rational>6/12</Rational></Then>
           </Case>
           <Case>
-            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>7</Int></Right></Equal></When>
+            <When><Equal><Left><Dependency path="/hsaEffectiveMonths" /></Left><Right><Int>7</Int></Right></Equal></When>
             <Then><Rational>7/12</Rational></Then>
           </Case>
           <Case>
-            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>8</Int></Right></Equal></When>
+            <When><Equal><Left><Dependency path="/hsaEffectiveMonths" /></Left><Right><Int>8</Int></Right></Equal></When>
             <Then><Rational>8/12</Rational></Then>
           </Case>
           <Case>
-            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>9</Int></Right></Equal></When>
+            <When><Equal><Left><Dependency path="/hsaEffectiveMonths" /></Left><Right><Int>9</Int></Right></Equal></When>
             <Then><Rational>9/12</Rational></Then>
           </Case>
           <Case>
-            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>10</Int></Right></Equal></When>
+            <When><Equal><Left><Dependency path="/hsaEffectiveMonths" /></Left><Right><Int>10</Int></Right></Equal></When>
             <Then><Rational>10/12</Rational></Then>
           </Case>
           <Case>
-            <When><Equal><Left><Dependency path="/hsaEligibleMonths" /></Left><Right><Int>11</Int></Right></Equal></When>
+            <When><Equal><Left><Dependency path="/hsaEffectiveMonths" /></Left><Right><Int>11</Int></Right></Equal></When>
             <Then><Rational>11/12</Rational></Then>
           </Case>
           <Case>
@@ -189,7 +231,7 @@
       </Writable>
     </Fact>
 
-    <!-- TODO: does not handle coverage type changes mid-year or Medicare enrollment months -->
+    <!-- TODO: does not handle coverage type changes mid-year -->
     <Fact path="/hsaContributionLimit">
       <Name>Contribution limit</Name>
       <Description>Form 8889 line 3. HSA contribution limit based on HDHP coverage type, prorated by eligible months.</Description>
