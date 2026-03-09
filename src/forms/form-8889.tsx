@@ -19,23 +19,26 @@ function Form8889Content() {
 
   return (
     <>
-      <FormSection title="Part I — HSA Contributions and Deduction" id="part1" />
+      <FormSection title="Base Information" id="base-info" />
 
       <div className="space-y-1 ml-2">
         <FactCheckbox path="/hsaAge55OrOlder" label="Age 55 or older at end of 2025" />
         <FactCheckbox path="/hsaMarried" label="Married at end of 2025" />
-      </div>
-
-      <div className="space-y-0.5">
-        <FormLine line="1" label="Coverage type under HDHP" path="/hsaCoverageType">
-          <FactSelect path="/hsaCoverageType" options={COVERAGE_TYPE_OPTIONS} defaultValue="selfOnly" />
-        </FormLine>
         <FormLine line="" label="Months eligible" path="/hsaEligibleMonths">
           <FactIntInput path="/hsaEligibleMonths" />
         </FormLine>
         <FormLine line="" label="Months enrolled in Medicare" path="/hsaMedicareMonths">
           <FactIntInput path="/hsaMedicareMonths" />
         </FormLine>
+      </div>
+
+      <FormSection title="Part I — HSA Contributions and Deduction" id="part1" />
+
+      <div className="space-y-0.5">
+        <FormLine line="1" label="Coverage type under HDHP" path="/hsaCoverageType">
+          <FactSelect path="/hsaCoverageType" options={COVERAGE_TYPE_OPTIONS} defaultValue="selfOnly" />
+        </FormLine>
+        
         <FormLine line="2" label="HSA contributions you made for 2025" path="/hsaContributions">
           <FactInput path="/hsaContributions" />
         </FormLine>
