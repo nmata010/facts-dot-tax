@@ -97,12 +97,38 @@
       </Writable>
     </Fact>
 
+    <Fact path="/incomeFrom8889Writable">
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/incomeFrom8889Derived">
+      <Derived><Dependency path="/hsaIncomeToSchedule1" /></Derived>
+    </Fact>
+
+    <Fact path="/hasIncomeFrom8889">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/hsaIncomeToSchedule1" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
     <Fact path="/incomeFrom8889">
       <Name>Income from Form 8889</Name>
       <Description>Schedule 1 line 8f. Income from Form 8889.</Description>
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasIncomeFrom8889" /></When>
+            <Then><Dependency path="/incomeFrom8889Derived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/incomeFrom8889Writable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/alaskaPFD">
@@ -306,12 +332,38 @@
       </Writable>
     </Fact>
 
+    <Fact path="/hsaDeductionWritable">
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/hsaDeductionDerived">
+      <Derived><Dependency path="/hsaDeductionAmount" /></Derived>
+    </Fact>
+
+    <Fact path="/hasHsaDeduction">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/hsaDeductionAmount" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
     <Fact path="/hsaDeduction">
       <Name>HSA deduction</Name>
       <Description>Schedule 1 line 13. Health savings account deduction from Form 8889.</Description>
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasHsaDeduction" /></When>
+            <Then><Dependency path="/hsaDeductionDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/hsaDeductionWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/movingExpensesDeduction">

@@ -300,20 +300,72 @@
       </Writable>
     </Fact>
 
+    <Fact path="/additionalTaxHSADistributionsWritable">
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/additionalTaxHSADistributionsDerived">
+      <Derived><Dependency path="/hsaAdditionalTax20Pct" /></Derived>
+    </Fact>
+
+    <Fact path="/hasAdditionalTaxHSADistributions">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/hsaAdditionalTax20Pct" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
     <Fact path="/additionalTaxHSADistributions">
       <Name>Additional tax on HSA distributions</Name>
       <Description>Schedule 2 line 17c. Additional tax on HSA distributions from Form 8889.</Description>
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasAdditionalTaxHSADistributions" /></When>
+            <Then><Dependency path="/additionalTaxHSADistributionsDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/additionalTaxHSADistributionsWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/additionalTaxHSAIneligibleWritable">
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/additionalTaxHSAIneligibleDerived">
+      <Derived><Dependency path="/hsaAdditionalTax10Pct" /></Derived>
+    </Fact>
+
+    <Fact path="/hasAdditionalTaxHSAIneligible">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/hsaAdditionalTax10Pct" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
     </Fact>
 
     <Fact path="/additionalTaxHSAIneligible">
       <Name>Additional tax on HSA - ineligible individual</Name>
       <Description>Schedule 2 line 17d. Additional tax on an HSA because you didn't remain an eligible individual from Form 8889.</Description>
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasAdditionalTaxHSAIneligible" /></When>
+            <Then><Dependency path="/additionalTaxHSAIneligibleDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/additionalTaxHSAIneligibleWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/additionalTaxArcherMSA">
