@@ -182,13 +182,38 @@
       </Writable>
     </Fact>
 
-    <!-- TODO: derive from Schedule SE -->
+    <Fact path="/selfEmploymentTaxWritable">
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/selfEmploymentTaxDerived">
+      <Derived><Dependency path="/seTotalTax" /></Derived>
+    </Fact>
+
+    <Fact path="/hasSelfEmploymentTax">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/seTotalTax" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
     <Fact path="/selfEmploymentTax">
       <Name>Self-employment tax</Name>
       <Description>Schedule 2 line 4. Self-employment tax from Schedule SE.</Description>
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasSelfEmploymentTax" /></When>
+            <Then><Dependency path="/selfEmploymentTaxDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/selfEmploymentTaxWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/unreportedTipTax">

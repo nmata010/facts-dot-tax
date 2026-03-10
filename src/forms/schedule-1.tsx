@@ -141,9 +141,13 @@ function Schedule1Content() {
         <FormLine line="14" label="Moving expenses (Armed Forces)" path="/movingExpensesDeduction">
           <FactInput path="/movingExpensesDeduction" />
         </FormLine>
-        <FormLine line="15" label="Self-employment tax deduction" path="/selfEmploymentTaxDeduction">
-          <FactInput path="/selfEmploymentTaxDeduction" />
-        </FormLine>
+        {getFact("/hasSelfEmploymentTaxDeduction") === "true" ? (
+          <SummaryLine line="15" label="Self-employment tax deduction" path="/selfEmploymentTaxDeduction" link="scheduleSE#part1" />
+        ) : (
+          <FormLine line="15" label="Self-employment tax deduction" path="/selfEmploymentTaxDeductionWritable" link="scheduleSE#part1">
+            <FactInput path="/selfEmploymentTaxDeductionWritable" />
+          </FormLine>
+        )}
         <FormLine line="16" label="SEP, SIMPLE, qualified plans" path="/sepSimpleDeduction">
           <FactInput path="/sepSimpleDeduction" />
         </FormLine>

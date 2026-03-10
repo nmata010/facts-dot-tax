@@ -374,12 +374,38 @@
       </Writable>
     </Fact>
 
+    <Fact path="/selfEmploymentTaxDeductionWritable">
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/selfEmploymentTaxDeductionDerived">
+      <Derived><Dependency path="/seDeduction" /></Derived>
+    </Fact>
+
+    <Fact path="/hasSelfEmploymentTaxDeduction">
+      <Derived>
+        <GreaterThan>
+          <Left><Dependency path="/seDeduction" /></Left>
+          <Right><Dollar>0</Dollar></Right>
+        </GreaterThan>
+      </Derived>
+    </Fact>
+
     <Fact path="/selfEmploymentTaxDeduction">
       <Name>Self-employment tax deduction</Name>
       <Description>Schedule 1 line 15. Deductible part of self-employment tax from Schedule SE.</Description>
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasSelfEmploymentTaxDeduction" /></When>
+            <Then><Dependency path="/selfEmploymentTaxDeductionDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/selfEmploymentTaxDeductionWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/sepSimpleDeduction">
