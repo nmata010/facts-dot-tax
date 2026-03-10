@@ -106,9 +106,13 @@ function Schedule2Content() {
       <FormSection title="Part II — Other Taxes" id="part2" />
 
       <div className="space-y-0.5">
-        <FormLine line="4" label="Self-employment tax (Sched. SE)" path="/selfEmploymentTax">
-          <FactInput path="/selfEmploymentTax" />
-        </FormLine>
+        {getFact("/hasSelfEmploymentTax") === "true" ? (
+          <SummaryLine line="4" label="Self-employment tax (Sched. SE)" path="/selfEmploymentTax" link="scheduleSE#part1" />
+        ) : (
+          <FormLine line="4" label="Self-employment tax (Sched. SE)" path="/selfEmploymentTaxWritable" link="scheduleSE#part1">
+            <FactInput path="/selfEmploymentTaxWritable" />
+          </FormLine>
+        )}
 
         {/* Line 4 exemption checkboxes */}
         <div
