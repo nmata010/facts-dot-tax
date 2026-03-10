@@ -1,0 +1,386 @@
+<FactDictionaryModule>
+  <Facts>
+
+    <!-- TODO: only handles a single filer's SE tax; MFJ filers need a separate Schedule SE for each with results summed before flowing to Schedules 1 & 2 -->
+
+    <Fact path="/seMinisterCheckbox">
+      <Name>Minister/Form 4361 checkbox</Name>
+      <Description>Schedule SE line A. Minister, member of a religious order, or Christian Science practitioner who filed Form 4361 with $400 or more of other net earnings from self-employment.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+    
+    <!-- TODO: sch F and sch K-1-->
+    <Fact path="/netFarmProfit">
+      <Name>Net farm profit or loss</Name>
+      <Description>Schedule SE line 1a. Net farm profit or (loss) from Schedule F, line 34, and farm partnerships, Schedule K-1 (Form 1065), box 14, code A.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: sch F and sch K-1-->
+    <Fact path="/conservationReservePayments">
+      <Name>Conservation Reserve Program payments</Name>
+      <Description>Schedule SE line 1b. Conservation Reserve Program payments included on Schedule F, line 4b, or listed on Schedule K-1 (Form 1065), box 20, code AQ. Entered as a positive amount; subtracted in line 3.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: sch C and sch K-1-->
+    <Fact path="/netNonfarmProfit">
+      <Name>Net nonfarm profit or loss</Name>
+      <Description>Schedule SE line 2. Net profit or (loss) from Schedule C, line 31; and Schedule K-1 (Form 1065), box 14, code A (other than farming).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/seCombinedIncome">
+      <Name>Combined SE income</Name>
+      <Description>Schedule SE line 3. Combine lines 1a, 1b, and 2. Skips 1a/1b when farm optional method elected; skips 2 when nonfarm optional method elected.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <All>
+                <Dependency path="/useFarmOptionalMethod" />
+                <Dependency path="/useNonfarmOptionalMethod" />
+              </All>
+            </When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+          <Case>
+            <When><Dependency path="/useFarmOptionalMethod" /></When>
+            <Then><Dependency path="/netNonfarmProfit" /></Then>
+          </Case>
+          <Case>
+            <When><Dependency path="/useNonfarmOptionalMethod" /></When>
+            <Then>
+              <Subtract>
+                <Minuend><Dependency path="/netFarmProfit" /></Minuend>
+                <Subtrahends><Dependency path="/conservationReservePayments" /></Subtrahends>
+              </Subtract>
+            </Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then>
+              <Subtract>
+                <Minuend>
+                  <Add>
+                    <Dependency path="/netFarmProfit" />
+                    <Dependency path="/netNonfarmProfit" />
+                  </Add>
+                </Minuend>
+                <Subtrahends><Dependency path="/conservationReservePayments" /></Subtrahends>
+              </Subtract>
+            </Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/seAdjustedIncome">
+      <Name>Adjusted SE income</Name>
+      <Description>Schedule SE line 4a. If line 3 is more than zero, multiply line 3 by 92.35% (0.9235). Otherwise, enter amount from line 3.</Description>
+      <Derived>
+        <Round>
+          <Switch>
+            <Case>
+              <When>
+                <GreaterThan>
+                  <Left><Dependency path="/seCombinedIncome" /></Left>
+                  <Right><Dollar>0</Dollar></Right>
+                </GreaterThan>
+              </When>
+              <Then>
+                <Multiply>
+                  <Dependency path="/seCombinedIncome" />
+                  <Rational>1847/2000</Rational>
+                </Multiply>
+              </Then>
+            </Case>
+            <Case>
+              <When><True/></When>
+              <Then><Dependency path="/seCombinedIncome" /></Then>
+            </Case>
+          </Switch>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/seOptionalMethodTotal">
+      <Name>Optional method income</Name>
+      <Description>Schedule SE line 4b. Total of lines 15 and 17 if optional methods elected.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/farmOptionalMethodIncome" />
+          <Dependency path="/nonfarmOptionalMethodIncome" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/seCombinedAdjusted">
+      <Name>Combined adjusted SE income</Name>
+      <Description>Schedule SE line 4c. Combine lines 4a and 4b. If less than $400, enter 0 (no SE tax owed). Exception: if less than $400 and church employee income, enter 0 and continue.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <Not>
+                <LessThan>
+                  <Left>
+                    <Add>
+                      <Dependency path="/seAdjustedIncome" />
+                      <Dependency path="/seOptionalMethodTotal" />
+                    </Add>
+                  </Left>
+                  <Right><Dollar>400</Dollar></Right>
+                </LessThan>
+              </Not>
+            </When>
+            <Then>
+              <Add>
+                <Dependency path="/seAdjustedIncome" />
+                <Dependency path="/seOptionalMethodTotal" />
+              </Add>
+            </Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: W2 -->
+    <Fact path="/churchEmployeeIncome">
+      <Name>Church employee income</Name>
+      <Description>Schedule SE line 5a. Church employee income from Form W-2.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/churchEmployeeAdjusted">
+      <Name>Adjusted church employee income</Name>
+      <Description>Schedule SE line 5b. Multiply line 5a by 92.35% (0.9235). If less than $100, enter 0.</Description>
+      <Derived>
+        <Switch>
+          <Case>
+            <When>
+              <Not>
+                <LessThan>
+                  <Left>
+                    <Round>
+                      <Multiply>
+                        <Dependency path="/churchEmployeeIncome" />
+                        <Rational>1847/2000</Rational>
+                      </Multiply>
+                    </Round>
+                  </Left>
+                  <Right><Dollar>100</Dollar></Right>
+                </LessThan>
+              </Not>
+            </When>
+            <Then>
+              <Round>
+                <Multiply>
+                  <Dependency path="/churchEmployeeIncome" />
+                  <Rational>1847/2000</Rational>
+                </Multiply>
+              </Round>
+            </Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dollar>0</Dollar></Then>
+          </Case>
+        </Switch>
+      </Derived>
+    </Fact>
+
+    <Fact path="/seNetEarnings">
+      <Name>Net SE earnings</Name>
+      <Description>Schedule SE line 6. Add lines 4c and 5b.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/seCombinedAdjusted" />
+          <Dependency path="/churchEmployeeAdjusted" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/seMaxSocialSecurity">
+      <Name>Maximum social security earnings</Name>
+      <Description>Schedule SE line 7. Maximum amount of combined wages and self-employment earnings subject to social security tax for 2025.</Description>
+      <Derived>
+        <Dollar>176100</Dollar>
+      </Derived>
+    </Fact>
+
+    <Fact path="/seSocialSecurityWages">
+      <Name>Social security wages and tips</Name>
+      <Description>Schedule SE line 8a. Total social security wages and tips (total of boxes 3 and 7 on Form(s) W-2) and railroad retirement (tier 1) compensation.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/seUnreportedTips">
+      <Name>Unreported tips</Name>
+      <Description>Schedule SE line 8b. Unreported tips subject to social security tax from Form 4137, line 10.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/seWagesForm8919">
+      <Name>Wages from Form 8919</Name>
+      <Description>Schedule SE line 8c. Wages subject to social security tax from Form 8919, line 10.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/seTotalSocialSecurityWages">
+      <Name>Total social security wages</Name>
+      <Description>Schedule SE line 8d. Add lines 8a, 8b, and 8c.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/seSocialSecurityWages" />
+          <Dependency path="/seUnreportedTips" />
+          <Dependency path="/seWagesForm8919" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/seRemainingAllowance">
+      <Name>Remaining SS allowance</Name>
+      <Description>Schedule SE line 9. Subtract line 8d from line 7. If zero or less, enter 0.</Description>
+      <Derived>
+        <GreaterOf>
+          <Subtract>
+            <Minuend><Dependency path="/seMaxSocialSecurity" /></Minuend>
+            <Subtrahends><Dependency path="/seTotalSocialSecurityWages" /></Subtrahends>
+          </Subtract>
+          <Dollar>0</Dollar>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/seSocialSecurityTax">
+      <Name>Social security tax</Name>
+      <Description>Schedule SE line 10. Multiply the smaller of line 6 or line 9 by 12.4% (0.124).</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <LesserOf>
+              <Dependency path="/seNetEarnings" />
+              <Dependency path="/seRemainingAllowance" />
+            </LesserOf>
+            <Rational>31/250</Rational>
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/seMedicareTax">
+      <Name>Medicare tax</Name>
+      <Description>Schedule SE line 11. Multiply line 6 by 2.9% (0.029).</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <Dependency path="/seNetEarnings" />
+            <Rational>29/1000</Rational>
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/seTotalTax">
+      <Name>Self-employment tax</Name>
+      <Description>Schedule SE line 12. Add lines 10 and 11. Enter on Schedule 2 (Form 1040), line 4.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/seSocialSecurityTax" />
+          <Dependency path="/seMedicareTax" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/seDeduction">
+      <Name>SE tax deduction</Name>
+      <Description>Schedule SE line 13. Multiply line 12 by 50% (0.50). Enter on Schedule 1 (Form 1040), line 15.</Description>
+      <Derived>
+        <Round>
+          <Multiply>
+            <Dependency path="/seTotalTax" />
+            <Rational>1/2</Rational>
+          </Multiply>
+        </Round>
+      </Derived>
+    </Fact>
+
+    <Fact path="/useFarmOptionalMethod">
+      <Name>Use farm optional method</Name>
+      <Description>Schedule SE Part II. Elect to use the farm optional method. Causes lines 1a and 1b to be skipped in line 3.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/useNonfarmOptionalMethod">
+      <Name>Use nonfarm optional method</Name>
+      <Description>Schedule SE Part II. Elect to use the nonfarm optional method. Causes line 2 to be skipped in line 3.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/seOptionalMethodMax">
+      <Name>Maximum optional method income</Name>
+      <Description>Schedule SE line 14. Maximum income for optional methods.</Description>
+      <Derived>
+        <Dollar>7240</Dollar>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: derive from Schedule F gross farm income (Sch F line 9) when available -->
+    <Fact path="/farmOptionalMethodIncome">
+      <Name>Farm optional method income</Name>
+      <Description>Schedule SE line 15. Enter the smaller of: two-thirds of gross farm income (not less than zero) or $7,240. Only used when farm optional method is elected.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/nonfarmOptionalMethodRemaining">
+      <Name>Remaining optional method cap</Name>
+      <Description>Schedule SE line 16. Subtract line 15 from line 14.</Description>
+      <Derived>
+        <GreaterOf>
+          <Subtract>
+            <Minuend><Dependency path="/seOptionalMethodMax" /></Minuend>
+            <Subtrahends><Dependency path="/farmOptionalMethodIncome" /></Subtrahends>
+          </Subtract>
+          <Dollar>0</Dollar>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: derive from Schedule C gross nonfarm income (Sch C line 7) when available -->
+    <Fact path="/nonfarmOptionalMethodIncome">
+      <Name>Nonfarm optional method income</Name>
+      <Description>Schedule SE line 17. Enter the smaller of: two-thirds of gross nonfarm income (not less than zero) or the amount on line 16. Only used when nonfarm optional method is elected.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>
