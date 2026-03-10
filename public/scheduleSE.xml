@@ -223,6 +223,7 @@
       </Derived>
     </Fact>
 
+    <!-- TODO: derive from W2 -->
     <Fact path="/seSocialSecurityWages">
       <Name>Social security wages and tips</Name>
       <Description>Schedule SE line 8a. Total social security wages and tips (total of boxes 3 and 7 on Form(s) W-2) and railroad retirement (tier 1) compensation.</Description>
@@ -231,6 +232,7 @@
       </Writable>
     </Fact>
 
+    <!-- TODO: derive from 4137 -->
     <Fact path="/seUnreportedTips">
       <Name>Unreported tips</Name>
       <Description>Schedule SE line 8b. Unreported tips subject to social security tax from Form 4137, line 10.</Description>
@@ -239,6 +241,7 @@
       </Writable>
     </Fact>
 
+    <!-- TODO: derive from f8919 -->
     <Fact path="/seWagesForm8919">
       <Name>Wages from Form 8919</Name>
       <Description>Schedule SE line 8c. Wages subject to social security tax from Form 8919, line 10.</Description>
@@ -246,7 +249,7 @@
         <Dollar/>
       </Writable>
     </Fact>
-
+    
     <Fact path="/seTotalSocialSecurityWages">
       <Name>Total social security wages</Name>
       <Description>Schedule SE line 8d. Add lines 8a, 8b, and 8c.</Description>
@@ -350,7 +353,7 @@
       </Derived>
     </Fact>
 
-    <!-- TODO: derive from Schedule F gross farm income (Sch F line 9) when available -->
+    <!-- TODO: derive from Schedule F -->
     <Fact path="/farmOptionalMethodIncome">
       <Name>Farm optional method income</Name>
       <Description>Schedule SE line 15. Enter the smaller of: two-thirds of gross farm income (not less than zero) or $7,240. Only used when farm optional method is elected.</Description>
@@ -373,7 +376,7 @@
       </Derived>
     </Fact>
 
-    <!-- TODO: derive from Schedule C gross nonfarm income (Sch C line 7) when available -->
+    <!-- TODO: derive from Schedule C -->
     <Fact path="/nonfarmOptionalMethodIncome">
       <Name>Nonfarm optional method income</Name>
       <Description>Schedule SE line 17. Enter the smaller of: two-thirds of gross nonfarm income (not less than zero) or the amount on line 16. Only used when nonfarm optional method is elected.</Description>
