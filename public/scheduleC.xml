@@ -11,8 +11,6 @@
       </Writable>
     </Fact>
 
-    <!-- ===== Part I — Income ===== -->
-
     <Fact path="/schCGrossReceipts">
       <Name>Gross receipts or sales</Name>
       <Description>Schedule C line 1. Gross receipts or sales.</Description>
@@ -78,8 +76,6 @@
       </Derived>
     </Fact>
 
-    <!-- ===== Part II — Expenses ===== -->
-
     <Fact path="/schCAdvertising">
       <Name>Advertising</Name>
       <Description>Schedule C line 8. Advertising.</Description>
@@ -88,6 +84,7 @@
       </Writable>
     </Fact>
 
+    <!-- TODO: Part IV vehicle information (lines 43-47) -->
     <Fact path="/schCCarAndTruckExpenses">
       <Name>Car and truck expenses</Name>
       <Description>Schedule C line 9. Car and truck expenses.</Description>
@@ -316,13 +313,66 @@
       </Derived>
     </Fact>
 
-    <!-- TODO: Form 8829 / simplified method -->
-    <Fact path="/schCBusinessUseOfHome">
-      <Name>Business use of home expenses</Name>
-      <Description>Schedule C line 30. Expenses for business use of your home.</Description>
+    <!-- TODO: Form 8829 -->
+    <!-- TODO: daycare decimal -->
+    <Fact path="/schCHomeSqFt">
+      <Name>Total home square footage</Name>
+      <Description>Schedule C line 30(a). Total square footage of your home.</Description>
       <Writable>
         <Dollar/>
       </Writable>
+    </Fact>
+
+    <Fact path="/schCBusinessSqFt">
+      <Name>Business square footage</Name>
+      <Description>Schedule C line 30(b). Square footage of home used for business.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCAllowableSqFt">
+      <Name>Allowable square footage</Name>
+      <Description>Simplified method worksheet line 2. Lesser of business sqft or 300.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/schCBusinessSqFt" />
+          <Dollar>300</Dollar>
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCSimplifiedDeduction">
+      <Name>Simplified method deduction</Name>
+      <Description>Simplified method worksheet line 4. Allowable sqft times $5.</Description>
+      <Derived>
+        <Multiply>
+          <Dependency path="/schCAllowableSqFt" />
+          <Rational>5/1</Rational>
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCBusinessUseOfHomeLimit">
+      <Name>Gross income limitation</Name>
+      <Description>Simplified method worksheet line 1. Tentative profit floored at zero.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dependency path="/schCTentativeProfit" />
+          <Dollar>0</Dollar>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCBusinessUseOfHome">
+      <Name>Business use of home expenses</Name>
+      <Description>Schedule C line 30. Simplified method: lesser of deduction or gross income limit.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/schCSimplifiedDeduction" />
+          <Dependency path="/schCBusinessUseOfHomeLimit" />
+        </LesserOf>
+      </Derived>
     </Fact>
 
     <Fact path="/schCNetProfitOrLoss">
@@ -344,6 +394,7 @@
       </Writable>
     </Fact>
 
+    <!-- TODO: Form 6198 loss limitation -->
     <Fact path="/schCSomeNotAtRisk">
       <Name>Some investment not at risk</Name>
       <Description>Schedule C line 32b. Some investment is not at risk.</Description>
@@ -352,8 +403,7 @@
       </Writable>
     </Fact>
 
-    <!-- ===== Part III — Cost of Goods Sold ===== -->
-
+    <!-- TODO: lines 33-34 -->
     <Fact path="/schCBeginningInventory">
       <Name>Beginning inventory</Name>
       <Description>Schedule C line 35. Inventory at beginning of year.</Description>
@@ -426,8 +476,6 @@
         </Subtract>
       </Derived>
     </Fact>
-
-    <!-- ===== Part V — Other Expenses ===== -->
 
     <Fact path="/schCTotalOtherExpenses">
       <Name>Total other expenses</Name>

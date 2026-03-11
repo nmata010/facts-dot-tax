@@ -2,6 +2,7 @@ import { FormSection } from "@/components/form-section";
 import { FormLine } from "@/components/form-line";
 import { SummaryLine } from "@/components/summary-line";
 import { FactInput } from "@/components/fact-input";
+import { FactIntInput } from "@/components/fact-int-input";
 import { FactCheckbox } from "@/components/fact-checkbox";
 import { ReceiptLayout } from "@/components/receipt-layout";
 
@@ -107,9 +108,13 @@ function ScheduleCContent() {
 
       <div className="space-y-0.5 mt-2">
         <SummaryLine line="29" label="Tentative profit or (loss) (line 7 minus line 28)" path="/schCTentativeProfit" />
-        <FormLine line="30" label="Expenses for business use of your home" path="/schCBusinessUseOfHome">
-          <FactInput path="/schCBusinessUseOfHome" />
+        <FormLine line="30a" label="Total square footage of home" path="/schCHomeSqFt">
+          <FactIntInput path="/schCHomeSqFt" />
         </FormLine>
+        <FormLine line="30b" label="Square footage used for business" path="/schCBusinessSqFt">
+          <FactIntInput path="/schCBusinessSqFt" />
+        </FormLine>
+        <SummaryLine line="30" label="Business use of home (simplified method)" path="/schCBusinessUseOfHome" />
         <SummaryLine line="31" label="Net profit or (loss)" path="/schCNetProfitOrLoss" bold />
       </div>
 
