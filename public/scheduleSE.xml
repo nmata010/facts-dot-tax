@@ -29,13 +29,44 @@
       </Writable>
     </Fact>
 
-    <!-- TODO: sch C and sch K-1-->
+    <!-- TODO: sch K-1 -->
+    <Fact path="/netNonfarmProfitWritable">
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/netNonfarmProfitDerived">
+      <Derived><Dependency path="/schCNetProfitOrLoss" /></Derived>
+    </Fact>
+
+    <Fact path="/hasNetNonfarmProfit">
+      <Derived>
+        <All>
+          <Not>
+            <Equal>
+              <Left><Dependency path="/schCNetProfitOrLoss" /></Left>
+              <Right><Dollar>0</Dollar></Right>
+            </Equal>
+          </Not>
+          <Not><Dependency path="/schCStatutoryEmployee" /></Not>
+        </All>
+      </Derived>
+    </Fact>
+
     <Fact path="/netNonfarmProfit">
       <Name>Net nonfarm profit or loss</Name>
       <Description>Schedule SE line 2. Net profit or (loss) from Schedule C, line 31; and Schedule K-1 (Form 1065), box 14, code A (other than farming).</Description>
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasNetNonfarmProfit" /></When>
+            <Then><Dependency path="/netNonfarmProfitDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/netNonfarmProfitWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/seCombinedIncome">

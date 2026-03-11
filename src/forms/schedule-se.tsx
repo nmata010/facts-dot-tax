@@ -4,8 +4,12 @@ import { SummaryLine } from "@/components/summary-line";
 import { FactInput } from "@/components/fact-input";
 import { FactCheckbox } from "@/components/fact-checkbox";
 import { ReceiptLayout } from "@/components/receipt-layout";
+import { useFactGraphContext } from "@/App";
 
 function ScheduleSEContent() {
+  const { getFact, version: _v } = useFactGraphContext();
+  const hasNetNonfarmProfit = getFact("/hasNetNonfarmProfit") === "true";
+
   return (
     <>
       <FormSection title="Part I — Self-Employment Tax" id="part1" />
@@ -21,9 +25,13 @@ function ScheduleSEContent() {
         <FormLine line="1b" label="Conservation Reserve Program payments" path="/conservationReservePayments">
           <FactInput path="/conservationReservePayments" />
         </FormLine>
-        <FormLine line="2" label="Net profit or (loss) from Schedule C" path="/netNonfarmProfit">
-          <FactInput path="/netNonfarmProfit" />
-        </FormLine>
+        {hasNetNonfarmProfit ? (
+          <SummaryLine line="2" label="Net profit or (loss) from Schedule C" path="/netNonfarmProfit" link="scheduleC#part1" />
+        ) : (
+          <FormLine line="2" label="Net profit or (loss) from Schedule C" path="/netNonfarmProfitWritable" link="scheduleC#part1">
+            <FactInput path="/netNonfarmProfitWritable" />
+          </FormLine>
+        )}
         <SummaryLine line="3" label="Combine lines 1a, 1b, and 2" path="/seCombinedIncome" />
         <SummaryLine line="4a" label="Line 3 × 92.35% (if positive), otherwise line 3" path="/seAdjustedIncome" />
         <SummaryLine line="4b" label="Optional methods total (lines 15 and 17)" path="/seOptionalMethodTotal" />
