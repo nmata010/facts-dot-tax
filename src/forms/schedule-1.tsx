@@ -8,6 +8,7 @@ import { useFactGraphContext } from "@/App";
 function Schedule1Content() {
   const { getFact, version: _v } = useFactGraphContext();
   const hasBusinessIncomeSchC = getFact("/hasBusinessIncomeSchC") === "true";
+  const hasRentalIncomeSchE = getFact("/hasRentalIncomeSchE") === "true";
   const hasIncomeFrom8889 = getFact("/hasIncomeFrom8889") === "true";
   const hasHsaDeduction = getFact("/hasHsaDeduction") === "true";
 
@@ -33,9 +34,13 @@ function Schedule1Content() {
         <FormLine line="4" label="Other gains or (losses)" path="/otherGains">
           <FactInput path="/otherGains" />
         </FormLine>
-        <FormLine line="5" label="Rental, partnership, S corp" path="/rentalIncomeSchE">
-          <FactInput path="/rentalIncomeSchE" />
-        </FormLine>
+        {hasRentalIncomeSchE ? (
+          <SummaryLine line="5" label="Rental, partnership, S corp" path="/rentalIncomeSchE" link="scheduleE#part1" />
+        ) : (
+          <FormLine line="5" label="Rental, partnership, S corp" path="/rentalIncomeSchEWritable" link="scheduleE#part1">
+            <FactInput path="/rentalIncomeSchEWritable" />
+          </FormLine>
+        )}
         <FormLine line="6" label="Farm income or (loss)" path="/farmIncome">
           <FactInput path="/farmIncome" />
         </FormLine>

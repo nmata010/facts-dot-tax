@@ -11,6 +11,7 @@ import { Form8995 } from "./form-8995";
 import { Form8889 } from "./form-8889";
 import { ScheduleB } from "./schedule-b";
 import { ScheduleC } from "./schedule-c";
+import { ScheduleE } from "./schedule-e";
 import { ScheduleSE } from "./schedule-se";
 import { Eic } from "./eic-worksheet";
 
@@ -30,6 +31,7 @@ export const FORMS: FormEntry[] = [
   { id: "scheduleA", label: "Schedule A", component: ScheduleA, xmlFile: "scheduleA.xml" },
   { id: "scheduleB", label: "Schedule B", component: ScheduleB, xmlFile: "scheduleB.xml" },
   { id: "scheduleC", label: "Schedule C", component: ScheduleC, xmlFile: "scheduleC.xml" },
+  { id: "scheduleE", label: "Schedule E", component: ScheduleE, xmlFile: "scheduleE.xml" },
   { id: "schedule8812", label: "Schedule 8812", component: Schedule8812, xmlFile: "schedule8812.xml" },
   { id: "form8995", label: "Form 8995", component: Form8995, xmlFile: "f8995.xml" },
   { id: "form8889", label: "Form 8889", component: Form8889, xmlFile: "f8889.xml" },

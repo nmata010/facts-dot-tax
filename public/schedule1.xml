@@ -61,12 +61,40 @@
       </Writable>
     </Fact>
 
+    <Fact path="/rentalIncomeSchEWritable">
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/rentalIncomeSchEDerived">
+      <Derived><Dependency path="/schETotalIncome" /></Derived>
+    </Fact>
+
+    <Fact path="/hasRentalIncomeSchE">
+      <Derived>
+        <Not>
+          <Equal>
+            <Left><Dependency path="/schETotalIncome" /></Left>
+            <Right><Dollar>0</Dollar></Right>
+          </Equal>
+        </Not>
+      </Derived>
+    </Fact>
+
     <Fact path="/rentalIncomeSchE">
       <Name>Rental, partnership, S corp income</Name>
       <Description>Schedule 1 line 5. Rental real estate, royalties, partnerships, S corporations, trusts, etc. from Schedule E.</Description>
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasRentalIncomeSchE" /></When>
+            <Then><Dependency path="/rentalIncomeSchEDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/rentalIncomeSchEWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/farmIncome">
