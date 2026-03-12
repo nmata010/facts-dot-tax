@@ -17,12 +17,40 @@
       </Writable>
     </Fact>
 
+    <Fact path="/businessIncomeSchCWritable">
+      <Writable><Dollar/></Writable>
+    </Fact>
+
+    <Fact path="/businessIncomeSchCDerived">
+      <Derived><Dependency path="/schCNetProfitOrLoss" /></Derived>
+    </Fact>
+
+    <Fact path="/hasBusinessIncomeSchC">
+      <Derived>
+        <Not>
+          <Equal>
+            <Left><Dependency path="/schCNetProfitOrLoss" /></Left>
+            <Right><Dollar>0</Dollar></Right>
+          </Equal>
+        </Not>
+      </Derived>
+    </Fact>
+
     <Fact path="/businessIncomeSchC">
       <Name>Business income or loss</Name>
       <Description>Schedule 1 line 3. Business income or (loss) from Schedule C.</Description>
-      <Writable>
-        <Dollar/>
-      </Writable>
+      <Derived>
+        <Switch>
+          <Case>
+            <When><Dependency path="/hasBusinessIncomeSchC" /></When>
+            <Then><Dependency path="/businessIncomeSchCDerived" /></Then>
+          </Case>
+          <Case>
+            <When><True/></When>
+            <Then><Dependency path="/businessIncomeSchCWritable" /></Then>
+          </Case>
+        </Switch>
+      </Derived>
     </Fact>
 
     <Fact path="/otherGains">

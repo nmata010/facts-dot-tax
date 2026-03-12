@@ -1,0 +1,489 @@
+<FactDictionaryModule>
+  <Facts>
+
+    <!-- TODO: lines F-J (accounting method, material participation, started business, 1099 filing) -->
+
+    <Fact path="/schCStatutoryEmployee">
+      <Name>Statutory employee</Name>
+      <Description>Schedule C line 1 checkbox. Income was reported on Form W-2 with the statutory employee box checked.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCGrossReceipts">
+      <Name>Gross receipts or sales</Name>
+      <Description>Schedule C line 1. Gross receipts or sales.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCReturnsAndAllowances">
+      <Name>Returns and allowances</Name>
+      <Description>Schedule C line 2. Returns and allowances.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCNetReceipts">
+      <Name>Net receipts</Name>
+      <Description>Schedule C line 3. Subtract line 2 from line 1.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/schCGrossReceipts" /></Minuend>
+          <Subtrahends><Dependency path="/schCReturnsAndAllowances" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCCostOfGoodsSold">
+      <Name>Cost of goods sold</Name>
+      <Description>Schedule C line 4. Cost of goods sold (from line 42).</Description>
+      <Derived>
+        <Dependency path="/schCCogsTotal" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCGrossProfit">
+      <Name>Gross profit</Name>
+      <Description>Schedule C line 5. Subtract line 4 from line 3.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/schCNetReceipts" /></Minuend>
+          <Subtrahends><Dependency path="/schCCostOfGoodsSold" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCOtherIncome">
+      <Name>Other income</Name>
+      <Description>Schedule C line 6. Other income, including federal and state gasoline or fuel tax credit or refund.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCGrossIncome">
+      <Name>Gross income</Name>
+      <Description>Schedule C line 7. Add lines 5 and 6.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/schCGrossProfit" />
+          <Dependency path="/schCOtherIncome" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCAdvertising">
+      <Name>Advertising</Name>
+      <Description>Schedule C line 8. Advertising.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: Part IV vehicle information (lines 43-47) -->
+    <Fact path="/schCCarAndTruckExpenses">
+      <Name>Car and truck expenses</Name>
+      <Description>Schedule C line 9. Car and truck expenses.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCCommissionsAndFees">
+      <Name>Commissions and fees</Name>
+      <Description>Schedule C line 10. Commissions and fees.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCContractLabor">
+      <Name>Contract labor</Name>
+      <Description>Schedule C line 11. Contract labor.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCDepletion">
+      <Name>Depletion</Name>
+      <Description>Schedule C line 12. Depletion.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCDepreciation">
+      <Name>Depreciation and section 179</Name>
+      <Description>Schedule C line 13. Depreciation and section 179 expense deduction (not included in Part III).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCEmployeeBenefits">
+      <Name>Employee benefit programs</Name>
+      <Description>Schedule C line 14. Employee benefit programs (other than on line 19).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCInsurance">
+      <Name>Insurance</Name>
+      <Description>Schedule C line 15. Insurance (other than health).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCInterestMortgage">
+      <Name>Mortgage interest</Name>
+      <Description>Schedule C line 16a. Interest on mortgage (paid to banks, etc.).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCInterestOther">
+      <Name>Other interest</Name>
+      <Description>Schedule C line 16b. Other interest.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCLegalAndProfessional">
+      <Name>Legal and professional services</Name>
+      <Description>Schedule C line 17. Legal and professional services.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCOfficeExpense">
+      <Name>Office expense</Name>
+      <Description>Schedule C line 18. Office expense.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCPensionAndProfitSharing">
+      <Name>Pension and profit-sharing plans</Name>
+      <Description>Schedule C line 19. Pension and profit-sharing plans.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCRentVehicles">
+      <Name>Rent — vehicles, machinery, equipment</Name>
+      <Description>Schedule C line 20a. Rent or lease of vehicles, machinery, and equipment.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCRentOther">
+      <Name>Rent — other business property</Name>
+      <Description>Schedule C line 20b. Rent or lease of other business property.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCRepairs">
+      <Name>Repairs and maintenance</Name>
+      <Description>Schedule C line 21. Repairs and maintenance.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCSupplies">
+      <Name>Supplies</Name>
+      <Description>Schedule C line 22. Supplies (not included in Part III).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCTaxesAndLicenses">
+      <Name>Taxes and licenses</Name>
+      <Description>Schedule C line 23. Taxes and licenses.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCTravel">
+      <Name>Travel</Name>
+      <Description>Schedule C line 24a. Travel.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCMeals">
+      <Name>Deductible meals</Name>
+      <Description>Schedule C line 24b. Deductible meals.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCUtilities">
+      <Name>Utilities</Name>
+      <Description>Schedule C line 25. Utilities.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCWages">
+      <Name>Wages</Name>
+      <Description>Schedule C line 26. Wages (less employment credits).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCEnergyEfficient">
+      <Name>Energy efficient commercial buildings deduction</Name>
+      <Description>Schedule C line 27a. Energy efficient commercial buildings deduction (Form 7205).</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCOtherExpenses">
+      <Name>Other expenses</Name>
+      <Description>Schedule C line 27b. Other expenses (from line 48).</Description>
+      <Derived>
+        <Dependency path="/schCTotalOtherExpenses" />
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCTotalExpenses">
+      <Name>Total expenses</Name>
+      <Description>Schedule C line 28. Total expenses before expenses for business use of home. Add lines 8 through 27b.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/schCAdvertising" />
+          <Dependency path="/schCCarAndTruckExpenses" />
+          <Dependency path="/schCCommissionsAndFees" />
+          <Dependency path="/schCContractLabor" />
+          <Dependency path="/schCDepletion" />
+          <Dependency path="/schCDepreciation" />
+          <Dependency path="/schCEmployeeBenefits" />
+          <Dependency path="/schCInsurance" />
+          <Dependency path="/schCInterestMortgage" />
+          <Dependency path="/schCInterestOther" />
+          <Dependency path="/schCLegalAndProfessional" />
+          <Dependency path="/schCOfficeExpense" />
+          <Dependency path="/schCPensionAndProfitSharing" />
+          <Dependency path="/schCRentVehicles" />
+          <Dependency path="/schCRentOther" />
+          <Dependency path="/schCRepairs" />
+          <Dependency path="/schCSupplies" />
+          <Dependency path="/schCTaxesAndLicenses" />
+          <Dependency path="/schCTravel" />
+          <Dependency path="/schCMeals" />
+          <Dependency path="/schCUtilities" />
+          <Dependency path="/schCWages" />
+          <Dependency path="/schCEnergyEfficient" />
+          <Dependency path="/schCOtherExpenses" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCTentativeProfit">
+      <Name>Tentative profit or loss</Name>
+      <Description>Schedule C line 29. Subtract line 28 from line 7.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/schCGrossIncome" /></Minuend>
+          <Subtrahends><Dependency path="/schCTotalExpenses" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <!-- TODO: Form 8829 -->
+    <!-- TODO: daycare decimal -->
+    <Fact path="/schCHomeSqFt">
+      <Name>Total home square footage</Name>
+      <Description>Schedule C line 30(a). Total square footage of your home.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCBusinessSqFt">
+      <Name>Business square footage</Name>
+      <Description>Schedule C line 30(b). Square footage of home used for business.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCAllowableSqFt">
+      <Name>Allowable square footage</Name>
+      <Description>Simplified method worksheet line 2. Lesser of business sqft or 300.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/schCBusinessSqFt" />
+          <Dollar>300</Dollar>
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCSimplifiedDeduction">
+      <Name>Simplified method deduction</Name>
+      <Description>Simplified method worksheet line 4. Allowable sqft times $5.</Description>
+      <Derived>
+        <Multiply>
+          <Dependency path="/schCAllowableSqFt" />
+          <Rational>5/1</Rational>
+        </Multiply>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCBusinessUseOfHomeLimit">
+      <Name>Gross income limitation</Name>
+      <Description>Simplified method worksheet line 1. Tentative profit floored at zero.</Description>
+      <Derived>
+        <GreaterOf>
+          <Dependency path="/schCTentativeProfit" />
+          <Dollar>0</Dollar>
+        </GreaterOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCBusinessUseOfHome">
+      <Name>Business use of home expenses</Name>
+      <Description>Schedule C line 30. Simplified method: lesser of deduction or gross income limit.</Description>
+      <Derived>
+        <LesserOf>
+          <Dependency path="/schCSimplifiedDeduction" />
+          <Dependency path="/schCBusinessUseOfHomeLimit" />
+        </LesserOf>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCNetProfitOrLoss">
+      <Name>Net profit or loss</Name>
+      <Description>Schedule C line 31. Subtract line 30 from line 29. Enter on Schedule 1 line 3 and Schedule SE line 2.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/schCTentativeProfit" /></Minuend>
+          <Subtrahends><Dependency path="/schCBusinessUseOfHome" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCAllAtRisk">
+      <Name>All investment at risk</Name>
+      <Description>Schedule C line 32a. All investment is at risk.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: Form 6198 loss limitation -->
+    <Fact path="/schCSomeNotAtRisk">
+      <Name>Some investment not at risk</Name>
+      <Description>Schedule C line 32b. Some investment is not at risk.</Description>
+      <Writable>
+        <Boolean/>
+      </Writable>
+    </Fact>
+
+    <!-- TODO: lines 33-34 -->
+    <Fact path="/schCBeginningInventory">
+      <Name>Beginning inventory</Name>
+      <Description>Schedule C line 35. Inventory at beginning of year.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCPurchases">
+      <Name>Purchases</Name>
+      <Description>Schedule C line 36. Purchases less cost of items withdrawn for personal use.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCCogsLabor">
+      <Name>Cost of labor</Name>
+      <Description>Schedule C line 37. Cost of labor. Do not include any amounts paid to yourself.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCCogsMaterials">
+      <Name>Materials and supplies</Name>
+      <Description>Schedule C line 38. Materials and supplies.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCCogsOtherCosts">
+      <Name>Other costs</Name>
+      <Description>Schedule C line 39. Other costs.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCCogsSubtotal">
+      <Name>Total before inventory</Name>
+      <Description>Schedule C line 40. Add lines 35 through 39.</Description>
+      <Derived>
+        <Add>
+          <Dependency path="/schCBeginningInventory" />
+          <Dependency path="/schCPurchases" />
+          <Dependency path="/schCCogsLabor" />
+          <Dependency path="/schCCogsMaterials" />
+          <Dependency path="/schCCogsOtherCosts" />
+        </Add>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCEndingInventory">
+      <Name>Ending inventory</Name>
+      <Description>Schedule C line 41. Inventory at end of year.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+    <Fact path="/schCCogsTotal">
+      <Name>Cost of goods sold</Name>
+      <Description>Schedule C line 42. Subtract line 41 from line 40. Enter the result here and on line 4.</Description>
+      <Derived>
+        <Subtract>
+          <Minuend><Dependency path="/schCCogsSubtotal" /></Minuend>
+          <Subtrahends><Dependency path="/schCEndingInventory" /></Subtrahends>
+        </Subtract>
+      </Derived>
+    </Fact>
+
+    <Fact path="/schCTotalOtherExpenses">
+      <Name>Total other expenses</Name>
+      <Description>Schedule C line 48. Total other expenses. Enter here and on line 27b.</Description>
+      <Writable>
+        <Dollar/>
+      </Writable>
+    </Fact>
+
+  </Facts>
+</FactDictionaryModule>
