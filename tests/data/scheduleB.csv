@@ -1,0 +1,7 @@
+# Schedule B accuracy tests — 2025 tax year
+# Line 4: taxable interest = max(0, total interest - excludable savings bond interest)
+# Sources: Hand-computed from IRS form logic. No TWE spec tests, TWE fact XML, or Direct File coverage for Schedule B.
+fact,type,interest_only,with_exclusion,full_exclusion,exclusion_exceeds,zero_interest,large_amounts
+/totalInterestScheduleB,input,5000,10000,5000,3000,0,500000
+/excludableSavingsBondInterest,input,0,3000,5000,5000,0,50000
+/taxableInterestScheduleB,output,5000,7000,0,0,0,450000
