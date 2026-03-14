@@ -1,0 +1,35 @@
+# Form 8889 (HSA) tax logic tests — 2025 tax year
+# Self-only: $4,300 | Family: $8,550 | Catch-up: $1,000 | 20% additional tax on distributions | 10% tax on coverage failure
+# Sources: Hand-computed from IRS Form 8889 instructions. No TWE spec tests or fact XML coverage.
+fact,type,self_only_full_year,family_full_year,self_only_55_unmarried,family_55_unmarried,family_55_married,self_only_55_married,partial_year_6_months,partial_year_medicare,employer_reduces_limit,excess_contributions,distributions_taxable,distributions_with_exceptions,distributions_all_qualified,coverage_failure,zero_eligible_months,partial_year_55_married_family,rollovers_reduce_net
+/hsaCoverageType,input,selfOnly,family,selfOnly,family,family,selfOnly,selfOnly,selfOnly,selfOnly,selfOnly,selfOnly,selfOnly,selfOnly,selfOnly,selfOnly,family,selfOnly
+/hsaEligibleMonths,input,12,12,12,12,12,12,6,12,12,12,12,12,12,12,0,9,12
+/hsaAge55OrOlder,input,,,true,true,true,true,,,,,,,,,,true,
+/hsaMarried,input,,,,,true,true,,,,,,,,,,true,
+/hsaMedicareMonths,input,,,,,,,,4,,,,,,,,,
+/hsaContributions,input,3000,6000,5000,9000,9000,5000,2000,2000,2000,6000,0,0,0,0,0,7000,0
+/hsaContributionLimitAllocated,input,4300,8550,5300,9550,8550,5300,2150,2867,4300,4300,4300,4300,4300,4300,0,6413,4300
+/archerMsaContributions,input,,,,,,,,,,,,,,,,,,
+/hsaEmployerContributions,input,,,,,,,,,2500,,,,,,,,
+/hsaFundingDistributions,input,,,,,,,,,,,,,,,,,,
+/hsaTotalDistributions,input,,,,,,,,,,,5000,5000,4000,,,,5000
+/hsaRolloversAndExcess,input,,,,,,,,,,,,,,,,,2000
+/hsaQualifiedMedicalExpenses,input,,,,,,,,,,,3000,2000,4000,,,,1000
+/hsaHasDistributionExceptions,input,,,,,,,,,,,,true,,,,,
+/hsaDistributionsSubjectToTax,input,,,,,,,,,,,,1500,,,,,
+/hsaLastMonthRuleIncome,input,,,,,,,,,,,,,,2000,,,
+/hsaFundingDistIncome,input,,,,,,,,,,,,,,1000,,,
+/hsaEffectiveMonths,output,12,12,12,12,12,12,6,8,12,12,12,12,12,12,0,9,12
+/hsaContributionLimit,output,4300,8550,5300,9550,8550,5300,2150,2867,4300,4300,4300,4300,4300,4300,0,6413,4300
+/hsaLimitLessMsa,output,4300,8550,5300,9550,8550,5300,2150,2867,4300,4300,4300,4300,4300,4300,0,6413,4300
+/hsaAdditionalContribution,output,0,0,0,0,1000,0,0,0,0,0,0,0,0,0,0,750,0
+/hsaTotalContributionLimit,output,4300,8550,5300,9550,9550,5300,2150,2867,4300,4300,4300,4300,4300,4300,0,7163,4300
+/hsaEmployerAndFunding,output,0,0,0,0,0,0,0,0,2500,0,0,0,0,0,0,0,0
+/hsaMaxDeductibleContribution,output,4300,8550,5300,9550,9550,5300,2150,2867,1800,4300,4300,4300,4300,4300,0,7163,4300
+/hsaDeductionAmount,output,3000,6000,5000,9000,9000,5000,2000,2000,1800,4300,0,0,0,0,0,7000,0
+/hsaNetDistributions,output,0,0,0,0,0,0,0,0,0,0,5000,5000,4000,0,0,0,3000
+/hsaTaxableDistributions,output,0,0,0,0,0,0,0,0,0,0,2000,3000,0,0,0,0,2000
+/hsaAdditionalTax20Pct,output,0,0,0,0,0,0,0,0,0,0,400,300,0,0,0,0,400
+/hsaTotalIncome,output,0,0,0,0,0,0,0,0,0,0,0,0,0,3000,0,0,0
+/hsaAdditionalTax10Pct,output,0,0,0,0,0,0,0,0,0,0,0,0,0,300,0,0,0
+/hsaIncomeToSchedule1,output,0,0,0,0,0,0,0,0,0,0,2000,3000,0,3000,0,0,2000
