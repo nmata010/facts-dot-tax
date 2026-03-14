@@ -1,16 +1,22 @@
-# Schedule SE accuracy tests — 2025 tax year
-# SS wage cap: $176,100 | 92.35% adjustment | 12.4% SS / 2.9% Medicare | $400 threshold
+# Schedule SE tax logic tests — 2025 tax year
+# SS wage cap: $176,100 | 92.35% adjustment | 12.4% SS / 2.9% Medicare | $400 threshold | Optional method max: $7,240
 # Sources: Hand-computed from IRS instructions; TWE SelfEmploymentSpec scenario patterns
-fact,type,nonfarm_20k,nonfarm_100k,above_ss_cap,wages_reduce_ss,below_threshold,at_threshold,farm_and_nonfarm,church_employee,church_below_100,se_loss,nonfarm_with_crp
-/netNonfarmProfitWritable,input,20000,100000,200000,50000,400,434,20000,0,0,-5000,30000
-/netFarmProfit,input,0,0,0,0,0,0,30000,0,0,0,0
-/conservationReservePayments,input,0,0,0,0,0,0,0,0,0,0,5000
-/seSocialSecurityWages,input,0,0,0,150000,0,0,0,0,0,0,0
-/churchEmployeeIncome,input,0,0,0,0,0,0,0,5000,100,0,0
-/seAdjustedIncome,output,18470,92350,184700,46175,369,401,46175,0,0,-5000,23088
-/seCombinedAdjusted,output,18470,92350,184700,46175,0,401,46175,0,0,0,23088
-/seNetEarnings,output,18470,92350,184700,46175,0,401,46175,4618,0,0,23088
-/seSocialSecurityTax,output,2290,11451,21836,3236,0,50,5726,573,0,0,2863
-/seMedicareTax,output,536,2678,5356,1339,0,12,1339,134,0,0,670
-/seTotalTax,output,2826,14129,27192,4575,0,62,7065,707,0,0,3533
-/seDeduction,output,1413,7065,13596,2288,0,31,3533,354,0,0,1767
+fact,type,nonfarm_20k,nonfarm_100k,above_ss_cap,wages_reduce_ss,below_threshold,at_threshold,farm_and_nonfarm,church_employee,church_below_100,se_loss,nonfarm_with_crp,farm_optional_method,nonfarm_optional_method,both_optional_methods,tips_and_8919_wages
+/netNonfarmProfitWritable,input,20000,100000,200000,50000,400,434,20000,0,0,-5000,30000,10000,2000,3000,50000
+/netFarmProfit,input,0,0,0,0,0,0,30000,0,0,0,0,3000,8000,5000,0
+/conservationReservePayments,input,0,0,0,0,0,0,0,0,0,0,5000,0,1000,0,0
+/seSocialSecurityWages,input,0,0,0,150000,0,0,0,0,0,0,0,0,0,0,100000
+/churchEmployeeIncome,input,0,0,0,0,0,0,0,5000,100,0,0,0,0,0,0
+/seUnreportedTips,input,,,,,,,,,,,,,,,20000
+/seWagesForm8919,input,,,,,,,,,,,,,,,30000
+/useFarmOptionalMethod,input,,,,,,,,,,,,true,,true,
+/useNonfarmOptionalMethod,input,,,,,,,,,,,,,true,true,
+/farmOptionalMethodIncome,input,,,,,,,,,,,,5000,,5000,
+/nonfarmOptionalMethodIncome,input,,,,,,,,,,,,,4000,2240,
+/seAdjustedIncome,output,18470,92350,184700,46175,369,401,46175,0,0,-5000,23088,9235,6465,0,46175
+/seCombinedAdjusted,output,18470,92350,184700,46175,0,401,46175,0,0,0,23088,14235,10465,7240,46175
+/seNetEarnings,output,18470,92350,184700,46175,0,401,46175,4618,0,0,23088,14235,10465,7240,46175
+/seSocialSecurityTax,output,2290,11451,21836,3236,0,50,5726,573,0,0,2863,1765,1298,898,3236
+/seMedicareTax,output,536,2678,5356,1339,0,12,1339,134,0,0,670,413,303,210,1339
+/seTotalTax,output,2826,14129,27192,4575,0,62,7065,707,0,0,3533,2178,1601,1108,4575
+/seDeduction,output,1413,7065,13596,2288,0,31,3533,354,0,0,1767,1089,801,554,2288
