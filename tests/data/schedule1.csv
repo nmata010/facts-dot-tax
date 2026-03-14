@@ -1,0 +1,41 @@
+# Schedule 1 tax logic tests — 2025 tax year
+# Pure summation form with 5 cross-form 4-fact patterns (Sch C, Sch E, F8889, Sch SE)
+# Sources: Hand-computed from schedule1.xml derivation chains; no TWE spec tests or IRS worked examples for summation lines
+fact,type,income_items,other_income_sum,adjustment_items,other_adj_sum,writable_fallbacks,schc_derived,schc_loss,sche_derived,mixed_full
+/taxableSaltRefunds,input,1500,,,,,,,,500
+/alimonyReceived,input,12000,,,,,,,,
+/otherGains,input,3000,,,,,,,,
+/farmIncome,input,8000,,,,,,,,12000
+/unemploymentComp,input,2500,,,,,,,,
+/gamblingIncome,input,,2000,,,,,,,1000
+/cancellationOfDebt,input,,3000,,,,,,,
+/juryDutyPay,input,,50,,,,,,,
+/prizesAndAwards,input,,100,,,,,,,
+/digitalAssets,input,,500,,,,,,,
+/otherIncomeMisc,input,,200,,,,,,,
+/educatorExpensesDeduction,input,,,300,,,,,,300
+/sepSimpleDeduction,input,,,5000,,,,,,
+/selfEmployedHealthInsDeduction,input,,,8000,,,,,,
+/iraDeduction,input,,,6000,,,,,,6000
+/studentLoanInterestDeduction,input,,,2500,,,,,,
+/adjJuryDutyPayDeduction,input,,,,200,,,,,
+/adjReforestationDeduction,input,,,,1500,,,,,
+/adjAttorneyFeesDiscriminationDeduction,input,,,,5000,,,,,
+/adjOtherDeduction,input,,,,300,,,,,500
+/businessIncomeSchCWritable,input,,,,,25000,,,,
+/rentalIncomeSchEWritable,input,,,,,10000,,,,
+/incomeFrom8889Writable,input,,,,,500,,,,
+/hsaDeductionWritable,input,,,,,3000,,,,
+/selfEmploymentTaxDeductionWritable,input,,,,,4000,,,,
+/schCGrossReceipts,input,,,,,,50000,,,
+/schCAdvertising,input,,,,,,,5000,,
+/schEPartnershipIncome,input,,,,,,,,15000,8000
+/businessIncomeSchC,output,,,,,25000,50000,-5000,,
+/rentalIncomeSchE,output,,,,,10000,,,15000,8000
+/incomeFrom8889,output,,,,,500,,,,
+/hsaDeduction,output,,,,,3000,,,,
+/selfEmploymentTaxDeduction,output,,,,,4000,3533,0,,
+/totalOtherIncome,output,0,5850,,,500,0,0,0,1000
+/additionalIncome,output,27000,5850,,,35500,50000,-5000,15000,21500
+/totalOtherAdjustments,output,,,0,7000,0,0,,,500
+/totalAdjustments,output,0,,21800,7000,7000,3533,0,,6800
