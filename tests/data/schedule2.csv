@@ -1,0 +1,30 @@
+# Schedule 2 (Additional Taxes) — 2025 tax year
+# Pure summation form. Lines 1z, 3, 7, 18, 21 are addition. Three 4-fact cross-form patterns: SE tax, HSA distributions, HSA ineligible.
+# Sources: Hand-computed from IRS Schedule 2 instructions. No TWE spec tests. No worked examples in instructions.
+fact,type,all_zeros,part1_additions,se_writable,se_derived,line7_sum,line18_sum,full_return
+/excessPTCRepayment,input,,500,,,,,1500
+/repaymentNewCleanVehicleCredit,input,,300,,,,,
+/repaymentPrevOwnedCleanVehicleCredit,input,,200,,,,,
+/recaptureNetEPE4255,input,,100,,,,,
+/excessivePaymentsGrossEPE,input,,50,,,,,
+/twentyPercentEP4255,input,,25,,,,,
+/otherAdditionsToTax,input,,75,,,,,
+/alternativeMinimumTax,input,,1000,,,,,3000
+/selfEmploymentTaxWritable,input,,,5000,,,,4000
+/netNonfarmProfitWritable,input,,,,20000,,,
+/unreportedTipTax,input,,,,,500,,200
+/uncollectedSsMedicareTaxWages,input,,,,,300,,
+/additionalTaxIRA,input,,,,,,,600
+/householdEmploymentTaxes,input,,,,,,,800
+/recaptureOtherCredits,input,,,,,,100,150
+/recaptureFederalMortgageSubsidy,input,,,,,,200,
+/additionalTaxHSADistributionsWritable,input,,,,,,300,
+/additionalTaxHSAIneligibleWritable,input,,,,,,400,
+/additionalTaxArcherMSA,input,,,,,,500,
+/otherAdditionalTaxes,input,,,,,,600,
+/totalAdditionsToTax,output,0,1250,0,0,0,0,1500
+/totalAdditionalTaxSchedule2,output,0,2250,0,0,0,0,4500
+/selfEmploymentTax,output,0,0,5000,2826,0,0,4000
+/totalAdditionalSsMedicareTax,output,0,0,0,0,800,0,200
+/totalOtherAdditionalTaxes,output,0,0,0,0,0,2100,150
+/totalOtherTaxesSchedule2,output,0,0,5000,2826,800,2100,5750
