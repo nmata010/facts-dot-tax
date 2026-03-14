@@ -1,0 +1,28 @@
+# Schedule 3 tax logic tests — 2025 tax year
+# All derived facts are pure addition — no thresholds, rates, caps, or conditionals
+# Sources: Hand-computed from IRS 1040 instructions. No TWE spec tests or worked examples for Schedule 3.
+fact,type,single_nonrefundable,mixed_nonrefundable,refundable_only,all_sections,zeros
+/foreignTaxCredit,input,500,1200,,750,
+/childDependentCareCredit,input,,800,,,
+/educationCredits,input,,2500,,2500,
+/retirementSavingsCredit,input,,1000,,,
+/residentialCleanEnergyCredit,input,,3000,,,
+/energyEfficientHomeCredit,input,,500,,,
+/generalBusinessCredit,input,,2000,,1000,
+/priorYearMinTaxCredit,input,,,,500,
+/adoptionCredit,input,,1500,,,
+/cleanVehicleCredit,input,,7500,,,
+/prevOwnedCleanVehicleCredit,input,,,,4000,
+/otherNonrefundableCredits,input,,,,200,
+/netPremiumTaxCredit,input,,,4000,3500,
+/extensionPayment,input,,,1000,,
+/excessSocialSecurityTax,input,,,500,800,
+/federalFuelTaxCredit,input,,,200,,
+/form2439Credit,input,,,300,,
+/section1341Credit,input,,,150,,
+/electivePaymentElection,input,,,,600,
+/otherRefundableCredits,input,,,,100,
+/totalOtherNonrefundableCredits,output,0,11000,0,5700,0
+/totalNonrefundableCreditsSchedule3,output,500,20000,0,8950,0
+/totalOtherRefundableCredits,output,0,0,450,700,0
+/totalRefundableCreditsSchedule3,output,0,0,6150,5000,0
