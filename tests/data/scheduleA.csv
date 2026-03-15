@@ -1,0 +1,29 @@
+# Schedule A tax logic tests — 2025 tax year
+# SALT cap: $40,000 ($20,000 MFS) | Medical threshold: 7.5% AGI
+# Sources: Hand-computed from IRS Schedule A instructions. TWE ItemizedDeductionsSpec patterns (OB3 limitations not implemented). No Direct File coverage.
+fact,type,basic_mortgage_salt,medical_above_threshold,medical_below_threshold,salt_at_cap,salt_mfs_cap,all_categories,zero_deductions,salt_below_cap
+/wagesFromW2,input,100000,60000,100000,200000,200000,150000,50000,80000
+/filingStatus,input,,,,,mfs,,,
+/medicalAndDentalExpenses,input,,10000,5000,,,20000,,
+/saltIncomeTaxOrSalesTax,input,5000,,,25000,15000,10000,,3000
+/saltRealEstateTax,input,8000,,,15000,10000,8000,,4000
+/saltPersonalPropertyTax,input,,,,5000,,2000,,1000
+/otherDeductibleTaxes,input,,,,,,500,,
+/homeMortgageInterest1098,input,12000,,,,,15000,,
+/homeMortgageInterestNot1098,input,,,,,,2000,,
+/mortgagePoints,input,,,,,,1000,,
+/investmentInterest,input,,,,,,500,,
+/charityCash,input,,,,,,5000,,
+/charityNonCash,input,,,,,,2000,,
+/charityCarryover,input,,,,,,1000,,
+/casualtyAndTheftLosses,input,,,,,,3000,,
+/otherItemizedDeductions,input,,,,,,1500,,
+/medicalExpensesThreshold,output,7500,4500,7500,15000,15000,11250,3750,6000
+/medicalExpensesDeduction,output,0,5500,0,0,0,8750,0,0
+/saltTotal,output,13000,0,0,45000,25000,20000,0,8000
+/saltDeduction,output,13000,0,0,40000,20000,20000,0,8000
+/totalTaxesPaid,output,13000,0,0,40000,20000,20500,0,8000
+/totalHomeMortgageInterest,output,12000,0,0,0,0,18000,0,0
+/totalInterestPaid,output,12000,0,0,0,0,18500,0,0
+/totalCharityGifts,output,0,0,0,0,0,8000,0,0
+/totalItemizedDeductions,output,25000,5500,0,40000,20000,60250,0,8000
