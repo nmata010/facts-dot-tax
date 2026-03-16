@@ -1,0 +1,39 @@
+# Schedule E tax logic tests — 2025 tax year
+# No thresholds, caps, or rates — Schedule E is primarily addition/subtraction with property-type routing
+# Sources: Hand-computed from IRS instructions. No TWE spec tests or Direct File coverage.
+fact,type,rental_profit,rental_loss,royalty_income,royalty_loss,all_expenses,zero_income,all_parts,rental_breakeven
+/schEPropertyType,input,singleFamilyResidence,singleFamilyResidence,royalties,royalties,commercial,,multiFamilyResidence,singleFamilyResidence
+/schERentsReceived,input,24000,12000,,,100000,,30000,20000
+/schERoyaltiesReceived,input,,,50000,5000,,,,
+/schEAdvertising,input,,,,,500,,,
+/schEAutoAndTravel,input,,,,,1000,,,
+/schECleaningAndMaintenance,input,,,,,2000,,,
+/schECommissions,input,,,,,3000,,,
+/schEInsurance,input,1200,2000,,,4000,,,
+/schELegalAndProfessionalFees,input,,,2000,,1500,,,
+/schEManagementFees,input,,,,,5000,,,
+/schEMortgageInterest,input,8000,10000,,,12000,,10000,12000
+/schEOtherInterest,input,,,,,800,,,
+/schERepairs,input,500,,,,3000,,,3000
+/schESupplies,input,,,,,600,,,
+/schETaxes,input,3000,4000,,,7000,,5000,5000
+/schEUtilities,input,,,,,2400,,,
+/schEDepreciation,input,5000,8000,,8000,10000,,,
+/schEOtherExpenses,input,,,1000,2000,1200,,,
+/schEDeductibleLoss,input,,12000,,,,,,
+/schEPartnershipIncome,input,,,,,,,15000,
+/schEEstateIncome,input,,,,,,,-3000,
+/schERemicIncome,input,,,,,,,2000,
+/schEFarmRentalIncome,input,,,,,,,8000,
+/schETotalExpenses,output,17700,24000,3000,10000,54000,0,15000,20000
+/schEGrossRentalIncome,output,24000,12000,50000,5000,100000,0,30000,20000
+/schENetIncomeOrLoss,output,6300,-12000,47000,-5000,46000,0,15000,0
+/schETotalRents,output,24000,12000,0,0,100000,0,30000,20000
+/schETotalRoyalties,output,0,0,50000,5000,0,0,0,0
+/schETotalMortgageInterest,output,8000,10000,0,0,12000,0,10000,12000
+/schETotalDepreciation,output,5000,8000,0,8000,10000,0,0,0
+/schETotalAllExpenses,output,17700,24000,3000,10000,54000,0,15000,20000
+/schEIncome,output,6300,0,47000,0,46000,0,15000,0
+/schELosses,output,0,-12000,0,-5000,0,0,0,0
+/schETotalRentalAndRoyalty,output,6300,-12000,47000,-5000,46000,0,15000,0
+/schETotalIncome,output,6300,-12000,47000,-5000,46000,0,37000,0
