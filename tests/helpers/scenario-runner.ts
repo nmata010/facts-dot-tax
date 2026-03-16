@@ -67,14 +67,16 @@ export function parseScenarioCSV(csvPath: string): Scenario[] {
  * Run all scenarios from a CSV file as Vitest tests.
  * Call this inside a describe() block.
  */
-export function runScenarios(csvFile: string) {
+export function runScenarios(csvFile: string, skip?: string[]) {
   const csvPath = join(import.meta.dirname, "../data", csvFile);
   const scenarios = parseScenarioCSV(csvPath);
+  const skipSet = new Set(skip ?? []);
 
   for (const scenario of scenarios) {
     if (scenario.inputs.length === 0 && scenario.outputs.length === 0) continue;
 
-    it(scenario.name, async () => {
+    const testFn = skipSet.has(scenario.name) ? it.skip : it;
+    testFn(scenario.name, async () => {
       const graph = await createTestGraph();
 
       // Set all inputs
