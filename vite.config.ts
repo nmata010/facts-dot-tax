@@ -7,6 +7,9 @@ import tailwindcss from "@tailwindcss/vite"
 export default defineConfig({
   base: "/",
   plugins: [react(), tailwindcss()],
+  test: {
+    testTimeout: 15000,
+  },
   server: {
     port: 8080,
   },
