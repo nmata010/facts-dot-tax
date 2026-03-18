@@ -30,6 +30,7 @@ export interface FactSchema {
   name: string;
   description: string;
   type: "Dollar" | "Int" | "Boolean" | "Enum" | "String";
+  options?: string[];
 }
 
 export interface FactResult {
@@ -77,6 +78,7 @@ interface ParsedFact {
   description: string;
   type: "Dollar" | "Int" | "Boolean" | "Enum" | "String";
   isWritable: boolean;
+  enumOptionsPath?: string;
 }
 
 function parseFacts(xml: string): ParsedFact[] {
@@ -98,12 +100,15 @@ function parseFacts(xml: string): ParsedFact[] {
     else if (/<Boolean\s*\/>/.test(body)) type = "Boolean";
     else if (/<Enum\s/.test(body)) type = "Enum";
 
+    const optionsPathMatch = body.match(/<Enum\s+optionsPath="([^"]+)"/);
+
     facts.push({
       path,
       name: nameMatch ? nameMatch[1].trim() : path,
       description: descMatch ? descMatch[1].trim() : "",
       type,
       isWritable,
+      enumOptionsPath: optionsPathMatch ? optionsPathMatch[1] : undefined,
     });
   }
 
@@ -115,6 +120,32 @@ function extractFactsXml(xml: string): string {
   const end = xml.indexOf("</Facts>");
   if (start === -1 || end === -1) return "";
   return xml.slice(start + "<Facts>".length, end);
+}
+
+function parseEnumOptions(xml: string): Map<string, string[]> {
+  const enums = new Map<string, string[]>();
+  const regex = /<Fact\s+path="([^"]+)"[^>]*>[\s\S]*?<EnumOptions>([\s\S]*?)<\/EnumOptions>[\s\S]*?<\/Fact>/g;
+  let match;
+  while ((match = regex.exec(xml)) !== null) {
+    const path = match[1];
+    const body = match[2];
+    const options: string[] = [];
+    const strRegex = /<String>([^<]+)<\/String>/g;
+    let strMatch;
+    while ((strMatch = strRegex.exec(body)) !== null) {
+      options.push(strMatch[1]);
+    }
+    enums.set(path, options);
+  }
+  return enums;
+}
+
+let _enumOptions: Map<string, string[]> | null = null;
+
+function getEnumOptions(xml: string): Map<string, string[]> {
+  if (_enumOptions) return _enumOptions;
+  _enumOptions = parseEnumOptions(xml);
+  return _enumOptions;
 }
 
 function resolveFormId(formId: string): string {
@@ -178,9 +209,17 @@ export function listForms(): string[] {
 
 export function getFormSchema(formId: string): FactSchema[] {
   const xml = readFormXml(formId);
+  const mergedXml = loadMergedXml();
+  const enumOpts = getEnumOptions(mergedXml);
   return parseFacts(xml)
     .filter((f) => f.isWritable)
-    .map(({ path, name, description, type }) => ({ path, name, description, type }));
+    .map(({ path, name, description, type, enumOptionsPath }) => {
+      const schema: FactSchema = { path, name, description, type };
+      if (type === "Enum" && enumOptionsPath) {
+        schema.options = enumOpts.get(enumOptionsPath);
+      }
+      return schema;
+    });
 }
 
 export async function createReturn(): Promise<TaxReturn> {
@@ -193,13 +232,33 @@ export async function createReturn(): Promise<TaxReturn> {
 
   // Build per-form fact metadata for getForm lookups
   const formFacts = new Map<string, ParsedFact[]>();
+  const allFacts = new Map<string, ParsedFact>();
   for (const [formId, filename] of Object.entries(FORMS)) {
     const formXml = readFileSync(join(XML_DIR, filename), "utf-8");
-    formFacts.set(formId, parseFacts(formXml));
+    const parsed = parseFacts(formXml);
+    formFacts.set(formId, parsed);
+    for (const f of parsed) allFacts.set(f.path, f);
   }
+
+  const enumOpts = getEnumOptions(xml);
 
   return {
     setFact(path: string, value: string) {
+      const fact = allFacts.get(path);
+      if (!fact) {
+        throw new Error(`Unknown fact: "${path}". Check spelling and case sensitivity.`);
+      }
+      if (!fact.isWritable) {
+        throw new Error(`"${path}" is a derived fact and cannot be set directly.`);
+      }
+      if (fact.type === "Enum" && fact.enumOptionsPath) {
+        const valid = enumOpts.get(fact.enumOptionsPath);
+        if (valid && !valid.includes(value)) {
+          throw new Error(
+            `Invalid value "${value}" for ${path}. Valid options: ${valid.join(", ")}`
+          );
+        }
+      }
       const result = graph.set(path, value);
       if (result.errorType) {
         throw new Error(
