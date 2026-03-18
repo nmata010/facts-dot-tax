@@ -245,7 +245,13 @@ export async function createReturn(): Promise<TaxReturn> {
   return {
     setFact(path: string, value: string) {
       const fact = allFacts.get(path);
-      if (fact?.type === "Enum" && fact.enumOptionsPath) {
+      if (!fact) {
+        throw new Error(`Unknown fact: "${path}". Check spelling and case sensitivity.`);
+      }
+      if (!fact.isWritable) {
+        throw new Error(`"${path}" is a derived fact and cannot be set directly.`);
+      }
+      if (fact.type === "Enum" && fact.enumOptionsPath) {
         const valid = enumOpts.get(fact.enumOptionsPath);
         if (valid && !valid.includes(value)) {
           throw new Error(
