@@ -107,18 +107,22 @@ async function handleLine(line: string): Promise<boolean> {
 }
 
 async function main() {
-  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+  const rule = dim("  ──────────────────────────────────────");
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    prompt: "  tax >> ",
+  });
 
   console.log(BANNER);
-
-  const rule = dim("  ──────────────────────────────────────");
-
   console.log(rule);
+  rl.prompt();
+
   for await (const line of rl) {
-    process.stdout.write("  tax >> ");
     const done = await handleLine(line);
     if (done) break;
     console.log(rule);
+    rl.prompt();
   }
 
   rl.close();
