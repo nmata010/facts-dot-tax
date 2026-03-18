@@ -111,10 +111,14 @@ async function main() {
 
   console.log(BANNER);
 
+  const rule = dim("  ──────────────────────────────────────");
+
+  console.log(rule);
   for await (const line of rl) {
-    process.stdout.write(`${dim("tax>")} `);
+    process.stdout.write("  tax >> ");
     const done = await handleLine(line);
     if (done) break;
+    console.log(rule);
   }
 
   rl.close();
