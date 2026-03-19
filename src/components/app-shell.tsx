@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef, createContext, useContext } from "react";
+import { Link } from "react-router-dom";
 import { FORMS } from "@/forms/registry";
 
 const FormNavContext = createContext<(id: string, section?: string) => void>(() => {});
@@ -70,6 +71,16 @@ export function AppShell() {
     <div className="md:flex md:min-h-screen">
       {/* Desktop sidebar */}
       <nav className="hidden md:flex flex-col shrink-0 w-40 border-r border-foreground/10 py-8 px-3 gap-1 font-mono">
+        <Link
+          to="/"
+          className="text-[9px] text-muted-foreground/40 hover:text-muted-foreground px-2 mb-3 transition-colors flex items-center gap-1.5"
+        >
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+          facts.tax
+        </Link>
         <div className="text-[9px] tracking-[0.2em] uppercase text-muted-foreground/50 mb-2 px-2">
           Forms
         </div>
@@ -87,6 +98,18 @@ export function AppShell() {
           </button>
         ))}
       </nav>
+
+      {/* Mobile home link */}
+      <Link
+        to="/"
+        className="md:hidden fixed top-3 left-3 z-50 text-[9px] text-muted-foreground/40 hover:text-muted-foreground transition-colors flex items-center gap-1.5 font-mono"
+      >
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+        facts.tax
+      </Link>
 
       {/* Receipt area */}
       <main className="flex-1 min-w-0 pb-14 md:pb-0">
