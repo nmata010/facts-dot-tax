@@ -13,6 +13,8 @@
     </Fact>
 
     <Fact path="/hsaCoverageType">
+      <Form>Form 8889</Form>
+      <Line>1</Line>
       <Name>HDHP coverage type</Name>
       <Description>Form 8889 line 1. Type of HDHP coverage during 2025.</Description>
       <Writable>
@@ -226,6 +228,8 @@
     </Fact>
 
     <Fact path="/hsaContributions">
+      <Form>Form 8889</Form>
+      <Line>2</Line>
       <Name>HSA contributions you made</Name>
       <Description>Form 8889 line 2. HSA contributions you made for 2025, not including employer contributions, cafeteria plan, or rollovers.</Description>
       <Writable>
@@ -235,6 +239,8 @@
 
     <!-- TODO: does not handle coverage type changes mid-year -->
     <Fact path="/hsaContributionLimit">
+      <Form>Form 8889</Form>
+      <Line>3</Line>
       <Name>Contribution limit</Name>
       <Description>Form 8889 line 3. HSA contribution limit based on HDHP coverage type, prorated by eligible months.</Description>
       <Derived>
@@ -248,6 +254,8 @@
     </Fact>
 
     <Fact path="/archerMsaContributions">
+      <Form>Form 8889</Form>
+      <Line>4</Line>
       <Name>Archer MSA contributions</Name>
       <Description>Form 8889 line 4. Archer MSA contributions from Form 8853.</Description>
       <Writable>
@@ -256,6 +264,8 @@
     </Fact>
 
     <Fact path="/hsaLimitLessMsa">
+      <Form>Form 8889</Form>
+      <Line>5</Line>
       <Name>Limit less MSA</Name>
       <Description>Form 8889 line 5. Subtract line 4 from line 3. If zero or less, enter -0-.</Description>
       <Derived>
@@ -271,6 +281,8 @@
 
     <!-- TODO: Line 6 allocation worksheet for MFJ spouses with separate HSAs and family HDHP coverage -->
     <Fact path="/hsaContributionLimitAllocated">
+      <Form>Form 8889</Form>
+      <Line>6</Line>
       <Name>Contribution limit after allocation</Name>
       <Description>Form 8889 line 6. Enter amount from line 5, or allocated amount if MFJ with separate HSAs and family coverage.</Description>
       <Writable>
@@ -305,6 +317,8 @@
     </Fact>
 
     <Fact path="/hsaAdditionalContribution">
+      <Form>Form 8889</Form>
+      <Line>7</Line>
       <Name>Additional contribution amount</Name>
       <Description>Form 8889 line 7. Additional contribution for age 55 or older, married, with family HDHP coverage. Prorated by eligible months.</Description>
       <Derived>
@@ -329,6 +343,8 @@
     </Fact>
 
     <Fact path="/hsaTotalContributionLimit">
+      <Form>Form 8889</Form>
+      <Line>8</Line>
       <Name>Total contribution limit</Name>
       <Description>Form 8889 line 8. Add lines 6 and 7.</Description>
       <Derived>
@@ -341,6 +357,8 @@
 
     <!-- TODO: derive from W-2 box 12, code W -->
     <Fact path="/hsaEmployerContributions">
+      <Form>Form 8889</Form>
+      <Line>9</Line>
       <Name>Employer contributions</Name>
       <Description>Form 8889 line 9. Employer contributions made to your HSAs for 2025.</Description>
       <Writable>
@@ -350,6 +368,8 @@
 
     <!-- TODO: derive from 1099-R -->
     <Fact path="/hsaFundingDistributions">
+      <Form>Form 8889</Form>
+      <Line>10</Line>
       <Name>Qualified HSA funding distributions</Name>
       <Description>Form 8889 line 10. Qualified HSA funding distributions from IRA.</Description>
       <Writable>
@@ -358,6 +378,8 @@
     </Fact>
 
     <Fact path="/hsaEmployerAndFunding">
+      <Form>Form 8889</Form>
+      <Line>11</Line>
       <Name>Employer contributions plus funding distributions</Name>
       <Description>Form 8889 line 11. Add lines 9 and 10.</Description>
       <Derived>
@@ -369,6 +391,8 @@
     </Fact>
 
     <Fact path="/hsaMaxDeductibleContribution">
+      <Form>Form 8889</Form>
+      <Line>12</Line>
       <Name>Maximum deductible contribution</Name>
       <Description>Form 8889 line 12. Subtract line 11 from line 8. If zero or less, enter -0-.</Description>
       <Derived>
@@ -383,6 +407,8 @@
     </Fact>
 
     <Fact path="/hsaDeductionAmount">
+      <Form>Form 8889</Form>
+      <Line>13</Line>
       <Name>HSA deduction</Name>
       <Description>Form 8889 line 13. Smaller of line 2 or line 12.</Description>
       <Derived>
@@ -394,6 +420,8 @@
     </Fact>
 
     <Fact path="/hsaTotalDistributions">
+      <Form>Form 8889</Form>
+      <Line>14a</Line>
       <Name>Total distributions</Name>
       <Description>Form 8889 line 14a. Total distributions received from all HSAs.</Description>
       <Writable>
@@ -402,6 +430,8 @@
     </Fact>
 
     <Fact path="/hsaRolloversAndExcess">
+      <Form>Form 8889</Form>
+      <Line>14b</Line>
       <Name>Rollovers and excess contributions withdrawn</Name>
       <Description>Form 8889 line 14b. Distributions rolled over to another HSA plus excess contributions withdrawn by due date.</Description>
       <Writable>
@@ -410,6 +440,8 @@
     </Fact>
 
     <Fact path="/hsaNetDistributions">
+      <Form>Form 8889</Form>
+      <Line>14c</Line>
       <Name>Net distributions</Name>
       <Description>Form 8889 line 14c. Subtract line 14b from line 14a.</Description>
       <Derived>
@@ -421,6 +453,8 @@
     </Fact>
 
     <Fact path="/hsaQualifiedMedicalExpenses">
+      <Form>Form 8889</Form>
+      <Line>15</Line>
       <Name>Qualified medical expenses</Name>
       <Description>Form 8889 line 15. Qualified medical expenses paid using HSA distributions.</Description>
       <Writable>
@@ -429,6 +463,8 @@
     </Fact>
 
     <Fact path="/hsaTaxableDistributions">
+      <Form>Form 8889</Form>
+      <Line>16</Line>
       <Name>Taxable HSA distributions</Name>
       <Description>Form 8889 line 16. Subtract line 15 from line 14c. If zero or less, enter -0-.</Description>
       <Derived>
@@ -443,6 +479,8 @@
     </Fact>
 
     <Fact path="/hsaHasDistributionExceptions">
+      <Form>Form 8889</Form>
+      <Line>17a</Line>
       <Name>Has exceptions to additional 20% tax</Name>
       <Description>Form 8889 line 17a. Whether any distributions on line 16 meet exceptions to the additional 20% tax (death, disability, or age 65+).</Description>
       <Writable>
@@ -451,6 +489,8 @@
     </Fact>
 
     <Fact path="/hsaDistributionsSubjectToTax">
+      <Form>Form 8889</Form>
+      <Line>17b</Line>
       <Name>Distributions subject to additional tax</Name>
       <Description>Form 8889 line 17b input. Distributions on line 16 subject to additional 20% tax when exceptions apply to only some distributions.</Description>
       <Writable>
@@ -459,6 +499,8 @@
     </Fact>
 
     <Fact path="/hsaAdditionalTax20Pct">
+      <Form>Form 8889</Form>
+      <Line>17b</Line>
       <Name>Additional 20% tax on HSA distributions</Name>
       <Description>Form 8889 line 17b. 20% of distributions subject to the additional tax.</Description>
       <Derived>
@@ -488,6 +530,8 @@
     </Fact>
 
     <Fact path="/hsaLastMonthRuleIncome">
+      <Form>Form 8889</Form>
+      <Line>18</Line>
       <Name>Last-month rule income</Name>
       <Description>Form 8889 line 18. Income from failure to maintain HDHP coverage under last-month rule.</Description>
       <Writable>
@@ -496,6 +540,8 @@
     </Fact>
 
     <Fact path="/hsaFundingDistIncome">
+      <Form>Form 8889</Form>
+      <Line>19</Line>
       <Name>Qualified HSA funding distribution income</Name>
       <Description>Form 8889 line 19. Income from failure to remain eligible after qualified HSA funding distribution.</Description>
       <Writable>
@@ -504,6 +550,8 @@
     </Fact>
 
     <Fact path="/hsaTotalIncome">
+      <Form>Form 8889</Form>
+      <Line>20</Line>
       <Name>Total income from HDHP coverage failure</Name>
       <Description>Form 8889 line 20. Add lines 18 and 19.</Description>
       <Derived>
@@ -515,6 +563,8 @@
     </Fact>
 
     <Fact path="/hsaAdditionalTax10Pct">
+      <Form>Form 8889</Form>
+      <Line>21</Line>
       <Name>Additional 10% tax</Name>
       <Description>Form 8889 line 21. Multiply line 20 by 10%.</Description>
       <Derived>

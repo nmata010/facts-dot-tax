@@ -66,13 +66,36 @@ async function handleLine(line: string): Promise<boolean> {
         if (!ret) { console.log(`\n  ${yellow("Run 'create' first.")}\n`); break; }
         if (!args[0]) { console.log(`\n  Usage: ${cyan("form <formId>")}\n`); break; }
         const facts = ret.getForm(args[0]);
+        const incomplete = facts.filter((f) => f.value === "—");
         console.log(`\n  ${bold(args[0])}\n`);
         for (const f of facts) {
-          const tag = f.kind === "writable" ? yellow("input ") : dim("      ");
-          const val = f.kind === "derived" ? bold(f.value) : f.value;
-          console.log(`  ${tag} ${dim(f.path)} ${val} — ${f.name}`);
+          const line = f.line ? dim(`L${f.line}`.padEnd(6)) : dim("      ");
+          const tag = f.kind === "writable" ? yellow("input") : dim("     ");
+          if (f.value === "—") {
+            console.log(`  ${line} ${tag} ${cyan(f.path)} ${dim("|")} ${f.name} ${dim("|")} ${red("—")}`);
+          } else {
+            const val = f.kind === "derived" ? bold(f.value) : f.value;
+            console.log(`  ${line} ${tag} ${cyan(f.path)} ${dim("|")} ${f.name} ${dim("|")} ${val}`);
+          }
         }
-        console.log(`\n  ${dim(`${facts.length} facts`)}\n`);
+        if (incomplete.length > 0) {
+          console.log(`\n  ${red(`${incomplete.length} incomplete lines.`)} Run ${cyan(`deps <path>`)} to see why.`);
+        }
+        console.log(`\n  ${dim(`${facts.length} lines`)}\n`);
+        break;
+      }
+
+      case "deps": {
+        if (!ret) { console.log(`\n  ${yellow("Run 'create' first.")}\n`); break; }
+        if (!args[0]) { console.log(`\n  Usage: ${cyan("deps <path>")}\n`); break; }
+        const deps = ret.getDependencies(args[0]);
+        console.log(`\n  ${bold(args[0])} ${dim("depends on:")}\n`);
+        for (const d of deps) {
+          const hasValue = d.value !== undefined;
+          const status = hasValue ? green(d.value!) : red("not set");
+          console.log(`  ${cyan(d.path)} ${dim(`(${d.type})`)} ${status} — ${d.name}`);
+        }
+        console.log(`\n  ${dim(`${deps.length} writable dependencies`)}\n`);
         break;
       }
 
@@ -86,6 +109,7 @@ async function handleLine(line: string): Promise<boolean> {
   ${cyan("set")} ${dim("<path> <value>")}     Set a writable fact
   ${cyan("get")} ${dim("<path>")}             Read a computed value
   ${cyan("form")} ${dim("<form>")}            Show all facts for a form
+  ${cyan("deps")} ${dim("<path>")}            Show writable dependencies for a fact
   ${cyan("exit")}                    Quit
 `);
         break;

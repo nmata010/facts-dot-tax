@@ -38,6 +38,15 @@ export interface FactResult {
   name: string;
   value: string;
   kind: "writable" | "derived";
+  line?: string;
+}
+
+export interface DependencyInfo {
+  path: string;
+  name: string;
+  type: string;
+  isWritable: boolean;
+  value?: string;
 }
 
 export interface TaxReturn {
@@ -45,6 +54,7 @@ export interface TaxReturn {
   getFact(path: string): string;
   getDollar(path: string): number;
   getForm(formId: string): FactResult[];
+  getDependencies(path: string): DependencyInfo[];
 }
 
 // ── Form registry ──
@@ -79,6 +89,8 @@ interface ParsedFact {
   type: "Dollar" | "Int" | "Boolean" | "Enum" | "String";
   isWritable: boolean;
   enumOptionsPath?: string;
+  form?: string;
+  line?: string;
 }
 
 function parseFacts(xml: string): ParsedFact[] {
@@ -101,6 +113,8 @@ function parseFacts(xml: string): ParsedFact[] {
     else if (/<Enum\s/.test(body)) type = "Enum";
 
     const optionsPathMatch = body.match(/<Enum\s+optionsPath="([^"]+)"/);
+    const formMatch = body.match(/<Form>([\s\S]*?)<\/Form>/);
+    const lineMatch = body.match(/<Line>([\s\S]*?)<\/Line>/);
 
     facts.push({
       path,
@@ -109,6 +123,8 @@ function parseFacts(xml: string): ParsedFact[] {
       type,
       isWritable,
       enumOptionsPath: optionsPathMatch ? optionsPathMatch[1] : undefined,
+      form: formMatch ? formMatch[1].trim() : undefined,
+      line: lineMatch ? lineMatch[1].trim() : undefined,
     });
   }
 
@@ -146,6 +162,35 @@ function getEnumOptions(xml: string): Map<string, string[]> {
   if (_enumOptions) return _enumOptions;
   _enumOptions = parseEnumOptions(xml);
   return _enumOptions;
+}
+
+function parseDependencyGraph(xml: string): Map<string, string[]> {
+  const deps = new Map<string, string[]>();
+  const factRegex = /<Fact\s+path="([^"]+)"[^>]*>([\s\S]*?)<\/Fact>/g;
+  let match;
+  while ((match = factRegex.exec(xml)) !== null) {
+    const path = match[1];
+    const body = match[2];
+    if (/<Writable>/.test(body)) continue;
+    const depPaths: string[] = [];
+    const depRegex = /<Dependency\s+path="([^"]+)"\s*\/>/g;
+    let depMatch;
+    while ((depMatch = depRegex.exec(body)) !== null) {
+      depPaths.push(depMatch[1]);
+    }
+    if (depPaths.length > 0) {
+      deps.set(path, depPaths);
+    }
+  }
+  return deps;
+}
+
+let _depGraph: Map<string, string[]> | null = null;
+
+function getDepGraph(xml: string): Map<string, string[]> {
+  if (_depGraph) return _depGraph;
+  _depGraph = parseDependencyGraph(xml);
+  return _depGraph;
 }
 
 function resolveFormId(formId: string): string {
@@ -241,6 +286,24 @@ export async function createReturn(): Promise<TaxReturn> {
   }
 
   const enumOpts = getEnumOptions(xml);
+  const depGraph = getDepGraph(xml);
+
+  function traceWritableDeps(path: string, visited: Set<string> = new Set()): string[] {
+    if (visited.has(path)) return [];
+    visited.add(path);
+
+    const fact = allFacts.get(path);
+    if (fact?.isWritable) return [path];
+
+    const deps = depGraph.get(path);
+    if (!deps) return [];
+
+    const writables: string[] = [];
+    for (const dep of deps) {
+      writables.push(...traceWritableDeps(dep, visited));
+    }
+    return writables;
+  }
 
   return {
     setFact(path: string, value: string) {
@@ -281,6 +344,31 @@ export async function createReturn(): Promise<TaxReturn> {
       return Number(raw.replace(/[$,]/g, ""));
     },
 
+    getDependencies(path: string): DependencyInfo[] {
+      const fact = allFacts.get(path);
+      if (!fact) {
+        throw new Error(`Unknown fact: "${path}". Check spelling and case sensitivity.`);
+      }
+
+      const writablePaths = [...new Set(traceWritableDeps(path))];
+      return writablePaths.map((p) => {
+        const f = allFacts.get(p)!;
+        let value: string | undefined;
+        try {
+          value = this.getFact(p);
+        } catch {
+          value = undefined;
+        }
+        return {
+          path: p,
+          name: f.name,
+          type: f.type,
+          isWritable: true,
+          value,
+        };
+      });
+    },
+
     getForm(formId: string): FactResult[] {
       const facts = formFacts.get(formId);
       if (!facts) {
@@ -288,12 +376,29 @@ export async function createReturn(): Promise<TaxReturn> {
           `Unknown form: "${formId}". Available forms: ${Object.keys(FORMS).join(", ")}`
         );
       }
-      return facts.map((f) => ({
-        path: f.path,
-        name: f.name,
-        value: this.getFact(f.path),
-        kind: f.isWritable ? ("writable" as const) : ("derived" as const),
-      }));
+      return facts
+        .filter((f) => f.line !== undefined)
+        .sort((a, b) => {
+          const aNum = parseFloat(a.line!);
+          const bNum = parseFloat(b.line!);
+          if (isNaN(aNum) || isNaN(bNum)) return a.line!.localeCompare(b.line!);
+          return aNum - bNum;
+        })
+        .map((f) => {
+          let value: string;
+          try {
+            value = this.getFact(f.path);
+          } catch {
+            value = "—";
+          }
+          return {
+            path: f.path,
+            name: f.name,
+            value,
+            kind: f.isWritable ? ("writable" as const) : ("derived" as const),
+            line: f.line,
+          };
+        });
     },
   };
 }

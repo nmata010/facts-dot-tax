@@ -19,6 +19,8 @@
     </Fact>
 
     <Fact path="/schedule1aAgi">
+      <Form>Schedule 1-A</Form>
+      <Line>1</Line>
       <Name>Adjusted gross income</Name>
       <Description>Schedule 1-A line 1. Enter the amount from Form 1040, line 11b.</Description>
       <Derived>
@@ -36,6 +38,8 @@
     </Fact>
 
     <Fact path="/puertoRicoExcludedIncome">
+      <Form>Schedule 1-A</Form>
+      <Line>2a</Line>
       <Name>Puerto Rico excluded income</Name>
       <Description>Schedule 1-A line 2a. Income from Puerto Rico that was excluded.</Description>
       <Writable>
@@ -45,6 +49,8 @@
 
     <!-- TODO: derive from Form 2555 -->
     <Fact path="/form2555Line45">
+      <Form>Schedule 1-A</Form>
+      <Line>2b</Line>
       <Name>Form 2555 line 45</Name>
       <Description>Schedule 1-A line 2b. Amount from Form 2555, line 45.</Description>
       <Writable>
@@ -54,6 +60,8 @@
 
     <!-- TODO: derive from Form 2555 -->
     <Fact path="/form2555Line50">
+      <Form>Schedule 1-A</Form>
+      <Line>2c</Line>
       <Name>Form 2555 line 50</Name>
       <Description>Schedule 1-A line 2c. Amount from Form 2555, line 50.</Description>
       <Writable>
@@ -63,6 +71,8 @@
 
     <!-- TODO: derive from Form 4563 -->
     <Fact path="/form4563Line15">
+      <Form>Schedule 1-A</Form>
+      <Line>2d</Line>
       <Name>Form 4563 line 15</Name>
       <Description>Schedule 1-A line 2d. Amount from Form 4563, line 15.</Description>
       <Writable>
@@ -71,6 +81,8 @@
     </Fact>
 
     <Fact path="/magiExclusions">
+      <Form>Schedule 1-A</Form>
+      <Line>2e</Line>
       <Name>MAGI exclusions</Name>
       <Description>Schedule 1-A line 2e. Add lines 2a, 2b, 2c, and 2d.</Description>
       <Derived>
@@ -84,6 +96,8 @@
     </Fact>
 
     <Fact path="/schedule1aMagi">
+      <Form>Schedule 1-A</Form>
+      <Line>3</Line>
       <Name>Modified adjusted gross income</Name>
       <Description>Schedule 1-A line 3. Add lines 1 and 2e.</Description>
       <Derived>
@@ -95,6 +109,8 @@
     </Fact>
 
     <Fact path="/qualifiedTipsW2">
+      <Form>Schedule 1-A</Form>
+      <Line>4a</Line>
       <Name>Qualified tips from W-2</Name>
       <Description>Schedule 1-A line 4a. Qualified tips included on Form W-2, box 7.</Description>
       <Writable>
@@ -103,6 +119,8 @@
     </Fact>
 
     <Fact path="/qualifiedTips4137">
+      <Form>Schedule 1-A</Form>
+      <Line>4b</Line>
       <Name>Qualified tips from Form 4137</Name>
       <Description>Schedule 1-A line 4b. Qualified tips included on Form 4137, line 1, row A, column (c).</Description>
       <Writable>
@@ -112,6 +130,8 @@
 
     <!-- TODO: multi-employer worksheet — currently assumes single employer (GreaterOf 4a/4b) -->
     <Fact path="/qualifiedTipsEmployee">
+      <Form>Schedule 1-A</Form>
+      <Line>4c</Line>
       <Name>Qualified tips from employment</Name>
       <Description>Schedule 1-A line 4c. Larger of line 4a or line 4b (single employer).</Description>
       <Derived>
@@ -124,6 +144,8 @@
 
     <!-- TODO: net income limitation + multiple trades/businesses worksheet -->
     <Fact path="/qualifiedTipsSelfEmployed">
+      <Form>Schedule 1-A</Form>
+      <Line>5</Line>
       <Name>Qualified tips from self-employment</Name>
       <Description>Schedule 1-A line 5. Qualified tip amount from Forms 1099-NEC, 1099-MISC, or 1099-K.</Description>
       <Writable>
@@ -132,6 +154,8 @@
     </Fact>
 
     <Fact path="/totalQualifiedTips">
+      <Form>Schedule 1-A</Form>
+      <Line>6</Line>
       <Name>Total qualified tips</Name>
       <Description>Schedule 1-A line 6. Add lines 4c and 5.</Description>
       <Derived>
@@ -143,6 +167,8 @@
     </Fact>
 
     <Fact path="/qualifiedTipsCapped">
+      <Form>Schedule 1-A</Form>
+      <Line>7</Line>
       <Name>Qualified tips capped</Name>
       <Description>Schedule 1-A line 7. Enter the smaller of line 6 or $25,000.</Description>
       <Derived>
@@ -154,6 +180,8 @@
     </Fact>
 
     <Fact path="/tipDeductionThreshold">
+      <Form>Schedule 1-A</Form>
+      <Line>9</Line>
       <Name>Tip deduction MAGI threshold</Name>
       <Description>Schedule 1-A line 9. $150,000 ($300,000 if married filing jointly).</Description>
       <Derived>
@@ -176,6 +204,8 @@
     </Fact>
 
     <Fact path="/tipDeductionExcess">
+      <Form>Schedule 1-A</Form>
+      <Line>10</Line>
       <Name>MAGI excess over tip deduction threshold</Name>
       <Description>Schedule 1-A line 10. Subtract line 9 from line 8.</Description>
       <Derived>
@@ -190,6 +220,8 @@
     </Fact>
 
     <Fact path="/tipDeductionPhaseout">
+      <Form>Schedule 1-A</Form>
+      <Line>12</Line>
       <Name>Tip deduction phaseout amount</Name>
       <Description>Schedule 1-A lines 11-12. Divide excess by $1,000, round down, multiply by $100.</Description>
       <Derived>
@@ -201,6 +233,8 @@
     </Fact>
 
     <Fact path="/qualifiedTipDeduction">
+      <Form>Schedule 1-A</Form>
+      <Line>13</Line>
       <Name>Qualified tips deduction</Name>
       <Description>Schedule 1-A line 13. Subtract line 12 from line 7. If zero or less, enter -0-.</Description>
       <Derived>
@@ -231,6 +265,8 @@
     </Fact>
 
     <Fact path="/qualifiedOvertimeW2">
+      <Form>Schedule 1-A</Form>
+      <Line>14a</Line>
       <Name>Qualified overtime from W-2</Name>
       <Description>Schedule 1-A line 14a. Qualified overtime compensation included in Form W-2, box 1.</Description>
       <Writable>
@@ -239,6 +275,8 @@
     </Fact>
 
     <Fact path="/qualifiedOvertime1099">
+      <Form>Schedule 1-A</Form>
+      <Line>14b</Line>
       <Name>Qualified overtime from 1099</Name>
       <Description>Schedule 1-A line 14b. Qualified overtime compensation from Form 1099-NEC or 1099-MISC.</Description>
       <Writable>
@@ -247,6 +285,8 @@
     </Fact>
 
     <Fact path="/totalQualifiedOvertime">
+      <Form>Schedule 1-A</Form>
+      <Line>14c</Line>
       <Name>Total qualified overtime</Name>
       <Description>Schedule 1-A line 14c. Add lines 14a and 14b.</Description>
       <Derived>
@@ -280,6 +320,8 @@
     </Fact>
 
     <Fact path="/qualifiedOvertimeCapped">
+      <Form>Schedule 1-A</Form>
+      <Line>15</Line>
       <Name>Qualified overtime capped</Name>
       <Description>Schedule 1-A line 15. Enter the smaller of line 14c or $12,500 ($25,000 if MFJ).</Description>
       <Derived>
@@ -291,6 +333,8 @@
     </Fact>
 
     <Fact path="/overtimeDeductionThreshold">
+      <Form>Schedule 1-A</Form>
+      <Line>17</Line>
       <Name>Overtime deduction MAGI threshold</Name>
       <Description>Schedule 1-A line 17. $150,000 ($300,000 if married filing jointly).</Description>
       <Derived>
@@ -313,6 +357,8 @@
     </Fact>
 
     <Fact path="/overtimeDeductionExcess">
+      <Form>Schedule 1-A</Form>
+      <Line>18</Line>
       <Name>MAGI excess over overtime deduction threshold</Name>
       <Description>Schedule 1-A line 18. Subtract line 17 from line 16.</Description>
       <Derived>
@@ -327,6 +373,8 @@
     </Fact>
 
     <Fact path="/overtimeDeductionPhaseout">
+      <Form>Schedule 1-A</Form>
+      <Line>20</Line>
       <Name>Overtime deduction phaseout amount</Name>
       <Description>Schedule 1-A lines 19-20. Divide excess by $1,000, round down, multiply by $100.</Description>
       <Derived>
@@ -338,6 +386,8 @@
     </Fact>
 
     <Fact path="/qualifiedOvertimeDeduction">
+      <Form>Schedule 1-A</Form>
+      <Line>21</Line>
       <Name>Qualified overtime compensation deduction</Name>
       <Description>Schedule 1-A line 21. Subtract line 20 from line 15. If zero or less, enter -0-.</Description>
       <Derived>
@@ -368,6 +418,8 @@
     </Fact>
 
     <Fact path="/vehicleLoanInterestA">
+      <Form>Schedule 1-A</Form>
+      <Line>22a</Line>
       <Name>Vehicle A loan interest</Name>
       <Description>Schedule 1-A line 22a, column (iii). Qualified passenger vehicle loan interest for vehicle A.</Description>
       <Writable>
@@ -376,6 +428,8 @@
     </Fact>
 
     <Fact path="/vehicleLoanInterestB">
+      <Form>Schedule 1-A</Form>
+      <Line>22b</Line>
       <Name>Vehicle B loan interest</Name>
       <Description>Schedule 1-A line 22b, column (iii). Qualified passenger vehicle loan interest for vehicle B.</Description>
       <Writable>
@@ -384,6 +438,8 @@
     </Fact>
 
     <Fact path="/totalVehicleLoanInterest">
+      <Form>Schedule 1-A</Form>
+      <Line>23</Line>
       <Name>Total vehicle loan interest</Name>
       <Description>Schedule 1-A line 23. Add lines 22a and 22b, column (iii).</Description>
       <Derived>
@@ -395,6 +451,8 @@
     </Fact>
 
     <Fact path="/vehicleLoanInterestCapped">
+      <Form>Schedule 1-A</Form>
+      <Line>24</Line>
       <Name>Vehicle loan interest capped</Name>
       <Description>Schedule 1-A line 24. Enter the smaller of line 23 or $10,000.</Description>
       <Derived>
@@ -406,6 +464,8 @@
     </Fact>
 
     <Fact path="/carLoanThreshold">
+      <Form>Schedule 1-A</Form>
+      <Line>26</Line>
       <Name>Car loan deduction MAGI threshold</Name>
       <Description>Schedule 1-A line 26. $100,000 ($200,000 if married filing jointly).</Description>
       <Derived>
@@ -428,6 +488,8 @@
     </Fact>
 
     <Fact path="/carLoanExcess">
+      <Form>Schedule 1-A</Form>
+      <Line>27</Line>
       <Name>MAGI excess over car loan threshold</Name>
       <Description>Schedule 1-A line 27. Subtract line 26 from line 25.</Description>
       <Derived>
@@ -442,6 +504,8 @@
     </Fact>
 
     <Fact path="/carLoanPhaseout">
+      <Form>Schedule 1-A</Form>
+      <Line>29</Line>
       <Name>Car loan phaseout amount</Name>
       <Description>Schedule 1-A lines 28-29. Divide excess by $1,000, round up, multiply by $200.</Description>
       <Derived>
@@ -458,6 +522,8 @@
     </Fact>
 
     <Fact path="/vehicleLoanInterestDeduction">
+      <Form>Schedule 1-A</Form>
+      <Line>30</Line>
       <Name>Qualified passenger vehicle loan interest deduction</Name>
       <Description>Schedule 1-A line 30. Subtract line 29 from line 24. If zero or less, enter -0-.</Description>
       <Derived>
@@ -472,6 +538,8 @@
     </Fact>
 
     <Fact path="/seniorDeductionThreshold">
+      <Form>Schedule 1-A</Form>
+      <Line>32</Line>
       <Name>Senior deduction MAGI threshold</Name>
       <Description>Schedule 1-A line 32. $75,000 ($150,000 if married filing jointly).</Description>
       <Derived>
@@ -494,6 +562,8 @@
     </Fact>
 
     <Fact path="/seniorDeductionExcess">
+      <Form>Schedule 1-A</Form>
+      <Line>33</Line>
       <Name>MAGI excess over senior deduction threshold</Name>
       <Description>Schedule 1-A line 33. Subtract line 32 from line 31.</Description>
       <Derived>
@@ -508,6 +578,8 @@
     </Fact>
 
     <Fact path="/seniorDeductionReduction">
+      <Form>Schedule 1-A</Form>
+      <Line>34</Line>
       <Name>Senior deduction reduction</Name>
       <Description>Schedule 1-A line 34. Multiply line 33 by 6% (0.06).</Description>
       <Derived>
@@ -521,6 +593,8 @@
     </Fact>
 
     <Fact path="/seniorDeductionPerPerson">
+      <Form>Schedule 1-A</Form>
+      <Line>35</Line>
       <Name>Senior deduction per person</Name>
       <Description>Schedule 1-A line 35. Subtract line 34 from $6,000. If zero or less, enter -0-.</Description>
       <Derived>
@@ -535,6 +609,8 @@
     </Fact>
 
     <Fact path="/seniorDeductionFiler">
+      <Form>Schedule 1-A</Form>
+      <Line>36a</Line>
       <Name>Senior deduction for filer</Name>
       <Description>Schedule 1-A line 36a. If filer was born before January 2, 1961, enter line 35 amount.</Description>
       <Derived>
@@ -552,6 +628,8 @@
     </Fact>
 
     <Fact path="/seniorDeductionSpouse">
+      <Form>Schedule 1-A</Form>
+      <Line>36b</Line>
       <Name>Senior deduction for spouse</Name>
       <Description>Schedule 1-A line 36b. If MFJ and spouse was born before January 2, 1961, enter line 35 amount.</Description>
       <Derived>
@@ -577,6 +655,8 @@
     </Fact>
 
     <Fact path="/seniorDeduction">
+      <Form>Schedule 1-A</Form>
+      <Line>37</Line>
       <Name>Enhanced deduction for seniors</Name>
       <Description>Schedule 1-A line 37. Add lines 36a and 36b.</Description>
       <Derived>
@@ -604,6 +684,8 @@
     </Fact>
 
     <Fact path="/totalAdditionalDeductions">
+      <Form>Schedule 1-A</Form>
+      <Line>38</Line>
       <Name>Total additional deductions</Name>
       <Description>Schedule 1-A line 38. Add lines 13, 21, 30, and 37.</Description>
       <Derived>
