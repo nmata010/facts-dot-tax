@@ -3,6 +3,8 @@
 
     <!-- TODO: Line 1 should support multiple payer entries (name + amount) -->
     <Fact path="/totalInterestScheduleB">
+      <Form>Schedule B</Form>
+      <Line>2</Line>
       <Name>Total interest</Name>
       <Description>Schedule B line 2. Add the amounts on line 1.</Description>
       <Writable>
@@ -12,6 +14,8 @@
 
     <!-- TODO: Should be derived from Form 8815 -->
     <Fact path="/excludableSavingsBondInterest">
+      <Form>Schedule B</Form>
+      <Line>3</Line>
       <Name>Excludable savings bond interest</Name>
       <Description>Schedule B line 3. Excludable interest on series EE and I U.S. savings bonds issued after 1989.</Description>
       <Writable>
@@ -20,6 +24,8 @@
     </Fact>
 
     <Fact path="/taxableInterestScheduleB">
+      <Form>Schedule B</Form>
+      <Line>4</Line>
       <Name>Taxable interest</Name>
       <Description>Schedule B line 4. Subtract line 3 from line 2. Enter the result here and on Form 1040, line 2b.</Description>
       <Derived>
@@ -35,6 +41,8 @@
 
     <!-- TODO: Line 5 should support multiple payer entries (name + amount) -->
     <Fact path="/totalOrdinaryDividendsScheduleB">
+      <Form>Schedule B</Form>
+      <Line>6</Line>
       <Name>Total ordinary dividends</Name>
       <Description>Schedule B line 6. Add the amounts on line 5. Enter the total here and on Form 1040, line 3b.</Description>
       <Writable>
@@ -51,6 +59,8 @@
     </Fact>
 
     <Fact path="/requiredToFileFbar">
+      <Form>Schedule B</Form>
+      <Line>7a</Line>
       <Name>Required to file FBAR</Name>
       <Description>Schedule B line 7a. Required to file FinCEN Form 114 to report foreign financial interest or signature authority.</Description>
       <Writable>

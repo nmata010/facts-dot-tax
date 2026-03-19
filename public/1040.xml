@@ -26,6 +26,8 @@
     <!-- Income -->
 
     <Fact path="/wagesFromW2">
+      <Form>1040</Form>
+      <Line>1a</Line>
       <Name>Wages from W-2</Name>
       <Description>Form 1040 line 1a. Total amount from Form(s) W-2, box 1.</Description>
       <Writable>
@@ -34,6 +36,8 @@
     </Fact>
 
     <Fact path="/householdEmployeeWages">
+      <Form>1040</Form>
+      <Line>1b</Line>
       <Name>Household employee wages</Name>
       <Description>Form 1040 line 1b. Household employee wages not reported on Form(s) W-2.</Description>
       <Writable>
@@ -42,6 +46,8 @@
     </Fact>
 
     <Fact path="/unreportedTipIncome">
+      <Form>1040</Form>
+      <Line>1c</Line>
       <Name>Tip income</Name>
       <Description>Form 1040 line 1c. Tip income not reported on line 1a.</Description>
       <Writable>
@@ -50,6 +56,8 @@
     </Fact>
 
     <Fact path="/medicaidWaiverPayments">
+      <Form>1040</Form>
+      <Line>1d</Line>
       <Name>Medicaid waiver payments</Name>
       <Description>Form 1040 line 1d. Medicaid waiver payments not reported on Form(s) W-2, box 1.</Description>
       <Writable>
@@ -58,6 +66,8 @@
     </Fact>
 
     <Fact path="/taxableDependentCareBenefits">
+      <Form>1040</Form>
+      <Line>1e</Line>
       <Name>Dependent care benefits</Name>
       <Description>Form 1040 line 1e. Taxable dependent care benefits from Form 2441, line 26.</Description>
       <Writable>
@@ -66,6 +76,8 @@
     </Fact>
 
     <Fact path="/employerAdoptionBenefits">
+      <Form>1040</Form>
+      <Line>1f</Line>
       <Name>Adoption benefits</Name>
       <Description>Form 1040 line 1f. Employer-provided adoption benefits from Form 8839, line 31.</Description>
       <Writable>
@@ -74,6 +86,8 @@
     </Fact>
 
     <Fact path="/wagesFrom8919">
+      <Form>1040</Form>
+      <Line>1g</Line>
       <Name>Form 8919 wages</Name>
       <Description>Form 1040 line 1g. Wages from Form 8919, line 6.</Description>
       <Writable>
@@ -82,6 +96,8 @@
     </Fact>
 
     <Fact path="/otherEarnedIncome">
+      <Form>1040</Form>
+      <Line>1h</Line>
       <Name>Other earned income</Name>
       <Description>Form 1040 line 1h. Strike benefits, excess deferrals, disability pensions, etc.</Description>
       <Writable>
@@ -90,6 +106,8 @@
     </Fact>
 
     <Fact path="/nontaxableCombatPay">
+      <Form>1040</Form>
+      <Line>1i</Line>
       <Name>Nontaxable combat pay election</Name>
       <Description>Form 1040 line 1i. Nontaxable combat pay election (for EIC purposes only).</Description>
       <Writable>
@@ -98,6 +116,8 @@
     </Fact>
 
     <Fact path="/totalWages">
+      <Form>1040</Form>
+      <Line>1z</Line>
       <Name>Total wages</Name>
       <Description>Form 1040 line 1z. Add lines 1a through 1h.</Description>
       <Derived>
@@ -115,6 +135,8 @@
     </Fact>
 
     <Fact path="/taxExemptInterest">
+      <Form>1040</Form>
+      <Line>2a</Line>
       <Name>Tax-exempt interest</Name>
       <Description>Form 1040 line 2a. Tax-exempt interest (informational).</Description>
       <Writable>
@@ -147,6 +169,8 @@
     </Fact>
 
     <Fact path="/taxableInterest">
+      <Form>1040</Form>
+      <Line>2b</Line>
       <Name>Taxable interest</Name>
       <Description>Form 1040 line 2b. Taxable interest.</Description>
       <Derived>
@@ -164,6 +188,8 @@
     </Fact>
 
     <Fact path="/qualifiedDividends">
+      <Form>1040</Form>
+      <Line>3a</Line>
       <Name>Qualified dividends</Name>
       <Description>Form 1040 line 3a. Qualified dividends.</Description>
       <Writable>
@@ -196,6 +222,8 @@
     </Fact>
 
     <Fact path="/ordinaryDividends">
+      <Form>1040</Form>
+      <Line>3b</Line>
       <Name>Ordinary dividends</Name>
       <Description>Form 1040 line 3b. Ordinary dividends.</Description>
       <Derived>
@@ -213,6 +241,8 @@
     </Fact>
 
     <Fact path="/iraDistributions">
+      <Form>1040</Form>
+      <Line>4a</Line>
       <Name>IRA distributions</Name>
       <Description>Form 1040 line 4a. IRA distributions (total).</Description>
       <Writable>
@@ -221,6 +251,8 @@
     </Fact>
 
     <Fact path="/taxableIraDistributions">
+      <Form>1040</Form>
+      <Line>4b</Line>
       <Name>IRA distributions (taxable)</Name>
       <Description>Form 1040 line 4b. IRA distributions (taxable amount).</Description>
       <Writable>
@@ -229,6 +261,8 @@
     </Fact>
 
     <Fact path="/pensionsAndAnnuities">
+      <Form>1040</Form>
+      <Line>5a</Line>
       <Name>Pensions and annuities</Name>
       <Description>Form 1040 line 5a. Pensions and annuities (total).</Description>
       <Writable>
@@ -237,6 +271,8 @@
     </Fact>
 
     <Fact path="/taxablePensionsAndAnnuities">
+      <Form>1040</Form>
+      <Line>5b</Line>
       <Name>Pensions and annuities (taxable)</Name>
       <Description>Form 1040 line 5b. Pensions and annuities (taxable amount).</Description>
       <Writable>
@@ -245,6 +281,8 @@
     </Fact>
 
     <Fact path="/socialSecurityBenefits">
+      <Form>1040</Form>
+      <Line>6a</Line>
       <Name>Social security benefits</Name>
       <Description>Form 1040 line 6a. Social security benefits (total).</Description>
       <Writable>
@@ -253,6 +291,8 @@
     </Fact>
 
     <Fact path="/taxableSocialSecurityBenefits">
+      <Form>1040</Form>
+      <Line>6b</Line>
       <Name>Social security benefits (taxable)</Name>
       <Description>Form 1040 line 6b. Taxable social security benefits (from worksheet).</Description>
       <Writable>
@@ -261,6 +301,8 @@
     </Fact>
 
     <Fact path="/capitalGainOrLoss">
+      <Form>1040</Form>
+      <Line>7a</Line>
       <Name>Capital gain or loss</Name>
       <Description>Form 1040 line 7a. Capital gain or (loss) from Schedule D or Form 1099-DIV.</Description>
       <Writable>
@@ -296,6 +338,8 @@
     </Fact>
 
     <Fact path="/otherIncome">
+      <Form>1040</Form>
+      <Line>8</Line>
       <Name>Other income</Name>
       <Description>Form 1040 line 8. Other income from Schedule 1, line 10.</Description>
       <Derived>
@@ -313,6 +357,8 @@
     </Fact>
 
     <Fact path="/totalIncome">
+      <Form>1040</Form>
+      <Line>9</Line>
       <Name>Total income</Name>
       <Description>Form 1040 line 9. Add lines 1z, 2b, 3b, 4b, 5b, 6b, 7a, and 8.</Description>
       <Derived>
@@ -357,6 +403,8 @@
     </Fact>
 
     <Fact path="/adjustmentsToIncome">
+      <Form>1040</Form>
+      <Line>10</Line>
       <Name>Adjustments to income</Name>
       <Description>Form 1040 line 10. Adjustments to income from Schedule 1, line 26.</Description>
       <Derived>
@@ -374,6 +422,8 @@
     </Fact>
 
     <Fact path="/agi">
+      <Form>1040</Form>
+      <Line>11</Line>
       <Name>Adjusted gross income</Name>
       <Description>Form 1040 line 11. Subtract line 10 from line 9.</Description>
       <Derived>
@@ -391,6 +441,8 @@
     <!-- Tax and Credits -->
 
     <Fact path="/filerBornBefore1961">
+      <Form>1040</Form>
+      <Line>12d</Line>
       <Name>Filer born before January 2, 1961</Name>
       <Description>Form 1040 line 12d. Check if the filer was born before January 2, 1961.</Description>
       <Writable>
@@ -399,6 +451,8 @@
     </Fact>
 
     <Fact path="/filerBlind">
+      <Form>1040</Form>
+      <Line>12d</Line>
       <Name>Filer is blind</Name>
       <Description>Form 1040 line 12d. Check if the filer was blind at the end of the tax year.</Description>
       <Writable>
@@ -407,6 +461,8 @@
     </Fact>
 
     <Fact path="/spouseBornBefore1961">
+      <Form>1040</Form>
+      <Line>12d</Line>
       <Name>Spouse born before January 2, 1961</Name>
       <Description>Form 1040 line 12d. Check if the spouse was born before January 2, 1961.</Description>
       <Writable>
@@ -415,6 +471,8 @@
     </Fact>
 
     <Fact path="/spouseBlind">
+      <Form>1040</Form>
+      <Line>12d</Line>
       <Name>Spouse is blind</Name>
       <Description>Form 1040 line 12d. Check if the spouse was blind at the end of the tax year.</Description>
       <Writable>
@@ -423,6 +481,8 @@
     </Fact>
 
     <Fact path="/additionalDeductionBoxCount">
+      <Form>1040</Form>
+      <Line>12d</Line>
       <Name>Additional deduction box count</Name>
       <Description>Number of boxes checked on Form 1040 line 12d (age/blindness).</Description>
       <Derived>
@@ -583,6 +643,8 @@
     </Fact>
 
     <Fact path="/standardOrItemizedDeduction">
+      <Form>1040</Form>
+      <Line>12e</Line>
       <Name>Standard or itemized deduction</Name>
       <Description>Form 1040 line 12e. The greater of standard deduction or total itemized deductions, unless the filer elects to itemize.</Description>
       <Derived>
@@ -622,6 +684,8 @@
     </Fact>
 
     <Fact path="/qbiDeduction">
+      <Form>1040</Form>
+      <Line>13a</Line>
       <Name>Qualified business income deduction</Name>
       <Description>Form 1040 line 13a. Qualified business income deduction from Form 8995 or 8995-A.</Description>
       <Derived>
@@ -656,6 +720,8 @@
     </Fact>
 
     <Fact path="/additionalDeductions">
+      <Form>1040</Form>
+      <Line>13b</Line>
       <Name>Additional deductions</Name>
       <Description>Form 1040 line 13b. Additional deductions from Schedule 1-A, line 38.</Description>
       <Derived>
@@ -673,6 +739,8 @@
     </Fact>
 
     <Fact path="/totalDeductions">
+      <Form>1040</Form>
+      <Line>14</Line>
       <Name>Total deductions</Name>
       <Description>Form 1040 line 14. Add lines 12e, 13a, and 13b.</Description>
       <Derived>
@@ -685,6 +753,8 @@
     </Fact>
 
     <Fact path="/taxableIncome">
+      <Form>1040</Form>
+      <Line>15</Line>
       <Name>Taxable income</Name>
       <Description>Form 1040 line 15. Subtract line 14 from line 11. If zero or less, enter 0.</Description>
       <Derived>
@@ -799,6 +869,8 @@
 
     <!-- TODO: use min(SchD line 15, SchD line 16) when Schedule D is implemented -->
     <Fact path="/qdcgLine3">
+      <Form>1040</Form>
+      <Line>7a</Line>
       <Name>QDCG worksheet capital gains</Name>
       <Description>QDCG worksheet line 3. Capital gain or loss from Form 1040 line 7a (no Schedule D).</Description>
       <Derived>
@@ -2426,6 +2498,8 @@
     </Fact>
 
     <Fact path="/tax">
+      <Form>1040</Form>
+      <Line>16</Line>
       <Name>Tax</Name>
       <Description>Form 1040 line 16. QDCG worksheet line 25. Smaller of line 23 or line 24.</Description>
       <Derived>
@@ -2454,6 +2528,8 @@
     </Fact>
 
     <Fact path="/additionalTax">
+      <Form>1040</Form>
+      <Line>17</Line>
       <Name>Additional taxes</Name>
       <Description>Form 1040 line 17. Additional taxes from Schedule 2, line 3.</Description>
       <Derived>
@@ -2471,6 +2547,8 @@
     </Fact>
 
     <Fact path="/tentativeTax">
+      <Form>1040</Form>
+      <Line>18</Line>
       <Name>Tentative tax</Name>
       <Description>Form 1040 line 18. Tax on wages (line 16) plus Additional tax from Schedule 2, Line 3 (Line 17).</Description>
       <Derived>
@@ -2507,6 +2585,8 @@
     </Fact>
 
     <Fact path="/ctcOdcCredit">
+      <Form>1040</Form>
+      <Line>19</Line>
       <Name>Child tax credit or ODC credit</Name>
       <Description>Form 1040 line 19. Child tax credit or ODC credit from Schedule 8812.</Description>
       <Derived>
@@ -2551,6 +2631,8 @@
     </Fact>
 
     <Fact path="/schedule3NonRefundableCredits">
+      <Form>1040</Form>
+      <Line>20</Line>
       <Name>Schedule 3 non-refundable credits</Name>
       <Description>Form 1040 line 20. Non-refundable credits from Schedule 3, line 8.</Description>
       <Derived>
@@ -2568,6 +2650,8 @@
     </Fact>
 
     <Fact path="/totalNonRefundableCredits">
+      <Form>1040</Form>
+      <Line>21</Line>
       <Name>Total non-refundable credits</Name>
       <Description>Form 1040 line 21. Total non-refundable credits (line 19 + line 20).</Description>
       <Derived>
@@ -2579,6 +2663,8 @@
     </Fact>
 
     <Fact path="/tentativeTaxNetOfNonRefundableCredits">
+      <Form>1040</Form>
+      <Line>22</Line>
       <Name>Total tax net of non-refundable credits</Name>
       <Description>Form 1040 line 22. Tentative tax (line 18) minus total non-refundable credits (line 21).</Description>
       <Derived>
@@ -2611,6 +2697,8 @@
     </Fact>
 
     <Fact path="/otherTaxes">
+      <Form>1040</Form>
+      <Line>23</Line>
       <Name>Other taxes</Name>
       <Description>Form 1040 line 23. Other taxes from Schedule 2, line 21.</Description>
       <Derived>
@@ -2628,6 +2716,8 @@
     </Fact>
 
     <Fact path="/totalTax">
+      <Form>1040</Form>
+      <Line>24</Line>
       <Name>Total tax</Name>
       <Description>Form 1040 line 24. Tentative tax net of non-refundable credits plus other taxes .</Description>
       <Derived>
@@ -2642,6 +2732,8 @@
 
     <!-- TODO: derive from w2s -->
     <Fact path="/withholdingsW2">
+      <Form>1040</Form>
+      <Line>25a</Line>
       <Name>Federal tax withheld from W-2s</Name>
       <Description>Form 1040 line 25a. Federal income tax withheld from Form(s) W-2, box 2.</Description>
       <Writable>
@@ -2651,6 +2743,8 @@
 
     <!-- TODO: derive from 1099s -->
     <Fact path="/withholdings1099">
+      <Form>1040</Form>
+      <Line>25b</Line>
       <Name>Federal tax withheld from 1099s</Name>
       <Description>Form 1040 line 25b. Federal income tax withheld from Form(s) 1099.</Description>
       <Writable>
@@ -2659,6 +2753,8 @@
     </Fact>
 
     <Fact path="/withholdingsOther">
+      <Form>1040</Form>
+      <Line>25c</Line>
       <Name>Other withholding</Name>
       <Description>Form 1040 line 25c. Other forms of federal income tax withheld.</Description>
       <Writable>
@@ -2667,6 +2763,8 @@
     </Fact>
 
     <Fact path="/totalWithholdings">
+      <Form>1040</Form>
+      <Line>25d</Line>
       <Name>Total federal tax withholdings from all sources</Name>
       <Description>Form 1040 line 25d. Total withholdings from all sources (W-2s, 1099s, and other).</Description>
       <Derived>
@@ -2679,6 +2777,8 @@
     </Fact>
 
     <Fact path="/estimatedTaxPayments">
+      <Form>1040</Form>
+      <Line>26</Line>
       <Name>Estimated tax payments</Name>
       <Description>Form 1040 line 26. 2025 estimated tax payments and amount applied from 2024 return.</Description>
       <Writable>
@@ -2711,6 +2811,8 @@
     </Fact>
 
     <Fact path="/earnedIncomeCredit">
+      <Form>1040</Form>
+      <Line>27a</Line>
       <Name>Earned income credit</Name>
       <Description>Form 1040 line 27a. Earned income credit (EIC).</Description>
       <Derived>
@@ -2729,6 +2831,8 @@
 
     <!-- TODO: update tax calculations based on selection -->
     <Fact path="/eicClergy">
+      <Form>1040</Form>
+      <Line>27b</Line>
       <Name>EIC clergy checkbox</Name>
       <Description>Form 1040 line 27b. Clergy filing Schedule SE.</Description>
       <Writable>
@@ -2738,6 +2842,8 @@
 
     <!-- TODO: update tax calculations based on selection -->
     <Fact path="/eicOptOut">
+      <Form>1040</Form>
+      <Line>27c</Line>
       <Name>EIC opt-out checkbox</Name>
       <Description>Form 1040 line 27c. Check if you do not want to claim the EIC.</Description>
       <Writable>
@@ -2771,6 +2877,8 @@
     </Fact>
 
     <Fact path="/additionalChildTaxCredit">
+      <Form>1040</Form>
+      <Line>28</Line>
       <Name>Additional child tax credit</Name>
       <Description>Form 1040 line 28. Additional child tax credit (ACTC) from Schedule 8812.</Description>
       <Derived>
@@ -2789,6 +2897,8 @@
 
     <!-- TODO: derive from Form 8863 -->
     <Fact path="/americanOpportunityTaxCredit">
+      <Form>1040</Form>
+      <Line>29</Line>
       <Name>American opportunity Tax credit</Name>
       <Description>Form 1040 line 29. American opportunity tax credit from Form 8863, line 8.</Description>
       <Writable>
@@ -2798,6 +2908,8 @@
 
     <!-- TODO: derive from Form 8839 -->
     <Fact path="/refundableAdoptionCredit">
+      <Form>1040</Form>
+      <Line>30</Line>
       <Name>Refundable adoption credit</Name>
       <Description>Form 1040 line 30. Refundable adoption credit from Form 8839, line 13.</Description>
       <Writable>
@@ -2833,6 +2945,8 @@
     </Fact>
 
     <Fact path="/schedule3RefundableCredits">
+      <Form>1040</Form>
+      <Line>31</Line>
       <Name>Refundable credits (Schedule 3)</Name>
       <Description>Form 1040 line 31. Other payments and refundable credits from Schedule 3, line 15.</Description>
       <Derived>
@@ -2850,6 +2964,8 @@
     </Fact>
 
     <Fact path="/totalOtherPaymentsAndRefundableCredits">
+      <Form>1040</Form>
+      <Line>32</Line>
       <Name>Total other payments and refundable credits</Name>
       <Description>Form 1040 line 32. Add lines 27a, 28, 29, 30, and 31.</Description>
       <Derived>
@@ -2864,6 +2980,8 @@
     </Fact>
 
     <Fact path="/totalPayments">
+      <Form>1040</Form>
+      <Line>33</Line>
       <Name>Total payments</Name>
       <Description>Form 1040 line 33. Add lines 25d, 26, and 32. These are your total payments.</Description>
       <Derived>
@@ -2878,6 +2996,8 @@
     <!-- Refund -->
 
     <Fact path="/overpaymentAmount">
+      <Form>1040</Form>
+      <Line>34</Line>
       <Name>Amount overpaid</Name>
       <Description>Form 1040 line 34. If line 33 is more than line 24, subtract line 24 from line 33.</Description>
       <Derived>
@@ -2896,6 +3016,8 @@
     </Fact>
 
     <Fact path="/refundAmount">
+      <Form>1040</Form>
+      <Line>35a</Line>
       <Name>Refund amount</Name>
       <Description>Form 1040 line 35a. Amount of line 34 you want refunded to you.</Description>
       <Writable>
@@ -2904,6 +3026,8 @@
     </Fact>
 
     <Fact path="/appliedToNextYear">
+      <Form>1040</Form>
+      <Line>36</Line>
       <Name>Applied to 2026 estimated tax</Name>
       <Description>Form 1040 line 36. Amount of line 34 you want applied to your 2026 estimated tax.</Description>
       <Writable>
@@ -2914,6 +3038,8 @@
     <!-- Amount You Owe -->
 
     <Fact path="/amountYouOwe">
+      <Form>1040</Form>
+      <Line>37</Line>
       <Name>Amount you owe</Name>
       <Description>Form 1040 line 37. If line 24 is more than line 33, subtract line 33 from line 24.</Description>
       <Derived>
@@ -2932,6 +3058,8 @@
     </Fact>
 
     <Fact path="/estimatedTaxPenalty">
+      <Form>1040</Form>
+      <Line>38</Line>
       <Name>Estimated tax penalty</Name>
       <Description>Form 1040 line 38. Estimated tax penalty (see instructions).</Description>
       <Writable>

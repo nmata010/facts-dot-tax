@@ -3,6 +3,8 @@
     
     <!-- TODO: LTC premiums worksheet -->
     <Fact path="/medicalAndDentalExpenses">
+      <Form>Schedule A</Form>
+      <Line>1</Line>
       <Name>Medical and dental expenses</Name>
       <Description>Schedule A line 1. Medical and dental expenses (see instructions).</Description>
       <Writable>
@@ -11,6 +13,8 @@
     </Fact>
 
     <Fact path="/medicalExpensesThreshold">
+      <Form>Schedule A</Form>
+      <Line>3</Line>
       <Name>Medical expenses threshold</Name>
       <Description>Schedule A line 3. Multiply line 2 (AGI) by 7.5% (0.075).</Description>
       <Derived>
@@ -24,6 +28,8 @@
     </Fact>
 
     <Fact path="/medicalExpensesDeduction">
+      <Form>Schedule A</Form>
+      <Line>4</Line>
       <Name>Medical expenses deduction</Name>
       <Description>Schedule A line 4. Subtract line 3 from line 1. If line 3 is more than line 1, enter 0.</Description>
       <Derived>
@@ -39,6 +45,8 @@
 
     <!-- TODO: support for state sales tax tables -->
     <Fact path="/saltIncomeTaxOrSalesTax">
+      <Form>Schedule A</Form>
+      <Line>5a</Line>
       <Name>State and local income taxes or general sales taxes</Name>
       <Description>Schedule A line 5a. State and local income taxes or general sales taxes.</Description>
       <Writable>
@@ -47,6 +55,8 @@
     </Fact>
 
     <Fact path="/saltRealEstateTax">
+      <Form>Schedule A</Form>
+      <Line>5b</Line>
       <Name>State and local real estate taxes</Name>
       <Description>Schedule A line 5b. State and local real estate taxes.</Description>
       <Writable>
@@ -55,6 +65,8 @@
     </Fact>
 
     <Fact path="/saltPersonalPropertyTax">
+      <Form>Schedule A</Form>
+      <Line>5c</Line>
       <Name>State and local personal property taxes</Name>
       <Description>Schedule A line 5c. State and local personal property taxes.</Description>
       <Writable>
@@ -63,6 +75,8 @@
     </Fact>
 
     <Fact path="/saltTotal">
+      <Form>Schedule A</Form>
+      <Line>5d</Line>
       <Name>Total state and local taxes</Name>
       <Description>Schedule A line 5d. Add lines 5a through 5c.</Description>
       <Derived>
@@ -76,6 +90,8 @@
 
     <!-- TODO: SALT deduction worksheet for AGI>500k (250k mfs) -->
     <Fact path="/saltDeduction">
+      <Form>Schedule A</Form>
+      <Line>5e</Line>
       <Name>State and local tax deduction</Name>
       <Description>Schedule A line 5e. Enter the smaller of line 5d or $40,000 ($20,000 if married filing separately).</Description>
       <Derived>
@@ -101,6 +117,8 @@
     </Fact>
 
     <Fact path="/otherDeductibleTaxes">
+      <Form>Schedule A</Form>
+      <Line>6</Line>
       <Name>Other taxes</Name>
       <Description>Schedule A line 6. Other taxes. List type and amount (see instructions).</Description>
       <Writable>
@@ -109,6 +127,8 @@
     </Fact>
 
     <Fact path="/totalTaxesPaid">
+      <Form>Schedule A</Form>
+      <Line>7</Line>
       <Name>Total taxes paid</Name>
       <Description>Schedule A line 7. Add lines 5e and 6.</Description>
       <Derived>
@@ -121,6 +141,8 @@
 
     <!-- TODO: Pub 396 limits on mortgage interest -->
     <Fact path="/homeMortgageInterest1098">
+      <Form>Schedule A</Form>
+      <Line>8a</Line>
       <Name>Home mortgage interest from Form 1098</Name>
       <Description>Schedule A line 8a. Home mortgage interest and points reported to you on Form 1098.</Description>
       <Writable>
@@ -129,6 +151,8 @@
     </Fact>
 
     <Fact path="/homeMortgageInterestNot1098">
+      <Form>Schedule A</Form>
+      <Line>8b</Line>
       <Name>Home mortgage interest not from Form 1098</Name>
       <Description>Schedule A line 8b. Home mortgage interest not reported to you on Form 1098.</Description>
       <Writable>
@@ -137,6 +161,8 @@
     </Fact>
 
     <Fact path="/mortgagePoints">
+      <Form>Schedule A</Form>
+      <Line>8c</Line>
       <Name>Points not reported on Form 1098</Name>
       <Description>Schedule A line 8c. Points not reported to you on Form 1098.</Description>
       <Writable>
@@ -145,6 +171,8 @@
     </Fact>
 
     <Fact path="/totalHomeMortgageInterest">
+      <Form>Schedule A</Form>
+      <Line>8e</Line>
       <Name>Total home mortgage interest and points</Name>
       <Description>Schedule A line 8e. Add lines 8a through 8c.</Description>
       <Derived>
@@ -157,6 +185,8 @@
     </Fact>
 
     <Fact path="/investmentInterest">
+      <Form>Schedule A</Form>
+      <Line>9</Line>
       <Name>Investment interest</Name>
       <Description>Schedule A line 9. Investment interest. Attach Form 4952 if required.</Description>
       <Writable>
@@ -165,6 +195,8 @@
     </Fact>
 
     <Fact path="/totalInterestPaid">
+      <Form>Schedule A</Form>
+      <Line>10</Line>
       <Name>Total interest paid</Name>
       <Description>Schedule A line 10. Add lines 8e and 9.</Description>
       <Derived>
@@ -176,6 +208,8 @@
     </Fact>
 
     <Fact path="/charityCash">
+      <Form>Schedule A</Form>
+      <Line>11</Line>
       <Name>Gifts by cash or check</Name>
       <Description>Schedule A line 11. Gifts by cash or check.</Description>
       <Writable>
@@ -184,6 +218,8 @@
     </Fact>
 
     <Fact path="/charityNonCash">
+      <Form>Schedule A</Form>
+      <Line>12</Line>
       <Name>Gifts other than cash or check</Name>
       <Description>Schedule A line 12. Other than by cash or check.</Description>
       <Writable>
@@ -192,6 +228,8 @@
     </Fact>
 
     <Fact path="/charityCarryover">
+      <Form>Schedule A</Form>
+      <Line>13</Line>
       <Name>Charity carryover from prior year</Name>
       <Description>Schedule A line 13. Carryover from prior year.</Description>
       <Writable>
@@ -201,6 +239,8 @@
 
     <!-- TODO: agi limits on charity. -->
     <Fact path="/totalCharityGifts">
+      <Form>Schedule A</Form>
+      <Line>14</Line>
       <Name>Total gifts to charity</Name>
       <Description>Schedule A line 14. Add lines 11 through 13.</Description>
       <Derived>
@@ -213,6 +253,8 @@
     </Fact>
 
     <Fact path="/casualtyAndTheftLosses">
+      <Form>Schedule A</Form>
+      <Line>15</Line>
       <Name>Casualty and theft losses</Name>
       <Description>Schedule A line 15. Casualty and theft loss(es) from a federally declared disaster.</Description>
       <Writable>
@@ -221,6 +263,8 @@
     </Fact>
 
     <Fact path="/otherItemizedDeductions">
+      <Form>Schedule A</Form>
+      <Line>16</Line>
       <Name>Other itemized deductions</Name>
       <Description>Schedule A line 16. Other itemized deductions from list in instructions.</Description>
       <Writable>
@@ -229,6 +273,8 @@
     </Fact>
 
     <Fact path="/totalItemizedDeductions">
+      <Form>Schedule A</Form>
+      <Line>17</Line>
       <Name>Total itemized deductions</Name>
       <Description>Schedule A line 17. Add the amounts in the far right column for lines 4 through 16.</Description>
       <Derived>
@@ -244,6 +290,8 @@
     </Fact>
 
     <Fact path="/electToItemize">
+      <Form>Schedule A</Form>
+      <Line>18</Line>
       <Name>Elect to itemize</Name>
       <Description>Schedule A line 18. Check if you elect to itemize deductions even though they are less than your standard deduction.</Description>
       <Writable>

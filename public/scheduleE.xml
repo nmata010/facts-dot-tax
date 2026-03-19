@@ -5,6 +5,8 @@
     <!-- TODO: collection for multi-property -->
 
     <Fact path="/schERequired1099">
+      <Form>Schedule E</Form>
+      <Line>A</Line>
       <Name>Required to file 1099</Name>
       <Description>Schedule E line A. Did you make any payments that would require you to file Form(s) 1099.</Description>
       <Writable>
@@ -13,6 +15,8 @@
     </Fact>
 
     <Fact path="/schEFiled1099">
+      <Form>Schedule E</Form>
+      <Line>B</Line>
       <Name>Filed required 1099</Name>
       <Description>Schedule E line B. Did you or will you file all required Form(s) 1099.</Description>
       <Writable>
@@ -36,6 +40,8 @@
     </Fact>
 
     <Fact path="/schEPropertyType">
+      <Form>Schedule E</Form>
+      <Line>1b</Line>
       <Name>Type of property</Name>
       <Description>Schedule E line 1b. Type of property from list (1-8).</Description>
       <Writable>
@@ -55,6 +61,8 @@
     </Fact>
 
     <Fact path="/schERentsReceived">
+      <Form>Schedule E</Form>
+      <Line>3</Line>
       <Name>Rents received</Name>
       <Description>Schedule E line 3. Rents received.</Description>
       <Writable>
@@ -63,6 +71,8 @@
     </Fact>
 
     <Fact path="/schERoyaltiesReceived">
+      <Form>Schedule E</Form>
+      <Line>4</Line>
       <Name>Royalties received</Name>
       <Description>Schedule E line 4. Royalties received.</Description>
       <Writable>
@@ -71,6 +81,8 @@
     </Fact>
 
     <Fact path="/schEAdvertising">
+      <Form>Schedule E</Form>
+      <Line>5</Line>
       <Name>Advertising</Name>
       <Description>Schedule E line 5. Advertising.</Description>
       <Writable>
@@ -79,6 +91,8 @@
     </Fact>
 
     <Fact path="/schEAutoAndTravel">
+      <Form>Schedule E</Form>
+      <Line>6</Line>
       <Name>Auto and travel</Name>
       <Description>Schedule E line 6. Auto and travel.</Description>
       <Writable>
@@ -87,6 +101,8 @@
     </Fact>
 
     <Fact path="/schECleaningAndMaintenance">
+      <Form>Schedule E</Form>
+      <Line>7</Line>
       <Name>Cleaning and maintenance</Name>
       <Description>Schedule E line 7. Cleaning and maintenance.</Description>
       <Writable>
@@ -95,6 +111,8 @@
     </Fact>
 
     <Fact path="/schECommissions">
+      <Form>Schedule E</Form>
+      <Line>8</Line>
       <Name>Commissions</Name>
       <Description>Schedule E line 8. Commissions.</Description>
       <Writable>
@@ -103,6 +121,8 @@
     </Fact>
 
     <Fact path="/schEInsurance">
+      <Form>Schedule E</Form>
+      <Line>9</Line>
       <Name>Insurance</Name>
       <Description>Schedule E line 9. Insurance.</Description>
       <Writable>
@@ -111,6 +131,8 @@
     </Fact>
 
     <Fact path="/schELegalAndProfessionalFees">
+      <Form>Schedule E</Form>
+      <Line>10</Line>
       <Name>Legal and other professional fees</Name>
       <Description>Schedule E line 10. Legal and other professional fees.</Description>
       <Writable>
@@ -119,6 +141,8 @@
     </Fact>
 
     <Fact path="/schEManagementFees">
+      <Form>Schedule E</Form>
+      <Line>11</Line>
       <Name>Management fees</Name>
       <Description>Schedule E line 11. Management fees.</Description>
       <Writable>
@@ -127,6 +151,8 @@
     </Fact>
 
     <Fact path="/schEMortgageInterest">
+      <Form>Schedule E</Form>
+      <Line>12</Line>
       <Name>Mortgage interest</Name>
       <Description>Schedule E line 12. Mortgage interest paid to banks, etc.</Description>
       <Writable>
@@ -135,6 +161,8 @@
     </Fact>
 
     <Fact path="/schEOtherInterest">
+      <Form>Schedule E</Form>
+      <Line>13</Line>
       <Name>Other interest</Name>
       <Description>Schedule E line 13. Other interest.</Description>
       <Writable>
@@ -143,6 +171,8 @@
     </Fact>
 
     <Fact path="/schERepairs">
+      <Form>Schedule E</Form>
+      <Line>14</Line>
       <Name>Repairs</Name>
       <Description>Schedule E line 14. Repairs.</Description>
       <Writable>
@@ -151,6 +181,8 @@
     </Fact>
 
     <Fact path="/schESupplies">
+      <Form>Schedule E</Form>
+      <Line>15</Line>
       <Name>Supplies</Name>
       <Description>Schedule E line 15. Supplies.</Description>
       <Writable>
@@ -159,6 +191,8 @@
     </Fact>
 
     <Fact path="/schETaxes">
+      <Form>Schedule E</Form>
+      <Line>16</Line>
       <Name>Taxes</Name>
       <Description>Schedule E line 16. Taxes.</Description>
       <Writable>
@@ -167,6 +201,8 @@
     </Fact>
 
     <Fact path="/schEUtilities">
+      <Form>Schedule E</Form>
+      <Line>17</Line>
       <Name>Utilities</Name>
       <Description>Schedule E line 17. Utilities.</Description>
       <Writable>
@@ -175,6 +211,8 @@
     </Fact>
 
     <Fact path="/schEDepreciation">
+      <Form>Schedule E</Form>
+      <Line>18</Line>
       <Name>Depreciation expense or depletion</Name>
       <Description>Schedule E line 18. Depreciation expense or depletion.</Description>
       <Writable>
@@ -183,6 +221,8 @@
     </Fact>
 
     <Fact path="/schEOtherExpenses">
+      <Form>Schedule E</Form>
+      <Line>19</Line>
       <Name>Other expenses</Name>
       <Description>Schedule E line 19. Other (list).</Description>
       <Writable>
@@ -191,6 +231,8 @@
     </Fact>
 
     <Fact path="/schETotalExpenses">
+      <Form>Schedule E</Form>
+      <Line>20</Line>
       <Name>Total expenses</Name>
       <Description>Schedule E line 20. Add lines 5 through 19.</Description>
       <Derived>
@@ -226,6 +268,8 @@
     </Fact>
 
     <Fact path="/schENetIncomeOrLoss">
+      <Form>Schedule E</Form>
+      <Line>21</Line>
       <Name>Net rental income or loss</Name>
       <Description>Schedule E line 21. Subtract line 20 from line 3 (rents) and/or 4 (royalties).</Description>
       <Derived>
@@ -238,6 +282,8 @@
 
     <!-- TODO: Form 8582 integration -->
     <Fact path="/schEDeductibleLoss">
+      <Form>Schedule E</Form>
+      <Line>22</Line>
       <Name>Deductible rental real estate loss</Name>
       <Description>Schedule E line 22. Deductible rental real estate loss after limitation, if any, on Form 8582.</Description>
       <Writable>
@@ -246,6 +292,8 @@
     </Fact>
 
     <Fact path="/schETotalRents">
+      <Form>Schedule E</Form>
+      <Line>23a</Line>
       <Name>Total rents for all rental properties</Name>
       <Description>Schedule E line 23a. Total of all amounts reported on line 3 for all rental properties.</Description>
       <Derived>
@@ -263,6 +311,8 @@
     </Fact>
 
     <Fact path="/schETotalRoyalties">
+      <Form>Schedule E</Form>
+      <Line>23b</Line>
       <Name>Total royalties for all royalty properties</Name>
       <Description>Schedule E line 23b. Total of all amounts reported on line 4 for all royalty properties.</Description>
       <Derived>
@@ -280,6 +330,8 @@
     </Fact>
 
     <Fact path="/schETotalMortgageInterest">
+      <Form>Schedule E</Form>
+      <Line>23c</Line>
       <Name>Total mortgage interest for all properties</Name>
       <Description>Schedule E line 23c. Total of all amounts reported on line 12 for all properties.</Description>
       <Derived>
@@ -288,6 +340,8 @@
     </Fact>
 
     <Fact path="/schETotalDepreciation">
+      <Form>Schedule E</Form>
+      <Line>23d</Line>
       <Name>Total depreciation for all properties</Name>
       <Description>Schedule E line 23d. Total of all amounts reported on line 18 for all properties.</Description>
       <Derived>
@@ -296,6 +350,8 @@
     </Fact>
 
     <Fact path="/schETotalAllExpenses">
+      <Form>Schedule E</Form>
+      <Line>23e</Line>
       <Name>Total expenses for all properties</Name>
       <Description>Schedule E line 23e. Total of all amounts reported on line 20 for all properties.</Description>
       <Derived>
@@ -304,6 +360,8 @@
     </Fact>
 
     <Fact path="/schEIncome">
+      <Form>Schedule E</Form>
+      <Line>24</Line>
       <Name>Income</Name>
       <Description>Schedule E line 24. Add positive amounts shown on line 21. Do not include any losses.</Description>
       <Derived>
@@ -315,6 +373,8 @@
     </Fact>
 
     <Fact path="/schELosses">
+      <Form>Schedule E</Form>
+      <Line>25</Line>
       <Name>Losses</Name>
       <Description>Schedule E line 25. Add royalty losses from line 21 and rental real estate losses from line 22.</Description>
       <Derived>
@@ -342,6 +402,8 @@
     </Fact>
 
     <Fact path="/schETotalRentalAndRoyalty">
+      <Form>Schedule E</Form>
+      <Line>26</Line>
       <Name>Total rental real estate and royalty income or loss</Name>
       <Description>Schedule E line 26. Combine lines 24 and 25.</Description>
       <Derived>
@@ -355,6 +417,8 @@
     <!-- TODO: per-entity detail via collections (lines 28-31) -->
 
     <Fact path="/schEPriorYearLoss">
+      <Form>Schedule E</Form>
+      <Line>27</Line>
       <Name>Prior year unallowed loss</Name>
       <Description>Schedule E line 27. Are you reporting any loss not allowed in a prior year.</Description>
       <Writable>
@@ -363,6 +427,8 @@
     </Fact>
 
     <Fact path="/schEPartnershipIncome">
+      <Form>Schedule E</Form>
+      <Line>32</Line>
       <Name>Total partnership and S corporation income or loss</Name>
       <Description>Schedule E line 32. Total partnership and S corporation income or (loss). Combine lines 30 and 31.</Description>
       <Writable>
@@ -373,6 +439,8 @@
     <!-- TODO: per-entity detail via collections (lines 33-36) -->
 
     <Fact path="/schEEstateIncome">
+      <Form>Schedule E</Form>
+      <Line>37</Line>
       <Name>Total estate and trust income or loss</Name>
       <Description>Schedule E line 37. Total estate and trust income or (loss). Combine lines 35 and 36.</Description>
       <Writable>
@@ -383,6 +451,8 @@
     <!-- TODO: REMIC detail via collections (line 38) -->
 
     <Fact path="/schERemicIncome">
+      <Form>Schedule E</Form>
+      <Line>39</Line>
       <Name>REMIC income</Name>
       <Description>Schedule E line 39. Combine columns (d) and (e) from REMICs.</Description>
       <Writable>
@@ -392,6 +462,8 @@
 
     <!-- TODO: Form 4835 -->
     <Fact path="/schEFarmRentalIncome">
+      <Form>Schedule E</Form>
+      <Line>40</Line>
       <Name>Net farm rental income or loss</Name>
       <Description>Schedule E line 40. Net farm rental income or (loss) from Form 4835.</Description>
       <Writable>
@@ -400,6 +472,8 @@
     </Fact>
 
     <Fact path="/schETotalIncome">
+      <Form>Schedule E</Form>
+      <Line>41</Line>
       <Name>Total income or loss</Name>
       <Description>Schedule E line 41. Combine lines 26, 32, 37, 39, and 40.</Description>
       <Derived>
@@ -414,6 +488,8 @@
     </Fact>
 
     <Fact path="/schEReconciliationFarming">
+      <Form>Schedule E</Form>
+      <Line>42</Line>
       <Name>Reconciliation of farming and fishing income</Name>
       <Description>Schedule E line 42. Gross farming and fishing income.</Description>
       <Writable>
@@ -422,6 +498,8 @@
     </Fact>
 
     <Fact path="/schEReconciliationRePro">
+      <Form>Schedule E</Form>
+      <Line>43</Line>
       <Name>Reconciliation for real estate professionals</Name>
       <Description>Schedule E line 43. Net income or (loss) from rental real estate activities with material participation.</Description>
       <Writable>

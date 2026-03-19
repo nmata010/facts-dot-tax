@@ -2,6 +2,8 @@
   <Facts>
 
     <Fact path="/taxableSaltRefunds">
+      <Form>Schedule 1</Form>
+      <Line>1</Line>
       <Name>Taxable refunds of state and local taxes</Name>
       <Description>Schedule 1 line 1. Taxable refunds, credits, or offsets of state and local income taxes.</Description>
       <Writable>
@@ -10,6 +12,8 @@
     </Fact>
 
     <Fact path="/alimonyReceived">
+      <Form>Schedule 1</Form>
+      <Line>2a</Line>
       <Name>Alimony received</Name>
       <Description>Schedule 1 line 2a. Alimony received.</Description>
       <Writable>
@@ -37,6 +41,8 @@
     </Fact>
 
     <Fact path="/businessIncomeSchC">
+      <Form>Schedule 1</Form>
+      <Line>3</Line>
       <Name>Business income or loss</Name>
       <Description>Schedule 1 line 3. Business income or (loss) from Schedule C.</Description>
       <Derived>
@@ -54,6 +60,8 @@
     </Fact>
 
     <Fact path="/otherGains">
+      <Form>Schedule 1</Form>
+      <Line>4</Line>
       <Name>Other gains or losses</Name>
       <Description>Schedule 1 line 4. Other gains or (losses) from Form 4797 or Form 4684.</Description>
       <Writable>
@@ -81,6 +89,8 @@
     </Fact>
 
     <Fact path="/rentalIncomeSchE">
+      <Form>Schedule 1</Form>
+      <Line>5</Line>
       <Name>Rental, partnership, S corp income</Name>
       <Description>Schedule 1 line 5. Rental real estate, royalties, partnerships, S corporations, trusts, etc. from Schedule E.</Description>
       <Derived>
@@ -98,6 +108,8 @@
     </Fact>
 
     <Fact path="/farmIncome">
+      <Form>Schedule 1</Form>
+      <Line>6</Line>
       <Name>Farm income or loss</Name>
       <Description>Schedule 1 line 6. Farm income or (loss) from Schedule F.</Description>
       <Writable>
@@ -106,6 +118,8 @@
     </Fact>
 
     <Fact path="/unemploymentComp">
+      <Form>Schedule 1</Form>
+      <Line>7</Line>
       <Name>Unemployment compensation</Name>
       <Description>Schedule 1 line 7. Unemployment compensation.</Description>
       <Writable>
@@ -114,6 +128,8 @@
     </Fact>
 
     <Fact path="/netOperatingLoss">
+      <Form>Schedule 1</Form>
+      <Line>8a</Line>
       <Name>Net operating loss</Name>
       <Description>Schedule 1 line 8a. Net operating loss.</Description>
       <Writable>
@@ -122,6 +138,8 @@
     </Fact>
 
     <Fact path="/gamblingIncome">
+      <Form>Schedule 1</Form>
+      <Line>8b</Line>
       <Name>Gambling income</Name>
       <Description>Schedule 1 line 8b. Gambling income.</Description>
       <Writable>
@@ -130,6 +148,8 @@
     </Fact>
 
     <Fact path="/cancellationOfDebt">
+      <Form>Schedule 1</Form>
+      <Line>8c</Line>
       <Name>Cancellation of debt</Name>
       <Description>Schedule 1 line 8c. Cancellation of debt.</Description>
       <Writable>
@@ -138,6 +158,8 @@
     </Fact>
 
     <Fact path="/foreignEarnedIncomeExcl">
+      <Form>Schedule 1</Form>
+      <Line>8d</Line>
       <Name>Foreign earned income exclusion</Name>
       <Description>Schedule 1 line 8d. Foreign earned income exclusion from Form 2555.</Description>
       <Writable>
@@ -146,6 +168,8 @@
     </Fact>
 
     <Fact path="/incomeFrom8853">
+      <Form>Schedule 1</Form>
+      <Line>8e</Line>
       <Name>Income from Form 8853</Name>
       <Description>Schedule 1 line 8e. Income from Form 8853.</Description>
       <Writable>
@@ -171,6 +195,8 @@
     </Fact>
 
     <Fact path="/incomeFrom8889">
+      <Form>Schedule 1</Form>
+      <Line>8f</Line>
       <Name>Income from Form 8889</Name>
       <Description>Schedule 1 line 8f. Income from Form 8889.</Description>
       <Derived>
@@ -188,6 +214,8 @@
     </Fact>
 
     <Fact path="/alaskaPFD">
+      <Form>Schedule 1</Form>
+      <Line>8g</Line>
       <Name>Alaska Permanent Fund dividends</Name>
       <Description>Schedule 1 line 8g. Alaska Permanent Fund dividends.</Description>
       <Writable>
@@ -196,6 +224,8 @@
     </Fact>
 
     <Fact path="/juryDutyPay">
+      <Form>Schedule 1</Form>
+      <Line>8h</Line>
       <Name>Jury duty pay</Name>
       <Description>Schedule 1 line 8h. Jury duty pay.</Description>
       <Writable>
@@ -204,6 +234,8 @@
     </Fact>
 
     <Fact path="/prizesAndAwards">
+      <Form>Schedule 1</Form>
+      <Line>8i</Line>
       <Name>Prizes and awards</Name>
       <Description>Schedule 1 line 8i. Prizes and awards.</Description>
       <Writable>
@@ -212,6 +244,8 @@
     </Fact>
 
     <Fact path="/activityNotForProfit">
+      <Form>Schedule 1</Form>
+      <Line>8j</Line>
       <Name>Activity not for profit income</Name>
       <Description>Schedule 1 line 8j. Activity not engaged in for profit income.</Description>
       <Writable>
@@ -228,6 +262,8 @@
     </Fact>
 
     <Fact path="/personalPropertyRental">
+      <Form>Schedule 1</Form>
+      <Line>8l</Line>
       <Name>Rental of personal property</Name>
       <Description>Schedule 1 line 8l. Income from rental of personal property engaged in for profit.</Description>
       <Writable>
@@ -236,6 +272,8 @@
     </Fact>
 
     <Fact path="/olympicMedals">
+      <Form>Schedule 1</Form>
+      <Line>8m</Line>
       <Name>Olympic and Paralympic medals</Name>
       <Description>Schedule 1 line 8m. Olympic and Paralympic medals and USOC prize money.</Description>
       <Writable>
@@ -244,6 +282,8 @@
     </Fact>
 
     <Fact path="/section951a">
+      <Form>Schedule 1</Form>
+      <Line>8n</Line>
       <Name>Section 951(a) inclusion</Name>
       <Description>Schedule 1 line 8n. Section 951(a) inclusion.</Description>
       <Writable>
@@ -252,6 +292,8 @@
     </Fact>
 
     <Fact path="/section951Aa">
+      <Form>Schedule 1</Form>
+      <Line>8o</Line>
       <Name>Section 951A(a) inclusion</Name>
       <Description>Schedule 1 line 8o. Section 951A(a) inclusion.</Description>
       <Writable>
@@ -260,6 +302,8 @@
     </Fact>
 
     <Fact path="/excessBusinessLoss">
+      <Form>Schedule 1</Form>
+      <Line>8p</Line>
       <Name>Excess business loss adjustment</Name>
       <Description>Schedule 1 line 8p. Section 461(l) excess business loss adjustment.</Description>
       <Writable>
@@ -268,6 +312,8 @@
     </Fact>
 
     <Fact path="/ableDistributions">
+      <Form>Schedule 1</Form>
+      <Line>8q</Line>
       <Name>ABLE account distributions</Name>
       <Description>Schedule 1 line 8q. Taxable distributions from an ABLE account.</Description>
       <Writable>
@@ -276,6 +322,8 @@
     </Fact>
 
     <Fact path="/scholarshipGrants">
+      <Form>Schedule 1</Form>
+      <Line>8r</Line>
       <Name>Scholarship and fellowship grants</Name>
       <Description>Schedule 1 line 8r. Scholarship and fellowship grants not reported on Form W-2.</Description>
       <Writable>
@@ -284,6 +332,8 @@
     </Fact>
 
     <Fact path="/nontaxableMedicaid">
+      <Form>Schedule 1</Form>
+      <Line>8s</Line>
       <Name>Nontaxable Medicaid waiver payments</Name>
       <Description>Schedule 1 line 8s. Nontaxable amount of Medicaid waiver payments included on Form 1040, line 1a or 1d.</Description>
       <Writable>
@@ -292,6 +342,8 @@
     </Fact>
 
     <Fact path="/nonqualifiedDeferredComp">
+      <Form>Schedule 1</Form>
+      <Line>8t</Line>
       <Name>Nonqualified deferred compensation</Name>
       <Description>Schedule 1 line 8t. Pension or annuity from a nonqualified deferred compensation plan or nongovernmental section 457 plan.</Description>
       <Writable>
@@ -300,6 +352,8 @@
     </Fact>
 
     <Fact path="/wagesIncarcerated">
+      <Form>Schedule 1</Form>
+      <Line>8u</Line>
       <Name>Wages while incarcerated</Name>
       <Description>Schedule 1 line 8u. Wages earned while incarcerated.</Description>
       <Writable>
@@ -308,6 +362,8 @@
     </Fact>
 
     <Fact path="/digitalAssets">
+      <Form>Schedule 1</Form>
+      <Line>8v</Line>
       <Name>Digital assets</Name>
       <Description>Schedule 1 line 8v. Digital assets received as ordinary income not reported elsewhere.</Description>
       <Writable>
@@ -316,6 +372,8 @@
     </Fact>
 
     <Fact path="/otherIncomeMisc">
+      <Form>Schedule 1</Form>
+      <Line>8z</Line>
       <Name>Other income</Name>
       <Description>Schedule 1 line 8z. Other income not listed on lines 8a through 8v.</Description>
       <Writable>
@@ -324,6 +382,8 @@
     </Fact>
 
     <Fact path="/totalOtherIncome">
+      <Form>Schedule 1</Form>
+      <Line>9</Line>
       <Name>Total other income</Name>
       <Description>Schedule 1 line 9. Add lines 8a through 8z.</Description>
       <Derived>
@@ -356,6 +416,8 @@
     </Fact>
 
     <Fact path="/additionalIncome">
+      <Form>Schedule 1</Form>
+      <Line>10</Line>
       <Name>Total additional income</Name>
       <Description>Schedule 1 line 10. Combine lines 1 through 7 and 9. Enter here and on Form 1040, line 8.</Description>
       <Derived>
@@ -373,6 +435,8 @@
     </Fact>
 
     <Fact path="/educatorExpensesDeduction">
+      <Form>Schedule 1</Form>
+      <Line>11</Line>
       <Name>Educator expenses</Name>
       <Description>Schedule 1 line 11. Educator expenses.</Description>
       <Writable>
@@ -381,6 +445,8 @@
     </Fact>
 
     <Fact path="/reservistExpensesDeduction">
+      <Form>Schedule 1</Form>
+      <Line>12</Line>
       <Name>Reservist business expenses</Name>
       <Description>Schedule 1 line 12. Certain business expenses of reservists, performing artists, and fee-basis government officials.</Description>
       <Writable>
@@ -406,6 +472,8 @@
     </Fact>
 
     <Fact path="/hsaDeduction">
+      <Form>Schedule 1</Form>
+      <Line>13</Line>
       <Name>HSA deduction</Name>
       <Description>Schedule 1 line 13. Health savings account deduction from Form 8889.</Description>
       <Derived>
@@ -423,6 +491,8 @@
     </Fact>
 
     <Fact path="/movingExpensesDeduction">
+      <Form>Schedule 1</Form>
+      <Line>14</Line>
       <Name>Moving expenses</Name>
       <Description>Schedule 1 line 14. Moving expenses for members of the Armed Forces from Form 3903.</Description>
       <Writable>
@@ -448,6 +518,8 @@
     </Fact>
 
     <Fact path="/selfEmploymentTaxDeduction">
+      <Form>Schedule 1</Form>
+      <Line>15</Line>
       <Name>Self-employment tax deduction</Name>
       <Description>Schedule 1 line 15. Deductible part of self-employment tax from Schedule SE.</Description>
       <Derived>
@@ -465,6 +537,8 @@
     </Fact>
 
     <Fact path="/sepSimpleDeduction">
+      <Form>Schedule 1</Form>
+      <Line>16</Line>
       <Name>SEP, SIMPLE, and qualified plans</Name>
       <Description>Schedule 1 line 16. Self-employed SEP, SIMPLE, and qualified plans.</Description>
       <Writable>
@@ -473,6 +547,8 @@
     </Fact>
 
     <Fact path="/selfEmployedHealthInsDeduction">
+      <Form>Schedule 1</Form>
+      <Line>17</Line>
       <Name>Self-employed health insurance</Name>
       <Description>Schedule 1 line 17. Self-employed health insurance deduction.</Description>
       <Writable>
@@ -481,6 +557,8 @@
     </Fact>
 
     <Fact path="/earlyWithdrawalPenaltyDeduction">
+      <Form>Schedule 1</Form>
+      <Line>18</Line>
       <Name>Early withdrawal penalty</Name>
       <Description>Schedule 1 line 18. Penalty on early withdrawal of savings.</Description>
       <Writable>
@@ -489,6 +567,8 @@
     </Fact>
 
     <Fact path="/alimonyPaidDeduction">
+      <Form>Schedule 1</Form>
+      <Line>19a</Line>
       <Name>Alimony paid</Name>
       <Description>Schedule 1 line 19a. Alimony paid.</Description>
       <Writable>
@@ -497,6 +577,8 @@
     </Fact>
 
     <Fact path="/iraDeduction">
+      <Form>Schedule 1</Form>
+      <Line>20</Line>
       <Name>IRA deduction</Name>
       <Description>Schedule 1 line 20. IRA deduction.</Description>
       <Writable>
@@ -505,6 +587,8 @@
     </Fact>
 
     <Fact path="/studentLoanInterestDeduction">
+      <Form>Schedule 1</Form>
+      <Line>21</Line>
       <Name>Student loan interest deduction</Name>
       <Description>Schedule 1 line 21. Student loan interest deduction.</Description>
       <Writable>
@@ -513,6 +597,8 @@
     </Fact>
 
     <Fact path="/archerMSADeduction">
+      <Form>Schedule 1</Form>
+      <Line>23</Line>
       <Name>Archer MSA deduction</Name>
       <Description>Schedule 1 line 23. Archer MSA deduction.</Description>
       <Writable>
@@ -521,6 +607,8 @@
     </Fact>
 
     <Fact path="/adjJuryDutyPayDeduction">
+      <Form>Schedule 1</Form>
+      <Line>24a</Line>
       <Name>Jury duty pay adjustment</Name>
       <Description>Schedule 1 line 24a. Jury duty pay turned over to employer.</Description>
       <Writable>
@@ -529,6 +617,8 @@
     </Fact>
 
     <Fact path="/adjPersonalPropertyRentalDeduction">
+      <Form>Schedule 1</Form>
+      <Line>24b</Line>
       <Name>Personal property rental expenses</Name>
       <Description>Schedule 1 line 24b. Deductible expenses related to income reported on line 8l from the rental of personal property engaged in for profit.</Description>
       <Writable>
@@ -537,6 +627,8 @@
     </Fact>
 
     <Fact path="/adjOlympicMedalsDeduction">
+      <Form>Schedule 1</Form>
+      <Line>24c</Line>
       <Name>Olympic medals nontaxable amount</Name>
       <Description>Schedule 1 line 24c. Nontaxable amount of the value of Olympic and Paralympic medals and USOC prize money reported on line 8m.</Description>
       <Writable>
@@ -545,6 +637,8 @@
     </Fact>
 
     <Fact path="/adjReforestationDeduction">
+      <Form>Schedule 1</Form>
+      <Line>24d</Line>
       <Name>Reforestation amortization</Name>
       <Description>Schedule 1 line 24d. Reforestation amortization and expenses.</Description>
       <Writable>
@@ -553,6 +647,8 @@
     </Fact>
 
     <Fact path="/adjTradeActRepaymentDeduction">
+      <Form>Schedule 1</Form>
+      <Line>24e</Line>
       <Name>Trade Act repayment</Name>
       <Description>Schedule 1 line 24e. Repayment of supplemental unemployment benefits under the Trade Act of 1974.</Description>
       <Writable>
@@ -561,6 +657,8 @@
     </Fact>
 
     <Fact path="/adj501c18dDeduction">
+      <Form>Schedule 1</Form>
+      <Line>24f</Line>
       <Name>501(c)(18)(D) contributions</Name>
       <Description>Schedule 1 line 24f. Contributions to section 501(c)(18)(D) pension plans.</Description>
       <Writable>
@@ -569,6 +667,8 @@
     </Fact>
 
     <Fact path="/adjChaplain403bDeduction">
+      <Form>Schedule 1</Form>
+      <Line>24g</Line>
       <Name>Chaplain 403(b) contributions</Name>
       <Description>Schedule 1 line 24g. Contributions by certain chaplains to section 403(b) plans.</Description>
       <Writable>
@@ -577,6 +677,8 @@
     </Fact>
 
     <Fact path="/adjAttorneyFeesDiscriminationDeduction">
+      <Form>Schedule 1</Form>
+      <Line>24h</Line>
       <Name>Attorney fees for discrimination claims</Name>
       <Description>Schedule 1 line 24h. Attorney fees and court costs for actions involving certain unlawful discrimination claims.</Description>
       <Writable>
@@ -585,6 +687,8 @@
     </Fact>
 
     <Fact path="/adjAttorneyFeesIrsDeduction">
+      <Form>Schedule 1</Form>
+      <Line>24i</Line>
       <Name>Attorney fees for IRS whistleblower</Name>
       <Description>Schedule 1 line 24i. Attorney fees and court costs paid in connection with an award from the IRS for information that helped detect tax law violations.</Description>
       <Writable>
@@ -593,6 +697,8 @@
     </Fact>
 
     <Fact path="/adjHousingDeduction">
+      <Form>Schedule 1</Form>
+      <Line>24j</Line>
       <Name>Housing deduction</Name>
       <Description>Schedule 1 line 24j. Housing deduction from Form 2555.</Description>
       <Writable>
@@ -601,6 +707,8 @@
     </Fact>
 
     <Fact path="/adjExcess67eDeduction">
+      <Form>Schedule 1</Form>
+      <Line>24k</Line>
       <Name>Excess section 67(e) deductions</Name>
       <Description>Schedule 1 line 24k. Excess deductions of section 67(e) expenses from Schedule K-1 (Form 1041).</Description>
       <Writable>
@@ -609,6 +717,8 @@
     </Fact>
 
     <Fact path="/adjOtherDeduction">
+      <Form>Schedule 1</Form>
+      <Line>24z</Line>
       <Name>Other adjustments</Name>
       <Description>Schedule 1 line 24z. Other adjustments not listed on lines 24a through 24k.</Description>
       <Writable>
@@ -617,6 +727,8 @@
     </Fact>
 
     <Fact path="/totalOtherAdjustments">
+      <Form>Schedule 1</Form>
+      <Line>25</Line>
       <Name>Total other adjustments</Name>
       <Description>Schedule 1 line 25. Add lines 24a through 24z.</Description>
       <Derived>
@@ -638,6 +750,8 @@
     </Fact>
 
     <Fact path="/totalAdjustments">
+      <Form>Schedule 1</Form>
+      <Line>26</Line>
       <Name>Total adjustments to income</Name>
       <Description>Schedule 1 line 26. Add lines 11 through 23 and 25. Enter here and on Form 1040, line 10.</Description>
       <Derived>
