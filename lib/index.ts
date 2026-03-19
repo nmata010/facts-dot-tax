@@ -38,6 +38,15 @@ export interface FactResult {
   name: string;
   value: string;
   kind: "writable" | "derived";
+  line?: string;
+}
+
+export interface DependencyInfo {
+  path: string;
+  name: string;
+  type: string;
+  isWritable: boolean;
+  value?: string;
 }
 
 export interface TaxReturn {
@@ -45,6 +54,7 @@ export interface TaxReturn {
   getFact(path: string): string;
   getDollar(path: string): number;
   getForm(formId: string): FactResult[];
+  getDependencies(path: string): DependencyInfo[];
 }
 
 // ── Form registry ──
@@ -79,6 +89,8 @@ interface ParsedFact {
   type: "Dollar" | "Int" | "Boolean" | "Enum" | "String";
   isWritable: boolean;
   enumOptionsPath?: string;
+  form?: string;
+  line?: string;
 }
 
 function parseFacts(xml: string): ParsedFact[] {
@@ -101,6 +113,8 @@ function parseFacts(xml: string): ParsedFact[] {
     else if (/<Enum\s/.test(body)) type = "Enum";
 
     const optionsPathMatch = body.match(/<Enum\s+optionsPath="([^"]+)"/);
+    const formMatch = body.match(/<Form>([\s\S]*?)<\/Form>/);
+    const lineMatch = body.match(/<Line>([\s\S]*?)<\/Line>/);
 
     facts.push({
       path,
@@ -109,6 +123,8 @@ function parseFacts(xml: string): ParsedFact[] {
       type,
       isWritable,
       enumOptionsPath: optionsPathMatch ? optionsPathMatch[1] : undefined,
+      form: formMatch ? formMatch[1].trim() : undefined,
+      line: lineMatch ? lineMatch[1].trim() : undefined,
     });
   }
 
@@ -288,12 +304,29 @@ export async function createReturn(): Promise<TaxReturn> {
           `Unknown form: "${formId}". Available forms: ${Object.keys(FORMS).join(", ")}`
         );
       }
-      return facts.map((f) => ({
-        path: f.path,
-        name: f.name,
-        value: this.getFact(f.path),
-        kind: f.isWritable ? ("writable" as const) : ("derived" as const),
-      }));
+      return facts
+        .filter((f) => f.line !== undefined)
+        .sort((a, b) => {
+          const aNum = parseFloat(a.line!);
+          const bNum = parseFloat(b.line!);
+          if (isNaN(aNum) || isNaN(bNum)) return a.line!.localeCompare(b.line!);
+          return aNum - bNum;
+        })
+        .map((f) => {
+          let value: string;
+          try {
+            value = this.getFact(f.path);
+          } catch {
+            value = "—";
+          }
+          return {
+            path: f.path,
+            name: f.name,
+            value,
+            kind: f.isWritable ? ("writable" as const) : ("derived" as const),
+            line: f.line,
+          };
+        });
     },
   };
 }

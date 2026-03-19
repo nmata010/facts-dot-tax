@@ -68,11 +68,12 @@ async function handleLine(line: string): Promise<boolean> {
         const facts = ret.getForm(args[0]);
         console.log(`\n  ${bold(args[0])}\n`);
         for (const f of facts) {
-          const tag = f.kind === "writable" ? yellow("input ") : dim("      ");
+          const line = f.line ? dim(`L${f.line}`.padEnd(6)) : dim("      ");
+          const tag = f.kind === "writable" ? yellow("input") : dim("     ");
           const val = f.kind === "derived" ? bold(f.value) : f.value;
-          console.log(`  ${tag} ${dim(f.path)} ${val} — ${f.name}`);
+          console.log(`  ${line} ${tag} ${val} — ${f.name}`);
         }
-        console.log(`\n  ${dim(`${facts.length} facts`)}\n`);
+        console.log(`\n  ${dim(`${facts.length} lines`)}\n`);
         break;
       }
 
