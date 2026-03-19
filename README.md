@@ -18,53 +18,67 @@ https://facts.tax/app
 
 ### Command Line
 
-An interactive terminal for the tax engine. Set facts, read computed values, and inspect form dependencies.
+An interactive terminal for the tax engine.
 
 ```bash
 npx github:nmata010/facts-dot-tax
 ```
 
-```bash
-  facts d●t tax
-  Open-source TY2025 tax computation
-  https://facts.tax/
-  Type 'help' for commands
+**Commands:**
 
+- `list` — show supported forms
+- `schema <form>` — show writable inputs for a form
+- `create` — initialize a blank return
+- `set <path> <value>` — set a writable input
+- `get <path>` — read a computed value
+- `form <form>` — show all lines for a form
+- `deps <path>` — trace writable inputs that feed a derived fact
+
+**Example:**
+
+```
   tax >> create
-  Return created. 
-  ──────────────────────────────────────
+  Return created.
   tax >> set /filingStatus mfj
   /filingStatus = mfj
-  ──────────────────────────────────────
   tax >> set /wagesFromW2 85000
   /wagesFromW2 = 85000
-  ──────────────────────────────────────
   tax >> get /totalTax
   /totalTax 5946.00
-  ──────────────────────────────────────
 ```
 
 ### JS Library
 
-Use the tax engine programmatically
+Use the tax engine programmatically.
 
 ```bash
 npm install github:nmata010/facts-dot-tax
 ```
 
+**Exports:**
+
+- `listForms()` — list supported form IDs
+- `getFormSchema(formId)` — get writable inputs for a form
+- `createReturn()` — initialize a tax return (async)
+
+**Tax return methods:**
+
+- `setFact(path, value)` — set a writable input
+- `getFact(path)` — read a computed value
+- `getDollar(path)` — read a computed value as a number
+- `getForm(formId)` — get all lines for a form
+- `getDependencies(path)` — trace writable inputs that feed a derived fact
+
+**Example:**
+
 ```js
-import { createReturn, listForms, getFormSchema } from "facts-dot-tax";
+import { createReturn } from "facts-dot-tax";
 
-const ret = await createReturn();
+const taxReturn = await createReturn();
 
-ret.setFact("/filingStatus", "single");
-ret.setFact("/totalWages", "85000");
-
-ret.getFact("/totalTax");         // "$13,497.50"
-ret.getDollar("/totalTax");       // 13497.5
-
-ret.getForm("1040");              // [{ path, name, value, kind, line }, ...]
-ret.getDependencies("/totalTax"); // writable facts that feed into totalTax
+taxReturn.setFact("/filingStatus", "mfj");
+taxReturn.setFact("/wagesFromW2", "85000");
+taxReturn.getFact("/totalTax"); // "5946.00"
 ```
 
 ## Supported forms
