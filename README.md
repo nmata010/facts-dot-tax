@@ -147,6 +147,9 @@ npm test          # tax logic tests
 
 This is not tax advice. facts.tax is a learning endeavor and art project. My best effort was made to accurately implement IRS forms, but it has not been audited and should not be used to prepare an actual tax return.
 
+## Contributors
+Big thanks to Mr. Glenn Reeves and his project [excel1040.com](https://excel1040.com/) which proved a helpful testing reference for this project.
+
 ## License
 
-[TODO: pick a license]
+[AGPL-3.0](LICENSE)
