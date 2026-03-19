@@ -149,4 +149,4 @@ This is not tax advice. facts.tax is a learning endeavor and art project. My bes
 
 ## License
 
-[TODO: pick a license]
+[AGPL-3.0](LICENSE)
