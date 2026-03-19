@@ -1,11 +1,26 @@
 {
-  "name": "fact-graph-demo",
-  "private": true,
+  "name": "facts-dot-tax",
   "version": "0.1.0",
   "type": "module",
+  "bin": {
+    "facts-dot-tax": "./bin.js"
+  },
+  "exports": {
+    ".": "./lib/index.js"
+  },
+  "files": [
+    "bin.js",
+    "cli.js",
+    "cli.d.ts",
+    "lib/index.js",
+    "lib/index.d.ts",
+    "public/*.xml",
+    "public/fg.mjs"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && cp dist/index.html dist/404.html",
+    "prepare": "tsc -p tsconfig.lib.json",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
@@ -18,6 +33,7 @@
     "radix-ui": "^1.4.3",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-router-dom": "^7.13.1",
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
