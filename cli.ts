@@ -72,10 +72,10 @@ async function handleLine(line: string): Promise<boolean> {
           const line = f.line ? dim(`L${f.line}`.padEnd(6)) : dim("      ");
           const tag = f.kind === "writable" ? yellow("input") : dim("     ");
           if (f.value === "—") {
-            console.log(`  ${line} ${tag} ${red("—")} — ${red(f.name)}`);
+            console.log(`  ${line} ${tag} ${cyan(f.path)} ${dim("|")} ${f.name} ${dim("|")} ${red("—")}`);
           } else {
             const val = f.kind === "derived" ? bold(f.value) : f.value;
-            console.log(`  ${line} ${tag} ${val} — ${f.name}`);
+            console.log(`  ${line} ${tag} ${cyan(f.path)} ${dim("|")} ${f.name} ${dim("|")} ${val}`);
           }
         }
         if (incomplete.length > 0) {
