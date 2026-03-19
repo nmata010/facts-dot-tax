@@ -36,15 +36,19 @@ npx github:nmata010/facts-dot-tax
 
 **Example:**
 
-```
+```bash
   tax >> create
   Return created.
+  ────────────────────────
   tax >> set /filingStatus mfj
   /filingStatus = mfj
+  ────────────────────────
   tax >> set /wagesFromW2 85000
   /wagesFromW2 = 85000
+  ────────────────────────
   tax >> get /totalTax
-  /totalTax 5946.00
+  /totalTax = 5946.00
+  ────────────────────────
 ```
 
 ### JS Library
@@ -99,6 +103,13 @@ taxReturn.getFact("/totalTax"); // "5946.00"
 | Form 8889 | Health Savings Accounts |
 | Form 8995 | QBI Deduction (Simplified) |
 | EIC Worksheet | Earned Income Credit |
+
+## Scope Limitations
+
+- **Single instance only** — Forms that support multiple entries in real life (multiple W-2s, multiple Schedule E properties, multiple 1099s) are limited to a single instance. Totals are entered directly.
+- **No dual-filer support** — Per-filer forms (Form 8889, Schedule SE) don't yet handle MFJ couples who each need their own copy.
+- **No e-filing** — This computes values but does not generate or transmit a tax return.
+- **Federal only** — No state tax forms.
 
 ## Tax Logic Files
 
