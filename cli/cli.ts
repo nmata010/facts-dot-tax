@@ -1,5 +1,5 @@
 import * as readline from "readline";
-import { createReturn, getFormSchema, listForms, type TaxReturn } from "./lib/index.js";
+import { createReturn, getFormSchema, listForms, type TaxReturn } from "../lib/index.js";
 
 const dim = (s: string) => `\x1b[2m${s}\x1b[0m`;
 const bold = (s: string) => `\x1b[1m${s}\x1b[0m`;

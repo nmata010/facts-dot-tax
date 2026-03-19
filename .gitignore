@@ -13,8 +13,8 @@ dist-ssr
 *.local
 
 # Compiled lib/cli output (built by prepare script)
-cli.js
-cli.d.ts
+cli/cli.js
+cli/cli.d.ts
 lib/index.js
 lib/index.d.ts
 
