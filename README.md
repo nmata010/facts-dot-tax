@@ -1,22 +1,22 @@
-# facts d●t tax
+# `facts d●t tax`
 
 Open-source TY2025 tax computation built on the IRS [fact-graph](https://github.com/IRS-Public/fact-graph) engine.
 
-Tax code is transparent but difficult to consume. The IRS open-sourcing Direct File and the fact-graph engine changed that — facts.tax takes those building blocks and makes 2025 federal tax forms inspectable, computable, and programmable.
+Tax code is transparent but difficult to consume. The IRS open-sourcing Direct File and the fact-graph engine changed that. [Facts.tax](https://facts.tax/) takes those building blocks and makes 2025 federal tax forms inspectable, computable, and programmable.
 
 **[facts.tax](https://facts.tax/)**
 
 ## Three ways to use it
 
-### Receipts App
+### Form Filling App
 
-A React web app where you fill out tax forms and see computed values update live. Each form can toggle between a fillable view and the raw XML fact-graph representation.
+A React web app where you fill out tax forms and see computed values update live. Each form can toggle between a fillable view and the raw XML fact-graph representation for inspection.
 
 ```
 https://facts.tax/app
 ```
 
-### CLI
+### Command Line
 
 An interactive terminal for the tax engine. Set facts, read computed values, and inspect form dependencies.
 
@@ -24,23 +24,29 @@ An interactive terminal for the tax engine. Set facts, read computed values, and
 npx github:nmata010/facts-dot-tax
 ```
 
-```
+```bash
   facts d●t tax
   Open-source TY2025 tax computation
   https://facts.tax/
   Type 'help' for commands
 
   tax >> create
-  ✓ Return created with 14 forms
-  tax >> set /totalWages 85000
-  ✓ /totalWages = 85000
+  Return created. 
+  ──────────────────────────────────────
+  tax >> set /filingStatus mfj
+  /filingStatus = mfj
+  ──────────────────────────────────────
+  tax >> set /wagesFromW2 85000
+  /wagesFromW2 = 85000
+  ──────────────────────────────────────
   tax >> get /totalTax
-  $13,497.50
+  /totalTax 5946.00
+  ──────────────────────────────────────
 ```
 
 ### JS Library
 
-Use the tax engine programmatically in your own project.
+Use the tax engine programmatically
 
 ```bash
 npm install github:nmata010/facts-dot-tax
@@ -80,22 +86,27 @@ ret.getDependencies("/totalTax"); // writable facts that feed into totalTax
 | Form 8995 | QBI Deduction (Simplified) |
 | EIC Worksheet | Earned Income Credit |
 
-## How it works
+## Tax Logic Files
 
-Each tax form is an XML fact dictionary — a directed graph of writable inputs and derived computations. The IRS fact-graph engine (compiled to WebAssembly) evaluates the graph: set an input, and every downstream value recomputes automatically.
+The XML fact dictionary files live in `public/` and are the single source of truth for all tax logic. The receipts app, CLI, and JS library are all just different interfaces to the same fact graph.
 
 ```xml
-<Fact path="/adjustedGrossIncome">
-  <Derived>
-    <Subtract>
-      <Minuend><Dependency path="/totalIncome" /></Minuend>
-      <Subtrahends><Dependency path="/totalAdjustments" /></Subtrahends>
-    </Subtract>
-  </Derived>
-</Fact>
+<Fact path="/totalIncome">
+      <Derived>
+        <Add>
+          <Dependency path="/totalWages"/>
+          <Dependency path="/taxableInterest"/>
+          <Dependency path="/ordinaryDividends"/>
+          <Dependency path="/taxableIraDistributions"/>
+          <Dependency path="/taxablePensionsAndAnnuities"/>
+          <Dependency path="/taxableSocialSecurityBenefits"/>
+          <Dependency path="/capitalGainOrLoss"/>
+          <Dependency path="/otherIncome"/>
+        </Add>
+      </Derived>
+    </Fact>
 ```
 
-The XML files live in `public/` and are the single source of truth for all tax logic. The receipts app, CLI, and JS library are all just different interfaces to the same fact graph.
 
 ## Development
 
@@ -109,7 +120,7 @@ npm test          # tax logic tests
 
 ## Disclaimer
 
-This is not tax advice. facts.tax is a learning endeavor and art project — best effort was made to accurately implement IRS forms, but it has not been audited and should not be used to prepare an actual tax return.
+This is not tax advice. facts.tax is a learning endeavor and art project. My best effort was made to accurately implement IRS forms, but it has not been audited and should not be used to prepare an actual tax return.
 
 ## License
 
