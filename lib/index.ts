@@ -305,6 +305,15 @@ export async function createReturn(): Promise<TaxReturn> {
     return writables;
   }
 
+  function getFact(path: string): string {
+    try {
+      const result = graph.get(path);
+      return result.get.toString();
+    } catch (e) {
+      throw new Error(`Error reading ${path}: ${e}`);
+    }
+  }
+
   return {
     setFact(path: string, value: string) {
       const fact = allFacts.get(path);
@@ -330,17 +339,10 @@ export async function createReturn(): Promise<TaxReturn> {
       }
     },
 
-    getFact(path: string): string {
-      try {
-        const result = graph.get(path);
-        return result.get.toString();
-      } catch (e) {
-        throw new Error(`Error reading ${path}: ${e}`);
-      }
-    },
+    getFact,
 
     getDollar(path: string): number {
-      const raw = this.getFact(path);
+      const raw = getFact(path);
       return Number(raw.replace(/[$,]/g, ""));
     },
 
@@ -355,7 +357,7 @@ export async function createReturn(): Promise<TaxReturn> {
         const f = allFacts.get(p)!;
         let value: string | undefined;
         try {
-          value = this.getFact(p);
+          value = getFact(p);
         } catch {
           value = undefined;
         }
@@ -387,7 +389,7 @@ export async function createReturn(): Promise<TaxReturn> {
         .map((f) => {
           let value: string;
           try {
-            value = this.getFact(f.path);
+            value = getFact(f.path);
           } catch {
             value = "—";
           }

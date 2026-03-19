@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Compiled lib/cli output (built by prepare script)
+cli.js
+cli.d.ts
+lib/index.js
+lib/index.d.ts
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
