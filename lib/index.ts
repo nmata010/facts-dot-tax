@@ -164,6 +164,35 @@ function getEnumOptions(xml: string): Map<string, string[]> {
   return _enumOptions;
 }
 
+function parseDependencyGraph(xml: string): Map<string, string[]> {
+  const deps = new Map<string, string[]>();
+  const factRegex = /<Fact\s+path="([^"]+)"[^>]*>([\s\S]*?)<\/Fact>/g;
+  let match;
+  while ((match = factRegex.exec(xml)) !== null) {
+    const path = match[1];
+    const body = match[2];
+    if (/<Writable>/.test(body)) continue;
+    const depPaths: string[] = [];
+    const depRegex = /<Dependency\s+path="([^"]+)"\s*\/>/g;
+    let depMatch;
+    while ((depMatch = depRegex.exec(body)) !== null) {
+      depPaths.push(depMatch[1]);
+    }
+    if (depPaths.length > 0) {
+      deps.set(path, depPaths);
+    }
+  }
+  return deps;
+}
+
+let _depGraph: Map<string, string[]> | null = null;
+
+function getDepGraph(xml: string): Map<string, string[]> {
+  if (_depGraph) return _depGraph;
+  _depGraph = parseDependencyGraph(xml);
+  return _depGraph;
+}
+
 function resolveFormId(formId: string): string {
   const filename = FORMS[formId];
   if (!filename) {
@@ -257,6 +286,24 @@ export async function createReturn(): Promise<TaxReturn> {
   }
 
   const enumOpts = getEnumOptions(xml);
+  const depGraph = getDepGraph(xml);
+
+  function traceWritableDeps(path: string, visited: Set<string> = new Set()): string[] {
+    if (visited.has(path)) return [];
+    visited.add(path);
+
+    const fact = allFacts.get(path);
+    if (fact?.isWritable) return [path];
+
+    const deps = depGraph.get(path);
+    if (!deps) return [];
+
+    const writables: string[] = [];
+    for (const dep of deps) {
+      writables.push(...traceWritableDeps(dep, visited));
+    }
+    return writables;
+  }
 
   return {
     setFact(path: string, value: string) {
@@ -295,6 +342,31 @@ export async function createReturn(): Promise<TaxReturn> {
     getDollar(path: string): number {
       const raw = this.getFact(path);
       return Number(raw.replace(/[$,]/g, ""));
+    },
+
+    getDependencies(path: string): DependencyInfo[] {
+      const fact = allFacts.get(path);
+      if (!fact) {
+        throw new Error(`Unknown fact: "${path}". Check spelling and case sensitivity.`);
+      }
+
+      const writablePaths = [...new Set(traceWritableDeps(path))];
+      return writablePaths.map((p) => {
+        const f = allFacts.get(p)!;
+        let value: string | undefined;
+        try {
+          value = this.getFact(p);
+        } catch {
+          value = undefined;
+        }
+        return {
+          path: p,
+          name: f.name,
+          type: f.type,
+          isWritable: true,
+          value,
+        };
+      });
     },
 
     getForm(formId: string): FactResult[] {
