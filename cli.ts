@@ -11,6 +11,7 @@ const red = (s: string) => `\x1b[31m${s}\x1b[0m`;
 const BANNER = `
   ${bold("facts d\u25CFt tax")}
   ${dim("Open-source TY2025 tax computation")}
+  ${dim("https://facts.tax/")}
   ${dim("Type 'help' for commands")}
 `;
 
