@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, type FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { handleLine, banner, rule, type Style, type CliApi, type CliSession } from "../../cli/shared";
 import { createBrowserApi } from "./browser-api";
 
@@ -56,7 +56,7 @@ export default function CliPage() {
   const [history, setHistory] = useState<string[]>([]);
   const [historyIdx, setHistoryIdx] = useState(-1);
   const [ready, setReady] = useState(false);
-  const [exited, setExited] = useState(false);
+  const navigate = useNavigate();
 
   const apiRef = useRef<CliApi | null>(null);
   const sessionRef = useRef<CliSession>({ ret: null });
@@ -103,7 +103,7 @@ export default function CliPage() {
   const handleSubmit = useCallback(async (e: FormEvent) => {
     e.preventDefault();
     const api = apiRef.current;
-    if (!api || !input.trim() || exited) return;
+    if (!api || !input.trim()) return;
 
     const cmd = input;
     setInput("");
@@ -115,11 +115,11 @@ export default function CliPage() {
 
     const done = await handleLine(cmd, sessionRef.current, api, style, write);
     if (done) {
-      setExited(true);
+      navigate("/");
     } else {
       write(rule(style));
     }
-  }, [input, exited, write]);
+  }, [input, navigate, write]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (e.key === "ArrowUp") {
@@ -183,7 +183,7 @@ export default function CliPage() {
             value={input}
             onChange={(e) => { setInput(e.target.value); setHistoryIdx(-1); }}
             onKeyDown={handleKeyDown}
-            disabled={!ready || exited}
+            disabled={!ready}
             className="w-full bg-transparent outline-none caret-current"
             style={{ color: "#c9d1d9" }}
             autoComplete="off"
