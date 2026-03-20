@@ -12,5 +12,5 @@
     "types": ["node"],
     "erasableSyntaxOnly": true
   },
-  "files": ["cli/cli.ts", "lib/index.ts"]
+  "files": ["cli/cli.ts", "cli/shared.ts", "lib/index.ts"]
 }
