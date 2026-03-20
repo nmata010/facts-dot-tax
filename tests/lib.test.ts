@@ -100,6 +100,21 @@ describe("Library API", () => {
     });
   });
 
+  describe("getDependencies", () => {
+    it("returns writable dependencies for a derived fact", async () => {
+      const ret = await createReturn();
+      const deps = ret.getDependencies("/totalIncome");
+      expect(deps.length).toBeGreaterThan(0);
+      expect(deps.every((d) => d.isWritable)).toBe(true);
+      expect(deps.find((d) => d.path === "/wagesFromW2")).toBeDefined();
+    });
+
+    it("throws on unknown fact path", async () => {
+      const ret = await createReturn();
+      expect(() => ret.getDependencies("/nonexistent")).toThrow();
+    });
+  });
+
   describe("listForms", () => {
     it("returns all supported form IDs", () => {
       const forms = listForms();
