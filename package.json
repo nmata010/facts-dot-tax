@@ -3,15 +3,15 @@
   "version": "0.1.0",
   "type": "module",
   "bin": {
-    "facts-dot-tax": "./bin.js"
+    "facts-dot-tax": "./cli/bin.js"
   },
   "exports": {
     ".": "./lib/index.js"
   },
   "files": [
-    "bin.js",
-    "cli.js",
-    "cli.d.ts",
+    "cli/bin.js",
+    "cli/cli.js",
+    "cli/cli.d.ts",
     "lib/index.js",
     "lib/index.d.ts",
     "public/*.xml",
