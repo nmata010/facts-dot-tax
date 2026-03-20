@@ -67,14 +67,24 @@ export default function CliPage() {
     setLines((prev) => [...prev, s]);
   }, []);
 
-  // Load engine + show banner
+  // Load engine, show banner, run demo commands
   useEffect(() => {
     let cancelled = false;
-    createBrowserApi().then((api) => {
+    createBrowserApi().then(async (api) => {
       if (cancelled) return;
       apiRef.current = api;
-      setLines([banner(style), rule(style)]);
-      setReady(true);
+      const session = sessionRef.current;
+      const out: string[] = [banner(style), rule(style)];
+      const collect = (s: string) => out.push(s);
+      for (const cmd of ["help", "list"]) {
+        out.push(`  ${style.dim("tax >>")} ${cmd}`);
+        await handleLine(cmd, session, api, style, collect);
+        out.push(rule(style));
+      }
+      if (!cancelled) {
+        setLines(out);
+        setReady(true);
+      }
     });
     return () => { cancelled = true; };
   }, []);
