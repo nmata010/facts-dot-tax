@@ -12,6 +12,8 @@
     "cli/bin.js",
     "cli/cli.js",
     "cli/cli.d.ts",
+    "cli/shared.js",
+    "cli/shared.d.ts",
     "lib/index.js",
     "lib/index.d.ts",
     "public/*.xml",
