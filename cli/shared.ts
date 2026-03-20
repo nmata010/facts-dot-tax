@@ -1,4 +1,36 @@
-import type { TaxReturn, FactSchema, FactResult, DependencyInfo } from "../lib/index.js";
+// ── Types (defined here so both Node CLI and browser can import without pulling in lib/index.ts) ──
+
+export interface FactSchema {
+  path: string;
+  name: string;
+  description: string;
+  type: "Dollar" | "Int" | "Boolean" | "Enum" | "String";
+  options?: string[];
+}
+
+export interface FactResult {
+  path: string;
+  name: string;
+  value: string;
+  kind: "writable" | "derived";
+  line?: string;
+}
+
+export interface DependencyInfo {
+  path: string;
+  name: string;
+  type: string;
+  isWritable: boolean;
+  value?: string;
+}
+
+export interface TaxReturn {
+  setFact(path: string, value: string): void;
+  getFact(path: string): string;
+  getDollar(path: string): number;
+  getForm(formId: string): FactResult[];
+  getDependencies(path: string): DependencyInfo[];
+}
 
 // ── Injected dependencies ──
 

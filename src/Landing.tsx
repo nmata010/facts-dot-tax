@@ -46,17 +46,17 @@ export default function Landing() {
             </div>
           </Link>
 
-          <div
-            className="block border border-foreground/10 rounded px-5 py-4 opacity-50 cursor-not-allowed"
+          <Link
+            to="/cli"
+            className="block border border-foreground/10 rounded px-5 py-4 hover:bg-foreground/[0.03] transition-colors group"
           >
-            <div className="text-sm font-medium">
+            <div className="text-sm font-medium group-hover:text-foreground">
               CLI Demo
-              <span className="text-[10px] text-muted-foreground/60 ml-2">coming soon</span>
             </div>
             <div className="text-xs text-muted-foreground mt-1">
               Try the tax engine from an interactive terminal, right in the browser.
             </div>
-          </div>
+          </Link>
 
           <a
             href="https://github.com/nmata010/facts-dot-tax"

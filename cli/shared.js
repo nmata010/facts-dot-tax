@@ -1,3 +1,4 @@
+// ── Types (defined here so both Node CLI and browser can import without pulling in lib/index.ts) ──
 // ── Shared UI strings ──
 export function banner(style) {
     return `\n  ${style.bold("facts d\u25CFt tax")}\n  ${style.dim("Open-source TY2025 tax computation")}\n  ${style.dim("https://facts.tax/")}\n  ${style.dim("Type 'help' for commands")}\n`;

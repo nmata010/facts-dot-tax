@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './globals.css'
 import App from './App.tsx'
 import Landing from './Landing.tsx'
+import CliPage from './cli/CliPage.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -11,6 +12,7 @@ createRoot(document.getElementById('root')!).render(
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/app" element={<App />} />
+        <Route path="/cli" element={<CliPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
